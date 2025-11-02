@@ -1,0 +1,273 @@
+<template>
+  <div class="email-templates-page">
+    <a-page-header title="Email Templates" sub-title="Manage email templates">
+      <template #extra>
+        <a-space>
+          <a-button type="primary" @click="handleCreate">
+            <template #icon>
+              <PlusOutlined />
+            </template>
+            Create Template
+          </a-button>
+          <a-button @click="handleRefresh">
+            <template #icon>
+              <ReloadOutlined />
+            </template>
+            Refresh
+          </a-button>
+        </a-space>
+      </template>
+    </a-page-header>
+
+    <!-- Filters -->
+    <a-card class="filter-card">
+      <a-row :gutter="16">
+        <a-col :span="6">
+          <a-form-item label="Status">
+            <a-select
+              v-model:value="filters.status"
+              placeholder="All Status"
+              allow-clear
+              @change="handleFilterChange"
+            >
+              <a-select-option value="">All Status</a-select-option>
+              <a-select-option value="draft">Draft</a-select-option>
+              <a-select-option value="active">Active</a-select-option>
+              <a-select-option value="inactive">Inactive</a-select-option>
+            </a-select>
+          </a-form-item>
+        </a-col>
+        <a-col :span="6">
+          <a-form-item label="Search">
+            <a-input
+              v-model:value="filters.search"
+              placeholder="Search by name or subject"
+              @press-enter="handleSearch"
+            >
+              <template #prefix>
+                <SearchOutlined />
+              </template>
+            </a-input>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item label="&nbsp;">
+            <a-space>
+              <a-button type="primary" @click="handleSearch">Search</a-button>
+              <a-button @click="handleResetFilters">Reset</a-button>
+            </a-space>
+          </a-form-item>
+        </a-col>
+      </a-row>
+    </a-card>
+
+    <!-- Templates Table -->
+    <a-card class="content-card">
+      <EmailTemplateTable
+        :data-source="templates"
+        :loading="loading"
+        :pagination="{
+          current: currentPage,
+          pageSize: pageSize,
+          total: total,
+        }"
+        @change="handleTableChange"
+        @view="handleView"
+        @edit="handleEdit"
+        @delete="handleDelete"
+      >
+        <template #toolbar>
+          <span class="table-info">Total: {{ total }} templates</span>
+        </template>
+      </EmailTemplateTable>
+    </a-card>
+
+    <!-- Create/Edit Drawer -->
+    <EmailTemplateDrawer
+      v-model:open="drawerVisible"
+      :template="currentTemplate"
+      :mode="drawerMode"
+      @submit="handleTemplateSubmit"
+      @close="handleDrawerClose"
+    />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { message } from 'ant-design-vue'
+import { PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue'
+import EmailTemplateTable from '@/tables/content/EmailTemplateTable.vue'
+import EmailTemplateDrawer from '@/modals/content/EmailTemplateDrawer.vue'
+import type { EmailTemplate } from '@/types/models'
+
+// Mock data for demonstration
+const mockTemplates: EmailTemplate[] = [
+  {
+    id: '1',
+    name: 'Welcome Email',
+    subject: { en: 'Welcome to DEIEX!' },
+    content: { en: 'Thank you for joining our platform...' },
+    previewText: { en: 'Get started with your new account' },
+    status: 'active',
+    variables: ['username'],
+    createdAt: '2023-01-15T10:00:00Z',
+    updatedAt: '2023-01-15T10:00:00Z',
+  },
+  {
+    id: '2',
+    name: 'Security Alert',
+    subject: { en: 'Security Alert: New Login' },
+    content: { en: 'We detected a new login to your account...' },
+    previewText: { en: 'Suspicious activity detected' },
+    status: 'active',
+    variables: ['username', 'ip', 'location'],
+    createdAt: '2023-02-20T14:30:00Z',
+    updatedAt: '2023-02-20T14:30:00Z',
+  },
+  {
+    id: '3',
+    name: 'Market Update',
+    subject: { en: 'Market Update: {{symbol}} Price Surge' },
+    content: { en: '{{symbol}} price has surged {{percentage}}% in the last hour...' },
+    previewText: { en: "Don't miss this opportunity" },
+    status: 'draft',
+    variables: ['symbol', 'percentage'],
+    createdAt: '2023-03-10T09:15:00Z',
+    updatedAt: '2023-03-10T09:15:00Z',
+  },
+]
+
+// State
+const filters = ref({
+  status: undefined as string | undefined,
+  search: '',
+})
+
+const templates = ref<EmailTemplate[]>(mockTemplates)
+const loading = ref(false)
+const total = ref(3)
+const currentPage = ref(1)
+const pageSize = ref(20)
+
+const drawerVisible = ref(false)
+const drawerMode = ref<'create' | 'edit' | 'view'>('create')
+const currentTemplate = ref<EmailTemplate | null>(null)
+
+// Lifecycle
+onMounted(() => {
+  fetchData()
+})
+
+// Methods
+async function fetchData() {
+  loading.value = true
+  // In a real implementation, fetch data from API
+  setTimeout(() => {
+    loading.value = false
+  }, 500)
+}
+
+function handleFilterChange() {
+  // Auto-search on filter change (optional)
+}
+
+function handleSearch() {
+  fetchData()
+}
+
+function handleResetFilters() {
+  filters.value = {
+    status: undefined,
+    search: '',
+  }
+  fetchData()
+}
+
+function handleRefresh() {
+  fetchData()
+}
+
+function handleTableChange(pagination: any) {
+  currentPage.value = pagination.current
+  pageSize.value = pagination.pageSize
+  fetchData()
+}
+
+function handleCreate() {
+  currentTemplate.value = null
+  drawerMode.value = 'create'
+  drawerVisible.value = true
+}
+
+function handleView(record: EmailTemplate) {
+  currentTemplate.value = record
+  drawerMode.value = 'view'
+  drawerVisible.value = true
+}
+
+function handleEdit(record: EmailTemplate) {
+  currentTemplate.value = record
+  drawerMode.value = 'edit'
+  drawerVisible.value = true
+}
+
+function handleDelete(record: EmailTemplate) {
+  // In a real implementation, delete from API
+  templates.value = templates.value.filter((template) => template.id !== record.id)
+  total.value -= 1
+  message.success('Email template deleted successfully')
+}
+
+async function handleTemplateSubmit(payload: any) {
+  // In a real implementation, save to API
+  if (drawerMode.value === 'create') {
+    const newTemplate: EmailTemplate = {
+      id: (templates.value.length + 1).toString(),
+      ...payload,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    }
+    templates.value.unshift(newTemplate)
+    total.value += 1
+    message.success('Email template created successfully')
+  } else if (drawerMode.value === 'edit' && currentTemplate.value) {
+    const index = templates.value.findIndex((template) => template.id === currentTemplate.value!.id)
+    if (index !== -1) {
+      templates.value[index] = {
+        ...currentTemplate.value,
+        ...payload,
+        updatedAt: new Date().toISOString(),
+      }
+      message.success('Email template updated successfully')
+    }
+  }
+
+  drawerVisible.value = false
+  fetchData()
+}
+
+function handleDrawerClose() {
+  drawerVisible.value = false
+  currentTemplate.value = null
+}
+</script>
+
+<style scoped>
+.email-templates-page {
+  padding: 24px;
+}
+
+.filter-card {
+  margin-bottom: 16px;
+}
+
+.content-card {
+  margin-top: 16px;
+}
+
+.table-info {
+  color: #666;
+  font-size: 14px;
+}
+</style>

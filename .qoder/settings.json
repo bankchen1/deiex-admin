@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "ask": [
+      "Read(!/volumes/bankchen/deiex1/deiex-admin/**)",
+      "Edit(!/volumes/bankchen/deiex1/deiex-admin/**)"
+    ],
+    "allow": [
+      "Read(/volumes/bankchen/deiex1/deiex-admin/**)",
+      "Edit(/volumes/bankchen/deiex1/deiex-admin/**)"
+    ]
+  },
+  "memoryImport": {},
+  "monitoring": {}
+}
