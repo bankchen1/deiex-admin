@@ -1,7 +1,6 @@
 <template>
   <a-card title="Cache Management" :loading="loading">
-    <a-space
-direction="vertical" style="width: 100%" :size="16}>
+    <a-space direction="vertical" style="width: 100%" :size="16">
       <a-alert
         message="Cache Information"
         description="Manage application caches to ensure data freshness. Refreshing caches will reload data from the source, while clearing will remove all cached data."
@@ -9,10 +8,7 @@ direction="vertical" style="width: 100%" :size="16}>
         show-icon
       />
 
-      <a-list
-        :data-source="caches"
-        :loading="loading"
-      >
+      <a-list :data-source="caches" :loading="loading">
         <template #renderItem="{ item }">
           <a-list-item>
             <a-list-item-meta>
@@ -66,19 +62,11 @@ direction="vertical" style="width: 100%" :size="16}>
       <a-divider />
 
       <a-space>
-        <a-button
-          type="primary"
-          :loading="refreshingAll"
-          @click="handleRefreshAll"
-        >
+        <a-button type="primary" :loading="refreshingAll" @click="handleRefreshAll">
           <template #icon><ReloadOutlined /></template>
           Refresh All
         </a-button>
-        <a-button
-          danger
-          :loading="clearingAll"
-          @click="handleClearAll"
-        >
+        <a-button danger :loading="clearingAll" @click="handleClearAll">
           <template #icon><DeleteOutlined /></template>
           Clear All
         </a-button>
@@ -94,7 +82,7 @@ import {
   WarningOutlined,
   CloseCircleOutlined,
   ReloadOutlined,
-  DeleteOutlined
+  DeleteOutlined,
 } from '@ant-design/icons-vue'
 import { Modal, message } from 'ant-design-vue'
 import { formatDate } from '@/utils/date'
@@ -117,7 +105,7 @@ interface Emits {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  loading: false
+  loading: false,
 })
 
 const emit = defineEmits<Emits>()
@@ -127,7 +115,7 @@ const clearingCache = ref<string | null>(null)
 const refreshingAll = ref(false)
 const clearingAll = ref(false)
 
-const allCacheNames = computed(() => props.caches.map(c => c.name))
+const allCacheNames = computed(() => props.caches.map((c) => c.name))
 
 function getStatusIcon(status: string) {
   switch (status) {
@@ -175,11 +163,12 @@ function handleRefresh(cacheName: string) {
         emit('refresh', [cacheName])
         message.success(`${cacheName} cache refreshed successfully`)
       } catch (error) {
+        console.error(`[CacheControls] Failed to refresh cache "${cacheName}"`, error)
         message.error(`Failed to refresh ${cacheName} cache`)
       } finally {
         refreshingCache.value = null
       }
-    }
+    },
   })
 }
 
@@ -196,11 +185,12 @@ function handleClear(cacheName: string) {
         emit('clear', [cacheName])
         message.success(`${cacheName} cache cleared successfully`)
       } catch (error) {
+        console.error(`[CacheControls] Failed to clear cache "${cacheName}"`, error)
         message.error(`Failed to clear ${cacheName} cache`)
       } finally {
         clearingCache.value = null
       }
-    }
+    },
   })
 }
 
@@ -216,11 +206,12 @@ function handleRefreshAll() {
         emit('refresh', allCacheNames.value)
         message.success('All caches refreshed successfully')
       } catch (error) {
+        console.error('[CacheControls] Failed to refresh caches', error)
         message.error('Failed to refresh caches')
       } finally {
         refreshingAll.value = false
       }
-    }
+    },
   })
 }
 
@@ -237,11 +228,12 @@ function handleClearAll() {
         emit('clear', allCacheNames.value)
         message.success('All caches cleared successfully')
       } catch (error) {
+        console.error('[CacheControls] Failed to clear caches', error)
         message.error('Failed to clear caches')
       } finally {
         clearingAll.value = false
       }
-    }
+    },
   })
 }
 </script>

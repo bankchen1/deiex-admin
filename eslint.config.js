@@ -25,6 +25,14 @@ export default [
         navigator: 'readonly',
         window: 'readonly',
         document: 'readonly',
+        console: 'readonly',
+        localStorage: 'readonly',
+        sessionStorage: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        HTMLElement: 'readonly',
+        File: 'readonly',
+        FormData: 'readonly',
       },
     },
     plugins: {
@@ -41,6 +49,31 @@ export default [
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
+    },
+  },
+  {
+    files: [
+      'scripts/**/*.{js,ts,mjs}',
+      '*.config.{js,ts}',
+      'test*.{js,mjs}',
+      'vite.config.ts',
+      'vitest.config.ts',
+    ],
+    languageOptions: {
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        module: 'readonly',
+        require: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+      },
     },
   },
 ]

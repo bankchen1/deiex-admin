@@ -23,7 +23,7 @@ const API_ROUTES = {
         getById: { method: 'GET', path: '/trading/:id' },
         createDraft: { method: 'POST', path: '/trading/drafts' },
         updateDraft: { method: 'PUT', path: '/trading/drafts/:id' },
-        deleteDraft: { method: 'DELETE', path: '/trading/drafts/:id' }
+        deleteDraft: { method: 'DELETE', path: '/trading/drafts/:id' },
       },
       withdrawal: {
         published: { method: 'GET', path: '/withdrawal/published' },
@@ -31,25 +31,25 @@ const API_ROUTES = {
         getById: { method: 'GET', path: '/withdrawal/:id' },
         createDraft: { method: 'POST', path: '/withdrawal/drafts' },
         updateDraft: { method: 'PUT', path: '/withdrawal/drafts/:id' },
-        deleteDraft: { method: 'DELETE', path: '/withdrawal/drafts/:id' }
+        deleteDraft: { method: 'DELETE', path: '/withdrawal/drafts/:id' },
       },
       version: {
         publish: { method: 'POST', path: '/publish' },
         getVersions: { method: 'GET', path: '/versions' },
         getVersion: { method: 'GET', path: '/versions/:versionId' },
         rollback: { method: 'POST', path: '/rollback/:versionId' },
-        getDiff: { method: 'GET', path: '/diff' }
+        getDiff: { method: 'GET', path: '/diff' },
       },
       importExport: {
         export: { method: 'GET', path: '/export' },
         import: { method: 'POST', path: '/import' },
-        validateImport: { method: 'POST', path: '/validate-import' }
+        validateImport: { method: 'POST', path: '/validate-import' },
       },
       calculator: {
         calculate: { method: 'POST', path: '/calculate' },
-        validateConsistency: { method: 'GET', path: '/validate-consistency' }
-      }
-    }
+        validateConsistency: { method: 'GET', path: '/validate-consistency' },
+      },
+    },
   },
   margin: {
     basePath: '/admin/config/margin',
@@ -60,34 +60,34 @@ const API_ROUTES = {
         getById: { method: 'GET', path: '/templates/:id' },
         createDraft: { method: 'POST', path: '/templates/drafts' },
         updateDraft: { method: 'PUT', path: '/templates/drafts/:id' },
-        deleteDraft: { method: 'DELETE', path: '/templates/drafts/:id' }
+        deleteDraft: { method: 'DELETE', path: '/templates/drafts/:id' },
       },
       bindings: {
         published: { method: 'GET', path: '/bindings/published' },
         drafts: { method: 'GET', path: '/bindings/drafts' },
         updateDraft: { method: 'POST', path: '/bindings/drafts' },
         batchBind: { method: 'POST', path: '/bindings/batch-bind' },
-        batchUnbind: { method: 'POST', path: '/bindings/batch-unbind' }
+        batchUnbind: { method: 'POST', path: '/bindings/batch-unbind' },
       },
       version: {
         publish: { method: 'POST', path: '/publish' },
         getVersions: { method: 'GET', path: '/versions' },
         getVersion: { method: 'GET', path: '/versions/:versionId' },
         rollback: { method: 'POST', path: '/rollback/:versionId' },
-        getDiff: { method: 'GET', path: '/diff' }
+        getDiff: { method: 'GET', path: '/diff' },
       },
       impact: {
-        getImpactEstimation: { method: 'GET', path: '/impact-estimation' }
+        getImpactEstimation: { method: 'GET', path: '/impact-estimation' },
       },
       importExport: {
         export: { method: 'GET', path: '/export' },
         import: { method: 'POST', path: '/import' },
-        validateImport: { method: 'POST', path: '/validate-import' }
+        validateImport: { method: 'POST', path: '/validate-import' },
       },
       calculator: {
-        calculate: { method: 'POST', path: '/calculate' }
-      }
-    }
+        calculate: { method: 'POST', path: '/calculate' },
+      },
+    },
   },
   calendar: {
     basePath: '/admin/config/calendar',
@@ -98,7 +98,7 @@ const API_ROUTES = {
         getById: { method: 'GET', path: '/funding/:id' },
         createDraft: { method: 'POST', path: '/funding/drafts' },
         updateDraft: { method: 'PUT', path: '/funding/drafts/:id' },
-        deleteDraft: { method: 'DELETE', path: '/funding/drafts/:id' }
+        deleteDraft: { method: 'DELETE', path: '/funding/drafts/:id' },
       },
       maintenance: {
         published: { method: 'GET', path: '/maintenance/published' },
@@ -106,7 +106,7 @@ const API_ROUTES = {
         getById: { method: 'GET', path: '/maintenance/:id' },
         createDraft: { method: 'POST', path: '/maintenance/drafts' },
         updateDraft: { method: 'PUT', path: '/maintenance/drafts/:id' },
-        deleteDraft: { method: 'DELETE', path: '/maintenance/drafts/:id' }
+        deleteDraft: { method: 'DELETE', path: '/maintenance/drafts/:id' },
       },
       announcements: {
         published: { method: 'GET', path: '/announcements/published' },
@@ -114,23 +114,23 @@ const API_ROUTES = {
         getById: { method: 'GET', path: '/announcements/:id' },
         createDraft: { method: 'POST', path: '/announcements/drafts' },
         updateDraft: { method: 'PUT', path: '/announcements/drafts/:id' },
-        deleteDraft: { method: 'DELETE', path: '/announcements/drafts/:id' }
+        deleteDraft: { method: 'DELETE', path: '/announcements/drafts/:id' },
       },
       version: {
         publish: { method: 'POST', path: '/publish' },
         getVersions: { method: 'GET', path: '/versions' },
         getVersion: { method: 'GET', path: '/versions/:versionId' },
         rollback: { method: 'POST', path: '/rollback/:versionId' },
-        getDiff: { method: 'GET', path: '/diff' }
+        getDiff: { method: 'GET', path: '/diff' },
       },
       validation: {
-        validateConflicts: { method: 'GET', path: '/validate-conflicts' }
+        validateConflicts: { method: 'GET', path: '/validate-conflicts' },
       },
       importExport: {
         export: { method: 'GET', path: '/export' },
-        import: { method: 'POST', path: '/import' }
-      }
-    }
+        import: { method: 'POST', path: '/import' },
+      },
+    },
   },
   icons: {
     basePath: '/admin/config/icons',
@@ -145,7 +145,7 @@ const API_ROUTES = {
         validate: { method: 'POST', path: '/assets/validate' },
         bulkUpload: { method: 'POST', path: '/assets/bulk-upload' },
         bulkDelete: { method: 'POST', path: '/assets/bulk-delete' },
-        export: { method: 'GET', path: '/assets/export' }
+        export: { method: 'GET', path: '/assets/export' },
       },
       mappings: {
         get: { method: 'GET', path: '/mappings' },
@@ -153,9 +153,9 @@ const API_ROUTES = {
         create: { method: 'POST', path: '/mappings' },
         update: { method: 'PUT', path: '/mappings/:id' },
         delete: { method: 'DELETE', path: '/mappings/:id' },
-        export: { method: 'GET', path: '/mappings/export' }
-      }
-    }
+        export: { method: 'GET', path: '/mappings/export' },
+      },
+    },
   },
   mappings: {
     basePath: '/admin/config/mappings',
@@ -167,7 +167,7 @@ const API_ROUTES = {
         update: { method: 'PUT', path: '/nav-to-api/:id' },
         delete: { method: 'DELETE', path: '/nav-to-api/:id' },
         validate: { method: 'POST', path: '/nav-to-api/validate' },
-        bulkSync: { method: 'POST', path: '/nav-to-api/bulk-sync' }
+        bulkSync: { method: 'POST', path: '/nav-to-api/bulk-sync' },
       },
       redirects: {
         get: { method: 'GET', path: '/redirects' },
@@ -176,7 +176,7 @@ const API_ROUTES = {
         update: { method: 'PUT', path: '/redirects/:id' },
         delete: { method: 'DELETE', path: '/redirects/:id' },
         getGraph: { method: 'GET', path: '/redirects/graph' },
-        validate: { method: 'POST', path: '/redirects/validate' }
+        validate: { method: 'POST', path: '/redirects/validate' },
       },
       pageToApi: {
         get: { method: 'GET', path: '/page-to-api' },
@@ -184,31 +184,14 @@ const API_ROUTES = {
         update: { method: 'PUT', path: '/page-to-api/:pageKey' },
         delete: { method: 'DELETE', path: '/page-to-api/:pageKey' },
         scan: { method: 'POST', path: '/page-to-api/scan' },
-        validate: { method: 'POST', path: '/page-to-api/validate' }
+        validate: { method: 'POST', path: '/page-to-api/validate' },
       },
       importExport: {
         export: { method: 'GET', path: '/:type/export' },
-        import: { method: 'POST', path: '/:type/import' }
-      }
-    }
-  }
-}
-
-// TypeScript 类型映射
-const TYPE_MAP = {
-  'GET': 'Promise<T>',
-  'POST': 'Promise<T>',
-  'PUT': 'Promise<T>',
-  'DELETE': 'Promise<T>',
-  'PATCH': 'Promise<T>'
-}
-
-// 参数类型映射
-const PARAM_TYPES = {
-  'query': 'params?: any',
-  'path': 'params: any',
-  'body': 'payload: any',
-  'form': 'formData: FormData'
+        import: { method: 'POST', path: '/:type/import' },
+      },
+    },
+  },
 }
 
 /**
@@ -220,10 +203,10 @@ function generateApiMethod(methodName, endpoint, basePath) {
   const hasPathParams = path.includes(':')
   const hasQueryParams = method === 'GET'
   const hasBody = ['POST', 'PUT', 'PATCH'].includes(method)
-  
+
   let params = []
   let pathParamName = ''
-  
+
   // 提取路径参数名
   if (hasPathParams) {
     const pathParamMatch = path.match(/:(\w+)/)
@@ -231,34 +214,34 @@ function generateApiMethod(methodName, endpoint, basePath) {
       pathParamName = pathParamMatch[1]
     }
   }
-  
+
   // 构建参数列表
   if (hasPathParams) {
     params.push(`${pathParamName}: string`)
   }
-  
+
   if (hasQueryParams) {
     params.push('params?: any')
   }
-  
+
   if (hasBody) {
     params.push('payload?: any')
   }
-  
+
   const paramStr = params.length > 0 ? params.join(', ') : ''
-  
+
   // 构建请求配置
   let configStr = ''
   if (hasQueryParams) {
     configStr = ', { params }'
   }
-  
+
   // 构建完整路径（替换路径参数）
   let actualPath = fullPath
   if (hasPathParams) {
     actualPath = fullPath.replace(`:${pathParamName}`, `\${${pathParamName}}`)
   }
-  
+
   let apiCall = ''
   if (method === 'GET') {
     apiCall = `apiClient.get<ApiResponse<any>>(\`${actualPath}\`${configStr})`
@@ -277,7 +260,7 @@ function generateApiMethod(methodName, endpoint, basePath) {
   } else if (method === 'DELETE') {
     apiCall = `apiClient.delete<ApiResponse<any>>(\`${actualPath}\`${configStr})`
   }
-  
+
   return `  ${methodName}(${paramStr}) {
     return ${apiCall}
   }`
@@ -289,7 +272,7 @@ function generateApiMethod(methodName, endpoint, basePath) {
 function generateModuleApi(moduleName, config) {
   const { basePath, endpoints } = config
   const methods = []
-  
+
   // 生成各个端点的方法
   Object.entries(endpoints).forEach(([groupName, group]) => {
     Object.entries(group).forEach(([methodName, endpoint]) => {
@@ -297,7 +280,7 @@ function generateModuleApi(moduleName, config) {
       methods.push(generateApiMethod(fullMethodName, endpoint, basePath))
     })
   })
-  
+
   return `export const ${moduleName}Api = {
 ${methods.join(',\n')}
 }`
@@ -317,16 +300,16 @@ import type {
   PublishPayload,
 } from '@/types/api'
 `
-  
+
   const modules = Object.entries(API_ROUTES).map(([moduleName, config]) => {
     return generateModuleApi(moduleName, config)
   })
-  
+
   const content = `${imports}
 
 ${modules.join('\n\n')}
 `
-  
+
   return content
 }
 
@@ -336,13 +319,13 @@ ${modules.join('\n\n')}
 function writeSDKFile() {
   const outputPath = path.join(__dirname, '../src/services/api/generated-sdk.ts')
   const content = generateSDK()
-  
+
   // 确保目录存在
   const dir = path.dirname(outputPath)
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true })
   }
-  
+
   fs.writeFileSync(outputPath, content, 'utf8')
   console.log(`✅ SDK generated successfully: ${outputPath}`)
 }
@@ -365,7 +348,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   main()
 }
 
-export {
-  generateSDK,
-  API_ROUTES
-}
+export { generateSDK, API_ROUTES }

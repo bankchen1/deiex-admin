@@ -1,17 +1,13 @@
 <template>
   <a-card title="Feature Flags" :loading="loading">
-    <a-space
-direction="vertical" style="width: 100%" :size="16}>
+    <a-space direction="vertical" style="width: 100%" :size="16">
       <a-input-search
         v-model:value="searchText"
         placeholder="Search features..."
         style="width: 100%"
       />
 
-      <a-list
-        :data-source="filteredFeatures"
-        :loading="loading"
-      >
+      <a-list :data-source="filteredFeatures" :loading="loading">
         <template #renderItem="{ item }">
           <a-list-item>
             <a-list-item-meta>
@@ -60,7 +56,7 @@ interface Emits {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  loading: false
+  loading: false,
 })
 
 const emit = defineEmits<Emits>()
@@ -72,13 +68,14 @@ const filteredFeatures = computed(() => {
   if (!searchText.value) {
     return props.features
   }
-  
+
   const search = searchText.value.toLowerCase()
-  return props.features.filter(feature => 
-    feature.name.toLowerCase().includes(search) ||
-    feature.description.toLowerCase().includes(search) ||
-    feature.key.toLowerCase().includes(search) ||
-    feature.module.toLowerCase().includes(search)
+  return props.features.filter(
+    (feature) =>
+      feature.name.toLowerCase().includes(search) ||
+      feature.description.toLowerCase().includes(search) ||
+      feature.key.toLowerCase().includes(search) ||
+      feature.module.toLowerCase().includes(search)
   )
 })
 
