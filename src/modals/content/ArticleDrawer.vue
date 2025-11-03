@@ -16,10 +16,7 @@
       <a-row :gutter="16">
         <a-col :span="24">
           <a-form-item label="Title" name="title">
-            <MultiLanguageInput
-              v-model:value="formData.title"
-              placeholder="Enter article title"
-            />
+            <MultiLanguageInput v-model:value="formData.title" placeholder="Enter article title" />
           </a-form-item>
         </a-col>
       </a-row>
@@ -103,10 +100,7 @@
       <a-row :gutter="16">
         <a-col :span="24">
           <a-form-item label="SEO Title" name="seoTitle">
-            <MultiLanguageInput
-              v-model:value="formData.seoTitle"
-              placeholder="Enter SEO title"
-            />
+            <MultiLanguageInput v-model:value="formData.seoTitle" placeholder="Enter SEO title" />
           </a-form-item>
         </a-col>
       </a-row>
@@ -299,3 +293,4 @@ function handleSubmit() {
 
 <style scoped>
 /* Add any specific styles if needed */
+</style>

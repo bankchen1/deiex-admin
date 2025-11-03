@@ -18,9 +18,9 @@ export interface AuditRecord {
   action: string
   objectType: string
   objectId: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   before?: any
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   after?: any
   ip: string
   userAgent: string

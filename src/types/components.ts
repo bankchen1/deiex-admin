@@ -10,7 +10,7 @@ export interface TableColumn {
   filterable?: boolean
   filterType?: 'input' | 'select' | 'date-range'
   filterOptions?: SelectOption[]
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   render?: (_value: any, _record: any, _index: number) => any
 }
 
@@ -33,15 +33,15 @@ export interface FormField {
   placeholder?: string
   help?: string
   rules?: ValidationRule[]
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   visible?: (_values: Record<string, any>) => boolean
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   disabled?: (_values: Record<string, any>) => boolean
   options?: SelectOption[] | (() => Promise<SelectOption[]>)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   props?: Record<string, any>
   // Support for async validation
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   asyncValidator?: (_value: any, _values: Record<string, any>) => Promise<void>
   // Fields that should trigger reloading of this field's options
   dependsOn?: string[]
@@ -69,7 +69,7 @@ export interface ValidationRule {
     | 'url'
     | 'hex'
     | 'email'
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   validator?: (_rule: any, _value: any) => Promise<void>
   trigger?: 'change' | 'blur' | ['change', 'blur']
 }

@@ -46,19 +46,19 @@ const columns = ref<TableColumn[]>([
     title: 'Position ID',
     dataIndex: 'id',
     width: 180,
-    fixed: 'left'
+    fixed: 'left',
   },
   {
     key: 'userId',
     title: 'User ID',
     dataIndex: 'userId',
-    width: 150
+    width: 150,
   },
   {
     key: 'userNickname',
     title: 'Nickname',
     dataIndex: 'userNickname',
-    width: 120
+    width: 120,
   },
   {
     key: 'symbol',
@@ -66,7 +66,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'symbol',
     width: 120,
     filterable: true,
-    filterType: 'input'
+    filterType: 'input',
   },
   {
     key: 'side',
@@ -77,13 +77,13 @@ const columns = ref<TableColumn[]>([
     filterType: 'select',
     filterOptions: [
       { label: 'Long', value: 'long' },
-      { label: 'Short', value: 'short' }
+      { label: 'Short', value: 'short' },
     ],
     render: (value: string) => {
       const color = value === 'long' ? 'green' : 'red'
       const text = value === 'long' ? 'Long' : 'Short'
       return <Tag color={color}>{text}</Tag>
-    }
+    },
   },
   {
     key: 'leverage',
@@ -91,7 +91,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'leverage',
     width: 100,
     align: 'right',
-    render: (value: number) => `${value}x`
+    render: (value: number) => `${value}x`,
   },
   {
     key: 'marginMode',
@@ -101,7 +101,7 @@ const columns = ref<TableColumn[]>([
     render: (value: string) => {
       const text = value === 'isolated' ? 'Isolated' : 'Cross'
       return <Tag>{text}</Tag>
-    }
+    },
   },
   {
     key: 'entryPrice',
@@ -109,7 +109,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'entryPrice',
     width: 130,
     align: 'right',
-    render: (value: string) => formatNumber(value, 8)
+    render: (value: string) => formatNumber(value, 8),
   },
   {
     key: 'markPrice',
@@ -117,7 +117,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'markPrice',
     width: 130,
     align: 'right',
-    render: (value: string) => formatNumber(value, 8)
+    render: (value: string) => formatNumber(value, 8),
   },
   {
     key: 'liquidationPrice',
@@ -129,7 +129,7 @@ const columns = ref<TableColumn[]>([
       const markPrice = parseFloat(record.markPrice)
       const liqPrice = parseFloat(value)
       const distance = Math.abs((markPrice - liqPrice) / markPrice) * 100
-      
+
       if (distance < 10) {
         return (
           <Tooltip title={`Only ${distance.toFixed(2)}% away from liquidation!`}>
@@ -140,9 +140,9 @@ const columns = ref<TableColumn[]>([
           </Tooltip>
         )
       }
-      
+
       return formatNumber(value, 8)
-    }
+    },
   },
   {
     key: 'quantity',
@@ -150,7 +150,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'quantity',
     width: 120,
     align: 'right',
-    render: (value: string) => formatNumber(value, 8)
+    render: (value: string) => formatNumber(value, 8),
   },
   {
     key: 'margin',
@@ -158,7 +158,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'margin',
     width: 120,
     align: 'right',
-    render: (value: string) => formatNumber(value, 8)
+    render: (value: string) => formatNumber(value, 8),
   },
   {
     key: 'unrealizedPnl',
@@ -183,7 +183,7 @@ const columns = ref<TableColumn[]>([
           </div>
         </div>
       )
-    }
+    },
   },
   {
     key: 'riskRatio',
@@ -196,7 +196,7 @@ const columns = ref<TableColumn[]>([
       const percent = value * 100
       let status: 'success' | 'normal' | 'exception' = 'success'
       let strokeColor = '#52c41a'
-      
+
       if (percent >= 80) {
         status = 'exception'
         strokeColor = '#ff4d4f'
@@ -204,21 +204,14 @@ const columns = ref<TableColumn[]>([
         status = 'normal'
         strokeColor = '#faad14'
       }
-      
+
       return (
         <div>
-          <Progress
-            percent={percent}
-            status={status}
-            strokeColor={strokeColor}
-            size="small"
-          />
-          <div style={{ fontSize: '12px', marginTop: '4px' }}>
-            {percent.toFixed(2)}%
-          </div>
+          <Progress percent={percent} status={status} strokeColor={strokeColor} size="small" />
+          <div style={{ fontSize: '12px', marginTop: '4px' }}>{percent.toFixed(2)}%</div>
         </div>
       )
-    }
+    },
   },
   {
     key: 'createdAt',
@@ -226,7 +219,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'createdAt',
     width: 180,
     sortable: true,
-    render: (value: string) => formatDate(value)
+    render: (value: string) => formatDate(value),
   },
   {
     key: 'actions',
@@ -234,10 +227,8 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'actions',
     width: 100,
     fixed: 'right',
-    render: (_: unknown, record: Position) => (
-      <a onClick={() => handleViewDetail(record)}>View</a>
-    )
-  }
+    render: (_: unknown, record: Position) => <a onClick={() => handleViewDetail(record)}>View</a>,
+  },
 ])
 
 const dataSource = computed(() => ordersStore.positions)
@@ -246,14 +237,14 @@ const loading = computed(() => ordersStore.positionsLoading)
 const pagination = computed(() => ({
   total: ordersStore.positionsTotal,
   current: 1,
-  pageSize: 20
+  pageSize: 20,
 }))
 
 const rowSelection = computed(() => ({
   type: 'checkbox' as const,
   onChange: (_: string[], selectedRows: Position[]) => {
     emit('selection-change', selectedRows)
-  }
+  },
 }))
 
 async function fetchData(params: any) {
@@ -263,13 +254,13 @@ async function fetchData(params: any) {
     pageSize: params.pageSize,
     sortField: params.sortField,
     sortOrder: params.sortOrder,
-    ...params.filters
+    ...params.filters,
   }
 
   const response = await ordersStore.fetchPositions(queryParams)
   return {
     data: response.data,
-    total: response.total
+    total: response.total,
   }
 }
 
@@ -280,7 +271,7 @@ function handleViewDetail(position: Position) {
 async function handleExport(params: any) {
   const queryParams: PositionQueryParams = {
     ...props.filters,
-    ...params.filters
+    ...params.filters,
   }
   await ordersStore.exportPositions(queryParams)
 }

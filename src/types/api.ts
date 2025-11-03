@@ -1,5 +1,5 @@
 // API Response Types
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export interface ApiResponse<T = any> {
   code: number
   message: string
@@ -17,7 +17,7 @@ export interface PaginatedResponse<T> {
 export interface ApiError {
   code: string
   message: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   details?: any
 }
 

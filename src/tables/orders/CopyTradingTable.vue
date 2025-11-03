@@ -48,31 +48,31 @@ const columns = ref<TableColumn[]>([
     title: 'Relation ID',
     dataIndex: 'id',
     width: 180,
-    fixed: 'left'
+    fixed: 'left',
   },
   {
     key: 'leaderId',
     title: 'Leader ID',
     dataIndex: 'leaderId',
-    width: 150
+    width: 150,
   },
   {
     key: 'leaderNickname',
     title: 'Leader Name',
     dataIndex: 'leaderNickname',
-    width: 120
+    width: 120,
   },
   {
     key: 'followerId',
     title: 'Follower ID',
     dataIndex: 'followerId',
-    width: 150
+    width: 150,
   },
   {
     key: 'followerNickname',
     title: 'Follower Name',
     dataIndex: 'followerNickname',
-    width: 120
+    width: 120,
   },
   {
     key: 'status',
@@ -84,17 +84,17 @@ const columns = ref<TableColumn[]>([
     filterOptions: [
       { label: 'Active', value: 'active' },
       { label: 'Paused', value: 'paused' },
-      { label: 'Stopped', value: 'stopped' }
+      { label: 'Stopped', value: 'stopped' },
     ],
     render: (value: string) => {
       const statusConfig: Record<string, { color: string; text: string }> = {
         active: { color: 'green', text: 'Active' },
         paused: { color: 'orange', text: 'Paused' },
-        stopped: { color: 'default', text: 'Stopped' }
+        stopped: { color: 'default', text: 'Stopped' },
       }
       const config = statusConfig[value] || { color: 'default', text: value }
       return <Tag color={config.color}>{config.text}</Tag>
-    }
+    },
   },
   {
     key: 'copyRatio',
@@ -102,7 +102,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'copyRatio',
     width: 120,
     align: 'right',
-    render: (value: number) => `${(value * 100).toFixed(1)}%`
+    render: (value: number) => `${(value * 100).toFixed(1)}%`,
   },
   {
     key: 'maxPositionSize',
@@ -110,7 +110,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'maxPositionSize',
     width: 130,
     align: 'right',
-    render: (value: string) => formatNumber(value, 2)
+    render: (value: string) => formatNumber(value, 2),
   },
   {
     key: 'stopLossPercent',
@@ -118,7 +118,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'stopLossPercent',
     width: 110,
     align: 'right',
-    render: (value: number | undefined) => (value ? `${value.toFixed(1)}%` : '-')
+    render: (value: number | undefined) => (value ? `${value.toFixed(1)}%` : '-'),
   },
   {
     key: 'takeProfitPercent',
@@ -126,7 +126,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'takeProfitPercent',
     width: 110,
     align: 'right',
-    render: (value: number | undefined) => (value ? `${value.toFixed(1)}%` : '-')
+    render: (value: number | undefined) => (value ? `${value.toFixed(1)}%` : '-'),
   },
   {
     key: 'profitSharePercent',
@@ -134,7 +134,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'profitSharePercent',
     width: 120,
     align: 'right',
-    render: (value: number) => `${value.toFixed(1)}%`
+    render: (value: number) => `${value.toFixed(1)}%`,
   },
   {
     key: 'totalProfit',
@@ -147,8 +147,13 @@ const columns = ref<TableColumn[]>([
       const num = parseFloat(value)
       const color = num >= 0 ? '#52c41a' : '#ff4d4f'
       const sign = num >= 0 ? '+' : ''
-      return <span style={{ color, fontWeight: 'bold' }}>{sign}{formatNumber(value, 2)}</span>
-    }
+      return (
+        <span style={{ color, fontWeight: 'bold' }}>
+          {sign}
+          {formatNumber(value, 2)}
+        </span>
+      )
+    },
   },
   {
     key: 'totalLoss',
@@ -161,7 +166,7 @@ const columns = ref<TableColumn[]>([
       const num = parseFloat(value)
       if (num === 0) return '-'
       return <span style={{ color: '#ff4d4f', fontWeight: 'bold' }}>-{formatNumber(value, 2)}</span>
-    }
+    },
   },
   {
     key: 'createdAt',
@@ -169,7 +174,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'createdAt',
     width: 180,
     sortable: true,
-    render: (value: string) => formatDate(value)
+    render: (value: string) => formatDate(value),
   },
   {
     key: 'actions',
@@ -180,18 +185,16 @@ const columns = ref<TableColumn[]>([
     render: (_: unknown, record: CopyTradingRelation) => (
       <Space size="small">
         <a onClick={() => handleViewDetail(record)}>View</a>
-        {record.status === 'active' && (
-          <a onClick={() => handlePause(record)}>Pause</a>
-        )}
-        {record.status === 'paused' && (
-          <a onClick={() => handleResume(record)}>Resume</a>
-        )}
+        {record.status === 'active' && <a onClick={() => handlePause(record)}>Pause</a>}
+        {record.status === 'paused' && <a onClick={() => handleResume(record)}>Resume</a>}
         {record.status !== 'stopped' && (
-          <a style={{ color: '#ff4d4f' }} onClick={() => handleStop(record)}>Stop</a>
+          <a style={{ color: '#ff4d4f' }} onClick={() => handleStop(record)}>
+            Stop
+          </a>
         )}
       </Space>
-    )
-  }
+    ),
+  },
 ])
 
 const dataSource = computed(() => ordersStore.copyTradingRelations)
@@ -200,14 +203,14 @@ const loading = computed(() => ordersStore.copyTradingLoading)
 const pagination = computed(() => ({
   total: ordersStore.copyTradingTotal,
   current: 1,
-  pageSize: 20
+  pageSize: 20,
 }))
 
 const rowSelection = computed(() => ({
   type: 'checkbox' as const,
   onChange: (_: string[], selectedRows: CopyTradingRelation[]) => {
     emit('selection-change', selectedRows)
-  }
+  },
 }))
 
 async function fetchData(params: any) {
@@ -217,13 +220,13 @@ async function fetchData(params: any) {
     pageSize: params.pageSize,
     sortField: params.sortField,
     sortOrder: params.sortOrder,
-    ...params.filters
+    ...params.filters,
   }
 
   const response = await ordersStore.fetchCopyTradingRelations(queryParams)
   return {
     data: response.data,
-    total: response.total
+    total: response.total,
   }
 }
 
@@ -246,7 +249,7 @@ function handleStop(relation: CopyTradingRelation) {
 async function handleExport(params: any) {
   const queryParams: CopyTradingQueryParams = {
     ...props.filters,
-    ...params.filters
+    ...params.filters,
   }
   await ordersStore.exportCopyTrading(queryParams)
 }

@@ -19,7 +19,7 @@ export const downloadFile = (data: Blob | string, filename: string, mimeType?: s
 /**
  * Download JSON data as a file
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export const downloadJSON = (data: any, filename: string): void => {
   const jsonString = JSON.stringify(data, null, 2)
   downloadFile(jsonString, filename, 'application/json')
@@ -36,7 +36,7 @@ export const downloadCSV = (data: string[][], filename: string): void => {
 /**
  * Convert array of objects to CSV format
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export const arrayToCSV = (data: any[], columns?: string[]): string[][] => {
   if (data.length === 0) return []
 
@@ -53,7 +53,7 @@ export const arrayToCSV = (data: any[], columns?: string[]): string[][] => {
 /**
  * Export table data to CSV
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export const exportTableToCSV = (data: any[], columns: string[], filename: string): void => {
   const csvData = arrayToCSV(data, columns)
   downloadCSV(csvData, filename)
@@ -62,7 +62,7 @@ export const exportTableToCSV = (data: any[], columns: string[], filename: strin
 /**
  * Export table data to JSON
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export const exportTableToJSON = (data: any[], filename: string): void => {
   downloadJSON(data, filename)
 }

@@ -12,7 +12,6 @@ export interface ParsedCSV {
 }
 
 export interface ParsedJSON {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any
   isArray: boolean
 }

@@ -45,19 +45,19 @@ const columns = ref<TableColumn[]>([
     title: 'Liquidation ID',
     dataIndex: 'id',
     width: 180,
-    fixed: 'left'
+    fixed: 'left',
   },
   {
     key: 'userId',
     title: 'User ID',
     dataIndex: 'userId',
-    width: 150
+    width: 150,
   },
   {
     key: 'userNickname',
     title: 'Nickname',
     dataIndex: 'userNickname',
-    width: 120
+    width: 120,
   },
   {
     key: 'symbol',
@@ -65,7 +65,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'symbol',
     width: 120,
     filterable: true,
-    filterType: 'input'
+    filterType: 'input',
   },
   {
     key: 'side',
@@ -76,7 +76,7 @@ const columns = ref<TableColumn[]>([
       const color = value === 'long' ? 'green' : 'red'
       const text = value === 'long' ? 'Long' : 'Short'
       return <Tag color={color}>{text}</Tag>
-    }
+    },
   },
   {
     key: 'leverage',
@@ -84,7 +84,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'leverage',
     width: 100,
     align: 'right',
-    render: (value: number) => `${value}x`
+    render: (value: number) => `${value}x`,
   },
   {
     key: 'entryPrice',
@@ -92,7 +92,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'entryPrice',
     width: 130,
     align: 'right',
-    render: (value: string) => formatNumber(value, 8)
+    render: (value: string) => formatNumber(value, 8),
   },
   {
     key: 'liquidationPrice',
@@ -100,7 +100,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'liquidationPrice',
     width: 130,
     align: 'right',
-    render: (value: string) => formatNumber(value, 8)
+    render: (value: string) => formatNumber(value, 8),
   },
   {
     key: 'quantity',
@@ -108,7 +108,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'quantity',
     width: 120,
     align: 'right',
-    render: (value: string) => formatNumber(value, 8)
+    render: (value: string) => formatNumber(value, 8),
   },
   {
     key: 'loss',
@@ -120,24 +120,20 @@ const columns = ref<TableColumn[]>([
     render: (value: string, record: Liquidation) => {
       return (
         <div>
-          <div style={{ color: '#ff4d4f', fontWeight: 'bold' }}>
-            -{formatNumber(value, 8)}
-          </div>
+          <div style={{ color: '#ff4d4f', fontWeight: 'bold' }}>-{formatNumber(value, 8)}</div>
           <div style={{ color: '#ff4d4f', fontSize: '12px' }}>
             (-{record.lossPercent.toFixed(2)}%)
           </div>
         </div>
       )
-    }
+    },
   },
   {
     key: 'reason',
     title: 'Reason',
     dataIndex: 'reason',
     width: 200,
-    render: (value: string) => (
-      <Tag color="red">{value}</Tag>
-    )
+    render: (value: string) => <Tag color="red">{value}</Tag>,
   },
   {
     key: 'liquidatedAt',
@@ -145,7 +141,7 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'liquidatedAt',
     width: 180,
     sortable: true,
-    render: (value: string) => formatDate(value)
+    render: (value: string) => formatDate(value),
   },
   {
     key: 'actions',
@@ -155,8 +151,8 @@ const columns = ref<TableColumn[]>([
     fixed: 'right',
     render: (_: unknown, record: Liquidation) => (
       <a onClick={() => handleViewDetail(record)}>View Timeline</a>
-    )
-  }
+    ),
+  },
 ])
 
 const dataSource = computed(() => ordersStore.liquidations)
@@ -165,14 +161,14 @@ const loading = computed(() => ordersStore.liquidationsLoading)
 const pagination = computed(() => ({
   total: ordersStore.liquidationsTotal,
   current: 1,
-  pageSize: 20
+  pageSize: 20,
 }))
 
 const rowSelection = computed(() => ({
   type: 'checkbox' as const,
   onChange: (_: string[], selectedRows: Liquidation[]) => {
     emit('selection-change', selectedRows)
-  }
+  },
 }))
 
 async function fetchData(params: any) {
@@ -182,13 +178,13 @@ async function fetchData(params: any) {
     pageSize: params.pageSize,
     sortField: params.sortField,
     sortOrder: params.sortOrder,
-    ...params.filters
+    ...params.filters,
   }
 
   const response = await ordersStore.fetchLiquidations(queryParams)
   return {
     data: response.data,
-    total: response.total
+    total: response.total,
   }
 }
 
@@ -199,7 +195,7 @@ function handleViewDetail(liquidation: Liquidation) {
 async function handleExport(params: any) {
   const queryParams: LiquidationQueryParams = {
     ...props.filters,
-    ...params.filters
+    ...params.filters,
   }
   await ordersStore.exportLiquidations(queryParams)
 }

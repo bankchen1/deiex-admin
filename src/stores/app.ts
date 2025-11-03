@@ -21,7 +21,6 @@ export const useAppStore = defineStore('app', () => {
   const theme = ref<'light' | 'dark'>(loadFromStorage('theme', 'light'))
   const locale = ref(loadFromStorage('locale', 'en'))
   const environment = ref<'production' | 'staging' | 'development'>(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (import.meta.env.VITE_ENV as any) || 'development'
   )
   const cachedViews = ref<string[]>([])

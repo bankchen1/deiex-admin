@@ -26,7 +26,7 @@ export const validateNumberRange = (value: number, min: number, max: number): bo
 /**
  * Validate required field
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export const validateRequired = (value: any): boolean => {
   if (value === null || value === undefined) return false
   if (typeof value === 'string') return value.trim().length > 0
