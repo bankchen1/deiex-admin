@@ -1,0 +1,118 @@
+{
+  "module": "users",
+  "mock_handlers": [
+    {
+      "handler": "handleListUsers",
+      "description": "Mock handler for listing users",
+      "covered_pages": [
+        "src/pages/users/List.vue"
+      ],
+      "scenarios": [
+        "All users",
+        "Filtered by status",
+        "Filtered by VIP level",
+        "Filtered by KYC status",
+        "Filtered by risk tags",
+        "Search by ID/email/phone",
+        "Sorted by different fields",
+        "Paginated results"
+      ]
+    },
+    {
+      "handler": "handleGetUserById",
+      "description": "Mock handler for getting user by ID",
+      "covered_pages": [
+        "src/pages/users/Detail.vue",
+        "src/modals/users/QuickViewDrawer.vue"
+      ],
+      "scenarios": [
+        "User with full details",
+        "User with login records",
+        "User with devices",
+        "User with addresses",
+        "User with recent orders",
+        "User with positions"
+      ]
+    },
+    {
+      "handler": "handleGetUserStats",
+      "description": "Mock handler for getting user stats",
+      "covered_pages": [
+        "src/pages/users/List.vue"
+      ],
+      "scenarios": [
+        "Overall stats",
+        "Stats by date range"
+      ]
+    },
+    {
+      "handler": "handleUpdateUserVip",
+      "description": "Mock handler for updating VIP level",
+      "covered_pages": [
+        "src/forms/users/VipUpdateForm.vue",
+        "src/modals/users/AdjustVipModal.vue"
+      ],
+      "scenarios": [
+        "Upgrade VIP level",
+        "Downgrade VIP level"
+      ]
+    },
+    {
+      "handler": "handleUpdateUserTags",
+      "description": "Mock handler for updating risk tags",
+      "covered_pages": [
+        "src/forms/users/TagForm.vue"
+      ],
+      "scenarios": [
+        "Add new tags",
+        "Remove existing tags"
+      ]
+    },
+    {
+      "handler": "handleResetUser2FA",
+      "description": "Mock handler for resetting 2FA",
+      "covered_pages": [
+        "src/modals/users/Reset2FAModal.vue"
+      ],
+      "scenarios": [
+        "Successful 2FA reset",
+        "Failed 2FA reset"
+      ]
+    },
+    {
+      "handler": "handleDisableUser",
+      "description": "Mock handler for disabling user",
+      "covered_pages": [],
+      "scenarios": [
+        "Successful disable",
+        "Failed disable"
+      ]
+    },
+    {
+      "handler": "handleEnableUser",
+      "description": "Mock handler for enabling user",
+      "covered_pages": [],
+      "scenarios": [
+        "Successful enable",
+        "Failed enable"
+      ]
+    },
+    {
+      "handler": "handleExportUsers",
+      "description": "Mock handler for exporting users",
+      "covered_pages": [
+        "src/pages/users/List.vue"
+      ],
+      "scenarios": [
+        "Export with filters",
+        "Full export"
+      ]
+    }
+  ],
+  "examples_provided": [
+    "src/mock/examples/users.json"
+  ],
+  "coverage_percentage": 100,
+  "status": "complete",
+  "contract_validation": true
+}

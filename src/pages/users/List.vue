@@ -206,7 +206,7 @@ import RBACGuard from '@/shared/RBACGuard.vue'
 import TagPicker from '@/shared/TagPicker.vue'
 import UserTable from '@/tables/users/UserTable.vue'
 import QuickViewDrawer from '@/modals/users/QuickViewDrawer.vue'
-import type { User } from '@/types/models'
+import type { User } from '@/contracts/users'
 
 const router = useRouter()
 const usersStore = useUsersStore()

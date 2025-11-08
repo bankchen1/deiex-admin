@@ -1,0 +1,324 @@
+{
+  "data_calls": [
+    {
+      "file": "src/pages/users/List.vue",
+      "line": "239",
+      "call": "usersStore.fetchList(params)",
+      "type": "store_call",
+      "description": "Fetches users list with filters"
+    },
+    {
+      "file": "src/pages/users/List.vue",
+      "line": "250",
+      "call": "usersStore.fetchStats()",
+      "type": "store_call",
+      "description": "Fetches user statistics"
+    },
+    {
+      "file": "src/pages/users/List.vue",
+      "line": "278",
+      "call": "usersStore.exportData(params)",
+      "type": "store_call",
+      "description": "Exports user data"
+    },
+    {
+      "file": "src/stores/users.ts",
+      "line": "43",
+      "call": "listUsers(params)",
+      "type": "facade_call",
+      "description": "Calls users facade for list"
+    },
+    {
+      "file": "src/stores/users.ts",
+      "line": "83",
+      "call": "getUserById(id)",
+      "type": "facade_call",
+      "description": "Calls users facade for detail"
+    },
+    {
+      "file": "src/stores/users.ts",
+      "line": "108",
+      "call": "getUserStats(params)",
+      "type": "facade_call",
+      "description": "Calls users facade for statistics"
+    },
+    {
+      "file": "src/stores/users.ts",
+      "line": "144",
+      "call": "updateUserVip(id, payload)",
+      "type": "facade_call",
+      "description": "Calls users facade to update VIP level"
+    },
+    {
+      "file": "src/stores/users.ts",
+      "line": "191",
+      "call": "updateUserTags(id, payload)",
+      "type": "facade_call",
+      "description": "Calls users facade to update risk tags"
+    },
+    {
+      "file": "src/stores/users.ts",
+      "line": "238",
+      "call": "resetUser2FA(id, payload)",
+      "type": "facade_call",
+      "description": "Calls users facade to reset 2FA"
+    },
+    {
+      "file": "src/stores/users.ts",
+      "line": "285",
+      "call": "disableUser(id, payload)",
+      "type": "facade_call",
+      "description": "Calls users facade to disable user"
+    },
+    {
+      "file": "src/stores/users.ts",
+      "line": "332",
+      "call": "enableUser(id, payload)",
+      "type": "facade_call",
+      "description": "Calls users facade to enable user"
+    },
+    {
+      "file": "src/stores/users.ts",
+      "line": "379",
+      "call": "exportUsers(params)",
+      "type": "facade_call",
+      "description": "Calls users facade to export data"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "72",
+      "call": "safeGet('/admin/users', { params })",
+      "type": "mock_call",
+      "description": "Direct mock API call for users list"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "72",
+      "call": "sdk.users.listUsers(params)",
+      "type": "sdk_call",
+      "description": "SDK call for users list (real mode)"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "100",
+      "call": "safeGet(`/admin/users/${id}`)",
+      "type": "mock_call",
+      "description": "Direct mock API call for user detail"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "100",
+      "call": "sdk.users.getUserById(id)",
+      "type": "sdk_call",
+      "description": "SDK call for user detail (real mode)"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "122",
+      "call": "safeGet('/admin/users/stats', { params })",
+      "type": "mock_call",
+      "description": "Direct mock API call for user stats"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "122",
+      "call": "sdk.users.getUserStats(params)",
+      "type": "sdk_call",
+      "description": "SDK call for user stats (real mode)"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "146",
+      "call": "safePost(`/admin/users/${id}/vip`, payload)",
+      "type": "mock_call",
+      "description": "Direct mock API call to update VIP"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "146",
+      "call": "sdk.users.updateUserVip(id, payload)",
+      "type": "sdk_call",
+      "description": "SDK call to update VIP (real mode)"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "173",
+      "call": "safePost(`/admin/users/${id}/tags`, payload)",
+      "type": "mock_call",
+      "description": "Direct mock API call to update tags"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "173",
+      "call": "sdk.users.updateUserTags(id, payload)",
+      "type": "sdk_call",
+      "description": "SDK call to update tags (real mode)"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "200",
+      "call": "safePost(`/admin/users/${id}/reset-2fa`, payload)",
+      "type": "mock_call",
+      "description": "Direct mock API call to reset 2FA"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "200",
+      "call": "sdk.users.resetUser2FA(id, payload)",
+      "type": "sdk_call",
+      "description": "SDK call to reset 2FA (real mode)"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "227",
+      "call": "safePost(`/admin/users/${id}/disable`, payload)",
+      "type": "mock_call",
+      "description": "Direct mock API call to disable user"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "227",
+      "call": "sdk.users.disableUser(id, payload)",
+      "type": "sdk_call",
+      "description": "SDK call to disable user (real mode)"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "254",
+      "call": "safePost(`/admin/users/${id}/enable`, payload)",
+      "type": "mock_call",
+      "description": "Direct mock API call to enable user"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "254",
+      "call": "sdk.users.enableUser(id, payload)",
+      "type": "sdk_call",
+      "description": "SDK call to enable user (real mode)"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "281",
+      "call": "safeGet('/admin/users/export', { params, responseType: 'blob' })",
+      "type": "mock_call",
+      "description": "Direct mock API call to export data"
+    },
+    {
+      "file": "src/services/api/facade/users.ts",
+      "line": "281",
+      "call": "sdk.users.exportUsers(params)",
+      "type": "sdk_call",
+      "description": "SDK call to export data (real mode)"
+    },
+    {
+      "file": "src/modals/users/QuickViewDrawer.vue",
+      "line": "215",
+      "call": "usersApi.getById(props.userId)",
+      "type": "direct_api_call",
+      "description": "Direct API call from component to fetch user details"
+    },
+    {
+      "file": "src/pages/kyc/index.vue",
+      "line": "200",
+      "call": "kycStore.fetchList(params)",
+      "type": "store_call",
+      "description": "Fetches KYC list with filters"
+    },
+    {
+      "file": "src/pages/kyc/Detail.vue",
+      "line": "150",
+      "call": "kycStore.fetchById(id)",
+      "type": "store_call",
+      "description": "Fetches KYC application detail"
+    },
+    {
+      "file": "src/pages/assets/Deposits.vue",
+      "line": "180",
+      "call": "assetsStore.fetchDeposits(params)",
+      "type": "store_call",
+      "description": "Fetches deposits list"
+    },
+    {
+      "file": "src/pages/assets/Withdrawals.vue",
+      "line": "200",
+      "call": "assetsStore.fetchWithdrawals(params)",
+      "type": "store_call",
+      "description": "Fetches withdrawals list"
+    },
+    {
+      "file": "src/pages/orders/SpotOrders.vue",
+      "line": "160",
+      "call": "ordersStore.fetchSpotOrders(params)",
+      "type": "store_call",
+      "description": "Fetches spot orders list"
+    },
+    {
+      "file": "src/pages/orders/FuturesOrders.vue",
+      "line": "170",
+      "call": "ordersStore.fetchFuturesOrders(params)",
+      "type": "store_call",
+      "description": "Fetches futures orders list"
+    },
+    {
+      "file": "src/pages/config/instruments/index.vue",
+      "line": "150",
+      "call": "configStore.fetchInstruments(params)",
+      "type": "store_call",
+      "description": "Fetches instruments list"
+    },
+    {
+      "file": "src/pages/config/margin/index.vue",
+      "line": "140",
+      "call": "configStore.fetchMarginTemplates(params)",
+      "type": "store_call",
+      "description": "Fetches margin templates"
+    },
+    {
+      "file": "src/pages/config/fees/index.vue",
+      "line": "160",
+      "call": "configStore.fetchFees(params)",
+      "type": "store_call",
+      "description": "Fetches fee templates"
+    },
+    {
+      "file": "src/pages/risk/Rules.vue",
+      "line": "130",
+      "call": "riskStore.fetchRules(params)",
+      "type": "store_call",
+      "description": "Fetches risk rules list"
+    },
+    {
+      "file": "src/pages/reports/Trade.vue",
+      "line": "120",
+      "call": "reportsStore.fetchTradeStats(params)",
+      "type": "store_call",
+      "description": "Fetches trade statistics"
+    },
+    {
+      "file": "src/pages/ops/Logs.vue",
+      "line": "140",
+      "call": "opsStore.fetchLogs(params)",
+      "type": "store_call",
+      "description": "Fetches operation logs"
+    },
+    {
+      "file": "src/pages/settings/index.vue",
+      "line": "100",
+      "call": "settingsStore.fetchSettings()",
+      "type": "store_call",
+      "description": "Fetches system settings"
+    }
+  ],
+  "call_types": {
+    "store_call": "Calls to Pinia stores that handle data flow",
+    "facade_call": "Calls to facade services that switch between mock/real",
+    "mock_call": "Direct mock API calls using safeGet/safePost",
+    "sdk_call": "SDK calls for real API services (planned)",
+    "direct_api_call": "Direct API calls from components (violates pattern)"
+  },
+  "violation_patterns": [
+    "Direct API calls in components (like usersApi.getById)",
+    "Hardcoded data arrays in UI components",
+    "Direct axios/fetch calls in components"
+  ]
+}

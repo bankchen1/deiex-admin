@@ -1,0 +1,112 @@
+{
+  "module": "risk",
+  "facade_functions": [
+    {
+      "function": "riskApi.listRiskRules",
+      "description": "List risk rules with pagination and filtering",
+      "covered_pages": [
+        "src/pages/risk/Rules.vue"
+      ],
+      "operations": ["read"]
+    },
+    {
+      "function": "riskApi.listRiskLimits",
+      "description": "List risk limits with pagination and filtering",
+      "covered_pages": [
+        "src/pages/risk/Limits.vue"
+      ],
+      "operations": ["read"]
+    },
+    {
+      "function": "riskApi.listBlacklistEntries",
+      "description": "List blacklist entries with pagination and filtering",
+      "covered_pages": [
+        "src/pages/risk/Blacklist.vue"
+      ],
+      "operations": ["read"]
+    },
+    {
+      "function": "riskApi.getRiskRuleById",
+      "description": "Get risk rule by ID",
+      "covered_pages": [],
+      "operations": ["read"]
+    },
+    {
+      "function": "riskApi.getRiskLimitById",
+      "description": "Get risk limit by ID",
+      "covered_pages": [],
+      "operations": ["read"]
+    },
+    {
+      "function": "riskApi.getBlacklistEntryById",
+      "description": "Get blacklist entry by ID",
+      "covered_pages": [],
+      "operations": ["read"]
+    },
+    {
+      "function": "riskApi.createRiskRule",
+      "description": "Create risk rule",
+      "covered_pages": [],
+      "operations": ["create"]
+    },
+    {
+      "function": "riskApi.updateRiskRule",
+      "description": "Update risk rule",
+      "covered_pages": [],
+      "operations": ["update"]
+    },
+    {
+      "function": "riskApi.deleteRiskRule",
+      "description": "Delete risk rule",
+      "covered_pages": [],
+      "operations": ["delete"]
+    },
+    {
+      "function": "riskApi.createRiskLimit",
+      "description": "Create risk limit",
+      "covered_pages": [],
+      "operations": ["create"]
+    },
+    {
+      "function": "riskApi.updateRiskLimit",
+      "description": "Update risk limit",
+      "covered_pages": [],
+      "operations": ["update"]
+    },
+    {
+      "function": "riskApi.deleteRiskLimit",
+      "description": "Delete risk limit",
+      "covered_pages": [],
+      "operations": ["delete"]
+    },
+    {
+      "function": "riskApi.createBlacklistEntry",
+      "description": "Create blacklist entry",
+      "covered_pages": [],
+      "operations": ["create"]
+    },
+    {
+      "function": "riskApi.updateBlacklistEntry",
+      "description": "Update blacklist entry",
+      "covered_pages": [],
+      "operations": ["update"]
+    },
+    {
+      "function": "riskApi.deleteBlacklistEntry",
+      "description": "Delete blacklist entry",
+      "covered_pages": [],
+      "operations": ["delete"]
+    },
+    {
+      "function": "riskApi.simulateRisk",
+      "description": "Simulate risk",
+      "covered_pages": [],
+      "operations": ["read"]
+    }
+  ],
+  "coverage_percentage": 100,
+  "total_pages": 3,
+  "covered_pages": 3,
+  "uncovered_pages": [],
+  "status": "complete"
+}

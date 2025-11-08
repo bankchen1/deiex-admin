@@ -1,0 +1,78 @@
+{
+  "module": "assets",
+  "facade_functions": [
+    {
+      "function": "assetsApi.listDeposits",
+      "description": "List deposits with pagination and filtering",
+      "covered_pages": [
+        "src/pages/assets/Deposits.vue"
+      ],
+      "operations": ["read"]
+    },
+    {
+      "function": "assetsApi.listWithdrawals",
+      "description": "List withdrawals with pagination and filtering",
+      "covered_pages": [
+        "src/pages/assets/Withdrawals.vue"
+      ],
+      "operations": ["read"]
+    },
+    {
+      "function": "assetsApi.listWalletAddresses",
+      "description": "List wallet addresses with pagination and filtering",
+      "covered_pages": [
+        "src/pages/assets/Wallets.vue"
+      ],
+      "operations": ["read"]
+    },
+    {
+      "function": "assetsApi.getDepositById",
+      "description": "Get deposit by ID",
+      "covered_pages": [
+        "src/modals/assets/TxDetailDrawer.vue"
+      ],
+      "operations": ["read"]
+    },
+    {
+      "function": "assetsApi.getWithdrawalById",
+      "description": "Get withdrawal by ID",
+      "covered_pages": [
+        "src/modals/assets/TxDetailDrawer.vue"
+      ],
+      "operations": ["read"]
+    },
+    {
+      "function": "assetsApi.updateDepositNotes",
+      "description": "Update deposit notes",
+      "covered_pages": [],
+      "operations": ["update"]
+    },
+    {
+      "function": "assetsApi.approveWithdrawal",
+      "description": "Approve withdrawal",
+      "covered_pages": [
+        "src/modals/assets/ApproveModal.vue"
+      ],
+      "operations": ["update"]
+    },
+    {
+      "function": "assetsApi.rejectWithdrawal",
+      "description": "Reject withdrawal",
+      "covered_pages": [
+        "src/modals/assets/RejectModal.vue"
+      ],
+      "operations": ["update"]
+    },
+    {
+      "function": "assetsApi.createWalletAddress",
+      "description": "Create wallet address",
+      "covered_pages": [],
+      "operations": ["create"]
+    }
+  ],
+  "coverage_percentage": 100,
+  "total_pages": 3,
+  "covered_pages": 3,
+  "uncovered_pages": [],
+  "status": "complete"
+}

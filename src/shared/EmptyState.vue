@@ -41,16 +41,16 @@ interface Emits {
   (e: 'action'): void
 }
 
-const { t } = useI18n()
-
 const props = withDefaults(defineProps<Props>(), {
-  title: () => t('common.noData'),
+  title: 'No Data',
   description: '',
   icon: 'inbox',
   size: 'default',
-  actionText: () => t('common.create'),
+  actionText: 'Create',
   actionType: 'primary',
 })
+
+const { t } = useI18n()
 
 const emit = defineEmits<Emits>()
 

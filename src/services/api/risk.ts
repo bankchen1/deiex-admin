@@ -1,203 +1,628 @@
-import { apiClient } from './AdminApiClient'
-import type {
-  RiskRule,
-  RiskLimit,
-  BlacklistEntry,
-  Version,
-  ApiResponse,
-  PaginationParams,
-  PaginatedResponse,
-} from '@/types/api'
+/**
+ * Risk API Service
+ * 
+ * Facade functions for Risk module covering all read/write operations
+ * Internal switching between Mock/Real based on environment
+ */
 
-// Risk Rules API
-export const riskRulesApi = {
-  // Fetch published rules
-  getPublished(params?: PaginationParams) {
-    return apiClient.get<ApiResponse<PaginatedResponse<RiskRule>>>('/admin/risk/rules/published', {
-      params,
-    })
-  },
+import type { 
+  RiskRuleListResponse, 
+  RiskLimitListResponse, 
+  BlacklistEntryListResponse,
+  RiskRuleDetailResponse,
+  RiskLimitDetailResponse,
+  BlacklistEntryDetailResponse,
+  RiskRuleQueryParams,
+  RiskLimitQueryParams,
+  BlacklistEntryQueryParams,
+  CreateRiskRulePayload,
+  UpdateRiskRulePayload,
+  CreateRiskLimitPayload,
+  UpdateRiskLimitPayload,
+  CreateBlacklistEntryPayload,
+  UpdateBlacklistEntryPayload,
+  RiskSimulationPayload,
+  ApiResponse
+} from '@/contracts/risk'
 
-  // Fetch draft rules
-  getDrafts(params?: PaginationParams) {
-    return apiClient.get<ApiResponse<PaginatedResponse<RiskRule>>>('/admin/risk/rules/drafts', {
-      params,
-    })
+// Real API client (to be replaced with actual SDK)
+const realApiClient = {
+  async listRiskRules(params: RiskRuleQueryParams): Promise<ApiResponse<RiskRuleListResponse>> {
+    throw new Error('Real API implementation not available yet')
   },
-
-  // Get rule by ID
-  getById(id: string) {
-    return apiClient.get<ApiResponse<RiskRule>>(`/admin/risk/rules/${id}`)
+  
+  async listRiskLimits(params: RiskLimitQueryParams): Promise<ApiResponse<RiskLimitListResponse>> {
+    throw new Error('Real API implementation not available yet')
   },
-
-  // Create draft rule
-  createDraft(payload: Partial<RiskRule>) {
-    return apiClient.post<ApiResponse<RiskRule>>('/admin/risk/rules/drafts', payload)
+  
+  async listBlacklistEntries(params: BlacklistEntryQueryParams): Promise<ApiResponse<BlacklistEntryListResponse>> {
+    throw new Error('Real API implementation not available yet')
   },
-
-  // Update draft rule
-  updateDraft(id: string, payload: Partial<RiskRule>) {
-    return apiClient.put<ApiResponse<RiskRule>>(`/admin/risk/rules/drafts/${id}`, payload)
+  
+  async getRiskRuleById(id: string): Promise<ApiResponse<RiskRuleDetailResponse>> {
+    throw new Error('Real API implementation not available yet')
   },
-
-  // Delete draft rule
-  deleteDraft(id: string) {
-    return apiClient.delete<ApiResponse<void>>(`/admin/risk/rules/drafts/${id}`)
+  
+  async getRiskLimitById(id: string): Promise<ApiResponse<RiskLimitDetailResponse>> {
+    throw new Error('Real API implementation not available yet')
   },
-
-  // Publish draft rules
-  publish(payload: { notes: string; tags?: string[] }) {
-    return apiClient.post<ApiResponse<{ version: string }>>('/admin/risk/rules/publish', payload)
+  
+  async getBlacklistEntryById(id: string): Promise<ApiResponse<BlacklistEntryDetailResponse>> {
+    throw new Error('Real API implementation not available yet')
   },
-
-  // Get versions
-  getVersions() {
-    return apiClient.get<ApiResponse<Version[]>>('/admin/risk/rules/versions')
+  
+  async createRiskRule(payload: CreateRiskRulePayload): Promise<ApiResponse<any>> {
+    throw new Error('Real API implementation not available yet')
   },
-
-  // Rollback to version
-  rollback(versionId: string) {
-    return apiClient.post<ApiResponse<void>>(`/admin/risk/rules/rollback/${versionId}`)
+  
+  async updateRiskRule(id: string, payload: UpdateRiskRulePayload): Promise<ApiResponse<any>> {
+    throw new Error('Real API implementation not available yet')
   },
-
-  // Get diff between draft and published
-  getDiff() {
-    return apiClient.get<
-      ApiResponse<{ added: RiskRule[]; modified: RiskRule[]; deleted: RiskRule[] }>
-    >('/admin/risk/rules/diff')
+  
+  async deleteRiskRule(id: string): Promise<ApiResponse<any>> {
+    throw new Error('Real API implementation not available yet')
   },
-
-  // Simulate rule
-  simulate(ruleId: string, testData: any) {
-    return apiClient.post<ApiResponse<{ matched: boolean; actions: any[] }>>(
-      `/admin/risk/rules/${ruleId}/simulate`,
-      testData
-    )
+  
+  async createRiskLimit(payload: CreateRiskLimitPayload): Promise<ApiResponse<any>> {
+    throw new Error('Real API implementation not available yet')
   },
-
-  // Export rules
-  export(format: 'json' | 'csv') {
-    return apiClient.get<Blob>('/admin/risk/rules/export', {
-      params: { format },
-      responseType: 'blob',
-    })
+  
+  async updateRiskLimit(id: string, payload: UpdateRiskLimitPayload): Promise<ApiResponse<any>> {
+    throw new Error('Real API implementation not available yet')
   },
-
-  // Import rules
-  import(file: File) {
-    const formData = new FormData()
-    formData.append('file', file)
-    return apiClient.post<ApiResponse<{ imported: number; errors: string[] }>>(
-      '/admin/risk/rules/import',
-      formData,
-      {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      }
-    )
+  
+  async deleteRiskLimit(id: string): Promise<ApiResponse<any>> {
+    throw new Error('Real API implementation not available yet')
   },
+  
+  async createBlacklistEntry(payload: CreateBlacklistEntryPayload): Promise<ApiResponse<any>> {
+    throw new Error('Real API implementation not available yet')
+  },
+  
+  async updateBlacklistEntry(id: string, payload: UpdateBlacklistEntryPayload): Promise<ApiResponse<any>> {
+    throw new Error('Real API implementation not available yet')
+  },
+  
+  async deleteBlacklistEntry(id: string): Promise<ApiResponse<any>> {
+    throw new Error('Real API implementation not available yet')
+  },
+  
+  async simulateRisk(payload: RiskSimulationPayload): Promise<ApiResponse<any>> {
+    throw new Error('Real API implementation not available yet')
+  }
 }
 
-// Risk Limits API
-export const riskLimitsApi = {
-  // Get all limits
-  getList(params?: { scope?: string; type?: string } & PaginationParams) {
-    return apiClient.get<ApiResponse<PaginatedResponse<RiskLimit>>>('/admin/risk/limits', {
-      params,
-    })
+// Mock API client
+const mockApiClient = {
+  async listRiskRules(params: RiskRuleQueryParams): Promise<ApiResponse<RiskRuleListResponse>> {
+    try {
+      const mockResponse = await import('@/mock/handlers/risk').then(mod => mod.handleListRiskRules(params))
+      return {
+        success: true,
+        data: mockResponse,
+        meta: {
+          pagination: {
+            page: params.page || 1,
+            pageSize: params.pageSize || 20,
+            total: mockResponse.total || 0
+          }
+        }
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
   },
-
-  // Get limit by ID
-  getById(id: string) {
-    return apiClient.get<ApiResponse<RiskLimit>>(`/admin/risk/limits/${id}`)
+  
+  async listRiskLimits(params: RiskLimitQueryParams): Promise<ApiResponse<RiskLimitListResponse>> {
+    try {
+      const mockResponse = await import('@/mock/handlers/risk').then(mod => mod.handleListRiskLimits(params))
+      return {
+        success: true,
+        data: mockResponse,
+        meta: {
+          pagination: {
+            page: params.page || 1,
+            pageSize: params.pageSize || 20,
+            total: mockResponse.total || 0
+          }
+        }
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
   },
-
-  // Create limit
-  create(payload: Partial<RiskLimit>) {
-    return apiClient.post<ApiResponse<RiskLimit>>('/admin/risk/limits', payload)
+  
+  async listBlacklistEntries(params: BlacklistEntryQueryParams): Promise<ApiResponse<BlacklistEntryListResponse>> {
+    try {
+      const mockResponse = await import('@/mock/handlers/risk').then(mod => mod.handleListBlacklistEntries(params))
+      return {
+        success: true,
+        data: mockResponse,
+        meta: {
+          pagination: {
+            page: params.page || 1,
+            pageSize: params.pageSize || 20,
+            total: mockResponse.total || 0
+          }
+        }
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
   },
-
-  // Update limit
-  update(id: string, payload: Partial<RiskLimit>) {
-    return apiClient.put<ApiResponse<RiskLimit>>(`/admin/risk/limits/${id}`, payload)
+  
+  async getRiskRuleById(id: string): Promise<ApiResponse<RiskRuleDetailResponse>> {
+    try {
+      const mockResponse = await import('@/mock/handlers/risk').then(mod => mod.handleGetRiskRuleById(id))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
   },
-
-  // Delete limit
-  delete(id: string) {
-    return apiClient.delete<ApiResponse<void>>(`/admin/risk/limits/${id}`)
+  
+  async getRiskLimitById(id: string): Promise<ApiResponse<RiskLimitDetailResponse>> {
+    try {
+      const mockResponse = await import('@/mock/handlers/risk').then(mod => mod.handleGetRiskLimitById(id))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
   },
-
-  // Batch update limits
-  batchUpdate(payload: { limits: Array<{ id: string; enabled: boolean }> }) {
-    return apiClient.post<ApiResponse<void>>('/admin/risk/limits/batch', payload)
+  
+  async getBlacklistEntryById(id: string): Promise<ApiResponse<BlacklistEntryDetailResponse>> {
+    try {
+      const mockResponse = await import('@/mock/handlers/risk').then(mod => mod.handleGetBlacklistEntryById(id))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
   },
-
-  // Export limits
-  export(format: 'json' | 'csv') {
-    return apiClient.get<Blob>('/admin/risk/limits/export', {
-      params: { format },
-      responseType: 'blob',
-    })
+  
+  async createRiskRule(payload: CreateRiskRulePayload): Promise<ApiResponse<any>> {
+    try {
+      const mockResponse = await import('@/mock/handlers/risk').then(mod => mod.handleCreateRiskRule(payload))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
   },
+  
+  async updateRiskRule(id: string, payload: UpdateRiskRulePayload): Promise<ApiResponse<any>> {
+    try {
+      const mockResponse = await import('@/mock/handlers/risk').then(mod => mod.handleUpdateRiskRule(id, payload))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  },
+  
+  async deleteRiskRule(id: string): Promise<ApiResponse<any>> {
+    try {
+      const mockResponse = await import('@/mock/handlers/risk').then(mod => mod.handleDeleteRiskRule(id))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  },
+  
+  async createRiskLimit(payload: CreateRiskLimitPayload): Promise<ApiResponse<any>> {
+    try {
+      const mockResponse = await import('@/mock/handlers/risk').then(mod => mod.handleCreateRiskLimit(payload))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  },
+  
+  async updateRiskLimit(id: string, payload: UpdateRiskLimitPayload): Promise<ApiResponse<any>> {
+    try {
+      const mockResponse = await import('@/mock/handlers/risk').then(mod => mod.handleUpdateRiskLimit(id, payload))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  },
+  
+  async deleteRiskLimit(id: string): Promise<ApiResponse<any>> {
+    try {
+      const mockResponse = await import('@/mock/handlers/risk').then(mod => mod.handleDeleteRiskLimit(id))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  },
+  
+  async createBlacklistEntry(payload: CreateBlacklistEntryPayload): Promise<ApiResponse<any>> {
+    try {
+      const mockResponse = await import('@/mock/handlers/risk').then(mod => mod.handleCreateBlacklistEntry(payload))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  },
+  
+  async updateBlacklistEntry(id: string, payload: UpdateBlacklistEntryPayload): Promise<ApiResponse<any>> {
+    try {
+      const mockResponse = await import('@/mock/handlers/risk').then(mod => mod.handleUpdateBlacklistEntry(id, payload))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  },
+  
+  async deleteBlacklistEntry(id: string): Promise<ApiResponse<any>> {
+    try {
+      const mockResponse = await import('@/mock/handlers/risk').then(mod => mod.handleDeleteBlacklistEntry(id))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  },
+  
+  async simulateRisk(payload: RiskSimulationPayload): Promise<ApiResponse<any>> {
+    try {
+      const mockResponse = await import('@/mock/handlers/risk').then(mod => mod.handleSimulateRisk(payload))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  }
 }
 
-// Blacklist API
-export const blacklistApi = {
-  // Get blacklist entries
-  getList(params?: { type?: string; status?: string } & PaginationParams) {
-    return apiClient.get<ApiResponse<PaginatedResponse<BlacklistEntry>>>('/admin/risk/blacklist', {
-      params,
-    })
-  },
-
-  // Get entry by ID
-  getById(id: string) {
-    return apiClient.get<ApiResponse<BlacklistEntry>>(`/admin/risk/blacklist/${id}`)
-  },
-
-  // Add to blacklist
-  add(payload: Partial<BlacklistEntry>) {
-    return apiClient.post<ApiResponse<BlacklistEntry>>('/admin/risk/blacklist', payload)
-  },
-
-  // Update blacklist entry
-  update(id: string, payload: Partial<BlacklistEntry>) {
-    return apiClient.put<ApiResponse<BlacklistEntry>>(`/admin/risk/blacklist/${id}`, payload)
-  },
-
-  // Remove from blacklist
-  remove(id: string) {
-    return apiClient.delete<ApiResponse<void>>(`/admin/risk/blacklist/${id}`)
-  },
-
-  // Bulk import
-  bulkImport(file: File) {
-    const formData = new FormData()
-    formData.append('file', file)
-    return apiClient.post<ApiResponse<{ imported: number; errors: string[] }>>(
-      '/admin/risk/blacklist/bulk-import',
-      formData,
-      {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      }
-    )
-  },
-
-  // Export blacklist
-  export(format: 'json' | 'csv', type?: string) {
-    return apiClient.get<Blob>('/admin/risk/blacklist/export', {
-      params: { format, type },
-      responseType: 'blob',
-    })
-  },
-
-  // Check if value is blacklisted
-  check(type: string, value: string) {
-    return apiClient.post<ApiResponse<{ blacklisted: boolean; entry?: BlacklistEntry }>>(
-      '/admin/risk/blacklist/check',
-      {
-        type,
-        value,
-      }
-    )
-  },
+// Determine which client to use based on environment
+const isMockMode = (): boolean => {
+  return import.meta.env.VITE_USE_MOCK === 'true'
 }
+
+// Export facade functions
+export const riskApi = {
+  /**
+   * List risk rules with pagination and filtering
+   */
+  async listRiskRules(params: RiskRuleQueryParams = {}): Promise<ApiResponse<RiskRuleListResponse>> {
+    if (isMockMode()) {
+      return mockApiClient.listRiskRules(params)
+    } else {
+      return realApiClient.listRiskRules(params)
+    }
+  },
+
+  /**
+   * List risk limits with pagination and filtering
+   */
+  async listRiskLimits(params: RiskLimitQueryParams = {}): Promise<ApiResponse<RiskLimitListResponse>> {
+    if (isMockMode()) {
+      return mockApiClient.listRiskLimits(params)
+    } else {
+      return realApiClient.listRiskLimits(params)
+    }
+  },
+
+  /**
+   * List blacklist entries with pagination and filtering
+   */
+  async listBlacklistEntries(params: BlacklistEntryQueryParams = {}): Promise<ApiResponse<BlacklistEntryListResponse>> {
+    if (isMockMode()) {
+      return mockApiClient.listBlacklistEntries(params)
+    } else {
+      return realApiClient.listBlacklistEntries(params)
+    }
+  },
+
+  /**
+   * Get risk rule by ID
+   */
+  async getRiskRuleById(id: string): Promise<ApiResponse<RiskRuleDetailResponse>> {
+    if (isMockMode()) {
+      return mockApiClient.getRiskRuleById(id)
+    } else {
+      return realApiClient.getRiskRuleById(id)
+    }
+  },
+
+  /**
+   * Get risk limit by ID
+   */
+  async getRiskLimitById(id: string): Promise<ApiResponse<RiskLimitDetailResponse>> {
+    if (isMockMode()) {
+      return mockApiClient.getRiskLimitById(id)
+    } else {
+      return realApiClient.getRiskLimitById(id)
+    }
+  },
+
+  /**
+   * Get blacklist entry by ID
+   */
+  async getBlacklistEntryById(id: string): Promise<ApiResponse<BlacklistEntryDetailResponse>> {
+    if (isMockMode()) {
+      return mockApiClient.getBlacklistEntryById(id)
+    } else {
+      return realApiClient.getBlacklistEntryById(id)
+    }
+  },
+
+  /**
+   * Create risk rule
+   */
+  async createRiskRule(payload: CreateRiskRulePayload): Promise<ApiResponse<any>> {
+    if (isMockMode()) {
+      return mockApiClient.createRiskRule(payload)
+    } else {
+      return realApiClient.createRiskRule(payload)
+    }
+  },
+
+  /**
+   * Update risk rule
+   */
+  async updateRiskRule(id: string, payload: UpdateRiskRulePayload): Promise<ApiResponse<any>> {
+    if (isMockMode()) {
+      return mockApiClient.updateRiskRule(id, payload)
+    } else {
+      return realApiClient.updateRiskRule(id, payload)
+    }
+  },
+
+  /**
+   * Delete risk rule
+   */
+  async deleteRiskRule(id: string): Promise<ApiResponse<any>> {
+    if (isMockMode()) {
+      return mockApiClient.deleteRiskRule(id)
+    } else {
+      return realApiClient.deleteRiskRule(id)
+    }
+  },
+
+  /**
+   * Create risk limit
+   */
+  async createRiskLimit(payload: CreateRiskLimitPayload): Promise<ApiResponse<any>> {
+    if (isMockMode()) {
+      return mockApiClient.createRiskLimit(payload)
+    } else {
+      return realApiClient.createRiskLimit(payload)
+    }
+  },
+
+  /**
+   * Update risk limit
+   */
+  async updateRiskLimit(id: string, payload: UpdateRiskLimitPayload): Promise<ApiResponse<any>> {
+    if (isMockMode()) {
+      return mockApiClient.updateRiskLimit(id, payload)
+    } else {
+      return realApiClient.updateRiskLimit(id, payload)
+    }
+  },
+
+  /**
+   * Delete risk limit
+   */
+  async deleteRiskLimit(id: string): Promise<ApiResponse<any>> {
+    if (isMockMode()) {
+      return mockApiClient.deleteRiskLimit(id)
+    } else {
+      return realApiClient.deleteRiskLimit(id)
+    }
+  },
+
+  /**
+   * Create blacklist entry
+   */
+  async createBlacklistEntry(payload: CreateBlacklistEntryPayload): Promise<ApiResponse<any>> {
+    if (isMockMode()) {
+      return mockApiClient.createBlacklistEntry(payload)
+    } else {
+      return realApiClient.createBlacklistEntry(payload)
+    }
+  },
+
+  /**
+   * Update blacklist entry
+   */
+  async updateBlacklistEntry(id: string, payload: UpdateBlacklistEntryPayload): Promise<ApiResponse<any>> {
+    if (isMockMode()) {
+      return mockApiClient.updateBlacklistEntry(id, payload)
+    } else {
+      return realApiClient.updateBlacklistEntry(id, payload)
+    }
+  },
+
+  /**
+   * Delete blacklist entry
+   */
+  async deleteBlacklistEntry(id: string): Promise<ApiResponse<any>> {
+    if (isMockMode()) {
+      return mockApiClient.deleteBlacklistEntry(id)
+    } else {
+      return realApiClient.deleteBlacklistEntry(id)
+    }
+  },
+
+  /**
+   * Simulate risk
+   */
+  async simulateRisk(payload: RiskSimulationPayload): Promise<ApiResponse<any>> {
+    if (isMockMode()) {
+      return mockApiClient.simulateRisk(payload)
+    } else {
+      return realApiClient.simulateRisk(payload)
+    }
+  }
+}
+
+// Export individual functions for specific use cases
+export {
+  listRiskRules,
+  listRiskLimits,
+  listBlacklistEntries,
+  getRiskRuleById,
+  getRiskLimitById,
+  getBlacklistEntryById,
+  createRiskRule,
+  updateRiskRule,
+  deleteRiskRule,
+  createRiskLimit,
+  updateRiskLimit,
+  deleteRiskLimit,
+  createBlacklistEntry,
+  updateBlacklistEntry,
+  deleteBlacklistEntry,
+  simulateRisk
+} from './facade/risk'
+
+// Default export for backward compatibility
+export default riskApi

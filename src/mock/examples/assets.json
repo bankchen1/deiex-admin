@@ -1,0 +1,293 @@
+{
+  "depositList": [
+    {
+      "id": "dep_001",
+      "userId": "user_001",
+      "userNickname": "Alice Johnson",
+      "currency": "BTC",
+      "chain": "Bitcoin",
+      "txHash": "0x97ddae01a98b1974b78f56d2c9b0e3d917c8a3b1c2d4e5f6a7b8c9d0e1f2a3b4",
+      "amount": "0.50000000",
+      "status": "completed",
+      "confirmations": 6,
+      "requiredConfirmations": 6,
+      "riskFlags": [],
+      "address": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+      "createdAt": "2024-11-01T10:30:00Z",
+      "completedAt": "2024-11-01T11:15:00Z",
+      "notes": "Large deposit from cold wallet"
+    },
+    {
+      "id": "dep_002",
+      "userId": "user_002",
+      "userNickname": "Bob Smith",
+      "currency": "ETH",
+      "chain": "Ethereum",
+      "txHash": "0x86ccfd02b8a92974b78f56d2c9b0e3d917c8a3b1c2d4e5f6a7b8c9d0e1f2a3c5",
+      "amount": "5.25000000",
+      "status": "confirming",
+      "confirmations": 3,
+      "requiredConfirmations": 12,
+      "riskFlags": [],
+      "address": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      "createdAt": "2024-11-07T14:20:00Z",
+      "notes": "Regular deposit"
+    },
+    {
+      "id": "dep_003",
+      "userId": "user_003",
+      "userNickname": "Carol Davis",
+      "currency": "USDT",
+      "chain": "Tron",
+      "txHash": "0x75bbec03c9b03985c89f67ad3a1b4c8e28d9f3a1b2c3d4e5f6a7b8c9d0e1f2a4",
+      "amount": "2500.00",
+      "status": "pending",
+      "confirmations": 0,
+      "requiredConfirmations": 1,
+      "riskFlags": ["high_risk"],
+      "riskScore": 85,
+      "address": "TQrY8jt1H2n74dBvpvDh6T3X2gDGftF6zb",
+      "createdAt": "2024-11-08T09:15:00Z",
+      "notes": "Flagged for review"
+    }
+  ],
+  "withdrawalList": [
+    {
+      "id": "wd_001",
+      "userId": "user_004",
+      "userNickname": "David Wilson",
+      "currency": "BTC",
+      "chain": "Bitcoin",
+      "address": "1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2",
+      "amount": "0.25000000",
+      "fee": "0.00050000",
+      "status": "completed",
+      "riskScore": 20,
+      "matchedRules": [],
+      "approvals": [
+        {
+          "role": "admin",
+          "adminId": "admin_001",
+          "adminName": "John Admin",
+          "action": "approve",
+          "timestamp": "2024-10-30T12:30:00Z"
+        }
+      ],
+      "txHash": "0xa8eebf04d9a12974b78f56d2c9b0e3d917c8a3b1c2d4e5f6a7b8c9d0e1f2a5b6",
+      "createdAt": "2024-10-30T10:15:00Z",
+      "completedAt": "2024-10-30T14:45:00Z",
+      "notes": "VIP customer withdrawal"
+    },
+    {
+      "id": "wd_002",
+      "userId": "user_001",
+      "userNickname": "Alice Johnson",
+      "currency": "ETH",
+      "chain": "Ethereum",
+      "address": "0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B",
+      "amount": "2.50000000",
+      "fee": "0.01000000",
+      "status": "processing",
+      "riskScore": 45,
+      "matchedRules": [],
+      "approvals": [
+        {
+          "role": "supervisor",
+          "adminId": "admin_002",
+          "adminName": "Sarah Supervisor",
+          "action": "approve",
+          "timestamp": "2024-11-01T16:20:00Z"
+        }
+      ],
+      "createdAt": "2024-11-01T15:30:00Z",
+      "notes": "Standard withdrawal"
+    },
+    {
+      "id": "wd_003",
+      "userId": "user_005",
+      "userNickname": "Emma Thompson",
+      "currency": "USDT",
+      "chain": "Ethereum",
+      "address": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      "amount": "1000.00",
+      "fee": "1.00",
+      "status": "reviewing",
+      "riskScore": 80,
+      "matchedRules": ["large_amount", "new_user"],
+      "approvals": [],
+      "createdAt": "2024-11-08T08:45:00Z",
+      "notes": "Under review due to high risk score"
+    }
+  ],
+  "walletAddressList": [
+    {
+      "id": "wa_001",
+      "chain": "Bitcoin",
+      "type": "hot",
+      "address": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+      "label": "Main Hot Wallet",
+      "balance": "10.25000000",
+      "balanceUsd": 615000.00,
+      "status": "active",
+      "createdAt": "2023-01-01T00:00:00Z",
+      "lastSyncAt": "2024-11-08T09:00:00Z"
+    },
+    {
+      "id": "wa_002",
+      "chain": "Ethereum",
+      "type": "cold",
+      "address": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      "label": "Cold Storage",
+      "balance": "500.00000000",
+      "balanceUsd": 1500000.00,
+      "status": "active",
+      "createdAt": "2023-01-02T00:00:00Z",
+      "lastSyncAt": "2024-11-07T23:00:00Z"
+    },
+    {
+      "id": "wa_003",
+      "chain": "Tron",
+      "type": "hot",
+      "address": "TQrY8jt1H2n74dBvpvDh6T3X2gDGftF6zb",
+      "label": "TRC20 Hot Wallet",
+      "balance": "50000.00",
+      "balanceUsd": 50000.00,
+      "status": "maintenance",
+      "createdAt": "2023-06-01T00:00:00Z",
+      "lastSyncAt": "2024-11-05T10:00:00Z"
+    }
+  ],
+  "depositDetail": {
+    "deposit": {
+      "id": "dep_001",
+      "userId": "user_001",
+      "userNickname": "Alice Johnson",
+      "currency": "BTC",
+      "chain": "Bitcoin",
+      "txHash": "0x97ddae01a98b1974b78f56d2c9b0e3d917c8a3b1c2d4e5f6a7b8c9d0e1f2a3b4",
+      "amount": "0.50000000",
+      "status": "completed",
+      "confirmations": 6,
+      "requiredConfirmations": 6,
+      "riskFlags": [],
+      "address": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+      "createdAt": "2024-11-01T10:30:00Z",
+      "completedAt": "2024-11-01T11:15:00Z",
+      "notes": "Large deposit from cold wallet"
+    },
+    "transactionHistory": [
+      {
+        "id": "th_001",
+        "status": "received",
+        "timestamp": "2024-11-01T10:35:00Z",
+        "confirmations": 1
+      },
+      {
+        "id": "th_002",
+        "status": "confirmed",
+        "timestamp": "2024-11-01T11:00:00Z",
+        "confirmations": 6
+      }
+    ],
+    "auditTrail": [
+      {
+        "id": "at_001",
+        "action": "DEPOSIT_RECEIVED",
+        "timestamp": "2024-11-01T10:30:00Z",
+        "by": "system",
+        "details": "Deposit received on chain"
+      },
+      {
+        "id": "at_002",
+        "action": "DEPOSIT_COMPLETED",
+        "timestamp": "2024-11-01T11:15:00Z",
+        "by": "system",
+        "details": "Deposit completed and credited"
+      }
+    ]
+  },
+  "withdrawalDetail": {
+    "withdrawal": {
+      "id": "wd_001",
+      "userId": "user_004",
+      "userNickname": "David Wilson",
+      "currency": "BTC",
+      "chain": "Bitcoin",
+      "address": "1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2",
+      "amount": "0.25000000",
+      "fee": "0.00050000",
+      "status": "completed",
+      "riskScore": 20,
+      "matchedRules": [],
+      "approvals": [
+        {
+          "role": "admin",
+          "adminId": "admin_001",
+          "adminName": "John Admin",
+          "action": "approve",
+          "timestamp": "2024-10-30T12:30:00Z"
+        }
+      ],
+      "txHash": "0xa8eebf04d9a12974b78f56d2c9b0e3d917c8a3b1c2d4e5f6a7b8c9d0e1f2a5b6",
+      "createdAt": "2024-10-30T10:15:00Z",
+      "completedAt": "2024-10-30T14:45:00Z",
+      "notes": "VIP customer withdrawal"
+    },
+    "transactionHistory": [
+      {
+        "id": "th_001",
+        "status": "processing",
+        "timestamp": "2024-10-30T13:00:00Z"
+      },
+      {
+        "id": "th_002",
+        "status": "broadcast",
+        "timestamp": "2024-10-30T14:00:00Z"
+      },
+      {
+        "id": "th_003",
+        "status": "completed",
+        "timestamp": "2024-10-30T14:45:00Z"
+      }
+    ],
+    "auditTrail": [
+      {
+        "id": "at_001",
+        "action": "WITHDRAWAL_REQUESTED",
+        "timestamp": "2024-10-30T10:15:00Z",
+        "by": "user_004",
+        "details": "Withdrawal request submitted"
+      },
+      {
+        "id": "at_002",
+        "action": "WITHDRAWAL_APPROVED",
+        "timestamp": "2024-10-30T12:30:00Z",
+        "by": "admin_001",
+        "details": "Withdrawal approved by admin"
+      },
+      {
+        "id": "at_003",
+        "action": "WITHDRAWAL_PROCESSED",
+        "timestamp": "2024-10-30T14:45:00Z",
+        "by": "system",
+        "details": "Withdrawal processed and sent"
+      }
+    ]
+  },
+  "updateDepositNotesPayload": {
+    "notes": "Additional verification required, customer contacted"
+  },
+  "approveWithdrawalPayload": {
+    "notes": "Approved after manual verification"
+  },
+  "rejectWithdrawalPayload": {
+    "reason": "Identity verification failed",
+    "notes": "Customer failed to provide required documentation"
+  },
+  "createWalletAddressPayload": {
+    "chain": "Solana",
+    "address": "9WzDXwBbmkg8ZTbNMdikMzWz95MdD1uP2FfBWy6uqo7Z",
+    "label": "Solana Hot Wallet",
+    "type": "hot"
+  }
+}

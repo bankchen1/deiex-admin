@@ -11,7 +11,13 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
     "format": "prettier --write src/",
-    "prepare": "husky"
+    "prepare": "husky",
+    "route:index": "node scripts/check-routes.js",
+    "fields:scan": "node scripts/scan-fields.js",
+    "mock:check": "node scripts/validate-mocks.js",
+    "ui:lintsources": "node scripts/check-forbidden-imports.js",
+    "services:coverage": "node scripts/check-service-coverage.js",
+    "switch:test": "node scripts/test-switch-mode.js"
   },
   "dependencies": {
     "ant-design-vue": "^4.2.6",

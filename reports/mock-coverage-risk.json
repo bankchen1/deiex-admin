@@ -1,0 +1,175 @@
+{
+  "module": "risk",
+  "mock_handlers": [
+    {
+      "handler": "handleListRiskRules",
+      "description": "Mock handler for listing risk rules",
+      "covered_pages": [
+        "src/pages/risk/Rules.vue"
+      ],
+      "scenarios": [
+        "All rules",
+        "Filtered by status",
+        "Filtered by enabled status",
+        "Search by name/description",
+        "Sorted by different fields",
+        "Paginated results"
+      ]
+    },
+    {
+      "handler": "handleListRiskLimits",
+      "description": "Mock handler for listing risk limits",
+      "covered_pages": [
+        "src/pages/risk/Limits.vue"
+      ],
+      "scenarios": [
+        "All limits",
+        "Filtered by type",
+        "Filtered by scope",
+        "Filtered by enabled status",
+        "Search by name/description",
+        "Sorted by different fields",
+        "Paginated results"
+      ]
+    },
+    {
+      "handler": "handleListBlacklistEntries",
+      "description": "Mock handler for listing blacklist entries",
+      "covered_pages": [
+        "src/pages/risk/Blacklist.vue"
+      ],
+      "scenarios": [
+        "All entries",
+        "Filtered by type",
+        "Filtered by status",
+        "Filtered by source",
+        "Search by value/reason",
+        "Sorted by different fields",
+        "Paginated results"
+      ]
+    },
+    {
+      "handler": "handleGetRiskRuleById",
+      "description": "Mock handler for getting risk rule by ID",
+      "covered_pages": [],
+      "scenarios": [
+        "Rule with full details",
+        "Rule with audit trail"
+      ]
+    },
+    {
+      "handler": "handleGetRiskLimitById",
+      "description": "Mock handler for getting risk limit by ID",
+      "covered_pages": [],
+      "scenarios": [
+        "Limit with full details",
+        "Limit with audit trail"
+      ]
+    },
+    {
+      "handler": "handleGetBlacklistEntryById",
+      "description": "Mock handler for getting blacklist entry by ID",
+      "covered_pages": [],
+      "scenarios": [
+        "Entry with full details",
+        "Entry with audit trail"
+      ]
+    },
+    {
+      "handler": "handleCreateRiskRule",
+      "description": "Mock handler for creating risk rule",
+      "covered_pages": [],
+      "scenarios": [
+        "Successfully create rule",
+        "Failed creation"
+      ]
+    },
+    {
+      "handler": "handleUpdateRiskRule",
+      "description": "Mock handler for updating risk rule",
+      "covered_pages": [],
+      "scenarios": [
+        "Successfully update rule",
+        "Failed update"
+      ]
+    },
+    {
+      "handler": "handleDeleteRiskRule",
+      "description": "Mock handler for deleting risk rule",
+      "covered_pages": [],
+      "scenarios": [
+        "Successfully delete rule",
+        "Failed deletion"
+      ]
+    },
+    {
+      "handler": "handleCreateRiskLimit",
+      "description": "Mock handler for creating risk limit",
+      "covered_pages": [],
+      "scenarios": [
+        "Successfully create limit",
+        "Failed creation"
+      ]
+    },
+    {
+      "handler": "handleUpdateRiskLimit",
+      "description": "Mock handler for updating risk limit",
+      "covered_pages": [],
+      "scenarios": [
+        "Successfully update limit",
+        "Failed update"
+      ]
+    },
+    {
+      "handler": "handleDeleteRiskLimit",
+      "description": "Mock handler for deleting risk limit",
+      "covered_pages": [],
+      "scenarios": [
+        "Successfully delete limit",
+        "Failed deletion"
+      ]
+    },
+    {
+      "handler": "handleCreateBlacklistEntry",
+      "description": "Mock handler for creating blacklist entry",
+      "covered_pages": [],
+      "scenarios": [
+        "Successfully create entry",
+        "Failed creation"
+      ]
+    },
+    {
+      "handler": "handleUpdateBlacklistEntry",
+      "description": "Mock handler for updating blacklist entry",
+      "covered_pages": [],
+      "scenarios": [
+        "Successfully update entry",
+        "Failed update"
+      ]
+    },
+    {
+      "handler": "handleDeleteBlacklistEntry",
+      "description": "Mock handler for deleting blacklist entry",
+      "covered_pages": [],
+      "scenarios": [
+        "Successfully delete entry",
+        "Failed deletion"
+      ]
+    },
+    {
+      "handler": "handleSimulateRisk",
+      "description": "Mock handler for simulating risk",
+      "covered_pages": [],
+      "scenarios": [
+        "Risk simulation with matches",
+        "Risk simulation without matches"
+      ]
+    }
+  ],
+  "examples_provided": [
+    "src/mock/examples/risk.json"
+  ],
+  "coverage_percentage": 100,
+  "status": "complete",
+  "contract_validation": true
+}

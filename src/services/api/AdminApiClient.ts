@@ -3,6 +3,7 @@ import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosError } f
 import { ERROR_CODE_MAP, REQUEST_TIMEOUT } from '@/utils/constants'
 import { notificationService } from '@/services/notification'
 import type { ApiResponse } from '@/types'
+import { mockService } from '@/services/mock'
 
 class AdminApiClient {
   private axiosInstance: AxiosInstance
@@ -22,6 +23,12 @@ class AdminApiClient {
     })
 
     this.setupInterceptors()
+
+    // Enable mock mode if configured
+    if (import.meta.env.VITE_USE_MOCK === 'true') {
+      mockService.enable()
+      mockService.setupInterceptor(this.axiosInstance)
+    }
   }
 
   private setupInterceptors() {

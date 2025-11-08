@@ -68,6 +68,26 @@ export default [
       'no-control-regex': 'off',
       'no-useless-escape': 'off',
       'no-useless-catch': 'off',
+      // Facade规则：禁止直接导入API客户端和SDK
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@/services/api/AdminApiClient'],
+              message: '❌ 禁止直接使用API客户端！请使用Facade: import { ... } from "@/services/api/facade"',
+            },
+            {
+              group: ['@/services/api/_sdk'],
+              message: '❌ 禁止直接使用SDK！请使用Facade: import { ... } from "@/services/api/facade"',
+            },
+            {
+              group: ['@/services/api/users', '@/services/api/orders', '@/services/api/assets', '@/services/api/kyc', '@/services/api/config*', '@/services/api/risk', '@/services/api/ops', '@/services/api/settings'],
+              message: '❌ 禁止直接使用旧API服务！请使用Facade: import { ... } from "@/services/api/facade"',
+            },
+          ],
+        },
+      ],
     },
   },
   {

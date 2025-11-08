@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Mock Service</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        h1 { color: #4ec9b0; }
+        h2 { color: #569cd6; margin-top: 30px; }
+        .test-section {
+            background: #252526;
+            border: 1px solid #3e3e42;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .success { border-left: 4px solid #4ec9b0; }
+        .error { border-left: 4px solid #f48771; }
+        .warning { border-left: 4px solid #dcdcaa; }
+        button {
+            background: #0e639c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 2px;
+            font-family: inherit;
+        }
+        button:hover { background: #1177bb; }
+        pre {
+            background: #1e1e1e;
+            border: 1px solid #3e3e42;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #1e1e1e;
+            border-radius: 4px;
+        }
+        .log { color: #608b4e; }
+        .error-text { color: #f48771; }
+        .success-text { color: #4ec9b0; }
+    </style>
+</head>
+<body>
+    <h1>🎭 Mock Service Test Page</h1>
+    
+    <div class="test-section warning">
+        <h2>⚠️ Important</h2>
+        <p>This page must be opened from your running dev server:</p>
+        <p><strong>http://localhost:5173/test-mock.html</strong></p>
+        <p>It won't work if opened directly from file system.</p>
+    </div>
+
+    <div class="test-section">
+        <h2>Step 1: Check Environment</h2>
+        <button onclick="checkEnv()">Check Environment</button>
+        <div id="env-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Step 2: Test Direct API Call</h2>
+        <button onclick="testDirectApi()">Test Dashboard Stats API</button>
+        <div id="api-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Step 3: Test Users API</h2>
+        <button onclick="testUsersApi()">Test Users API</button>
+        <div id="users-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Step 4: Test All Endpoints</h2>
+        <button onclick="testAllEndpoints()">Test All Endpoints</button>
+        <div id="all-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Step 5: Test Store</h2>
+        <button onclick="testStore()">Test Dashboard Store</button>
+        <div id="store-result" class="result"></div>
+    </div>
+
+    <script type="module">
+        window.checkEnv = async function() {
+            const result = document.getElementById('env-result');
+            result.innerHTML = '<div class="log">Checking environment...</div>';
+            
+            try {
+                const mockMode = import.meta.env.VITE_USE_MOCK;
+                const apiBase = import.meta.env.VITE_API_BASE_URL;
+                
+                result.innerHTML = `
+                    <div class="success-text">✅ Environment loaded</div>
+                    <pre>VITE_USE_MOCK: ${mockMode}
+VITE_API_BASE_URL: ${apiBase}</pre>
+                    ${mockMode === 'true' ? 
+                        '<div class="success-text">✅ Mock mode is ENABLED</div>' : 
+                        '<div class="error-text">❌ Mock mode is DISABLED</div>'}
+                `;
+            } catch (error) {
+                result.innerHTML = `<div class="error-text">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        window.testDirectApi = async function() {
+            const result = document.getElementById('api-result');
+            result.innerHTML = '<div class="log">Testing API...</div>';
+            
+            try {
+                const { apiClient } = await import('/src/services/api/AdminApiClient.ts');
+                console.log('[Test] API Client loaded');
+                
+                const response = await apiClient.get('/admin/dashboard/stats');
+                console.log('[Test] Response:', response);
+                
+                result.innerHTML = `
+                    <div class="success-text">✅ API call successful</div>
+                    <pre>${JSON.stringify(response, null, 2)}</pre>
+                `;
+            } catch (error) {
+                console.error('[Test] Error:', error);
+                result.innerHTML = `
+                    <div class="error-text">❌ Error: ${error.message}</div>
+                    <pre>${JSON.stringify(error, null, 2)}</pre>
+                `;
+            }
+        }
+
+        window.testUsersApi = async function() {
+            const result = document.getElementById('users-result');
+            result.innerHTML = '<div class="log">Testing Users API...</div>';
+            
+            try {
+                const { apiClient } = await import('/src/services/api/AdminApiClient.ts');
+                const response = await apiClient.get('/admin/users', { params: { page: 1, pageSize: 10 } });
+                
+                result.innerHTML = `
+                    <div class="success-text">✅ Users API successful</div>
+                    <div>Total users: ${response.data?.total || 'N/A'}</div>
+                    <div>Items count: ${response.data?.items?.length || 0}</div>
+                    <pre>${JSON.stringify(response, null, 2)}</pre>
+                `;
+            } catch (error) {
+                result.innerHTML = `<div class="error-text">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        window.testAllEndpoints = async function() {
+            const result = document.getElementById('all-result');
+            result.innerHTML = '<div class="log">Testing all endpoints...</div>';
+            
+            const endpoints = [
+                '/admin/dashboard/stats',
+                '/admin/dashboard/charts',
+                '/admin/dashboard/alerts',
+                '/admin/users',
+                '/admin/kyc',
+                '/admin/deposits',
+                '/admin/withdrawals',
+                '/admin/orders'
+            ];
+            
+            let html = '';
+            
+            try {
+                const { apiClient } = await import('/src/services/api/AdminApiClient.ts');
+                
+                for (const endpoint of endpoints) {
+                    try {
+                        const response = await apiClient.get(endpoint);
+                        html += `<div class="success-text">✅ ${endpoint}</div>`;
+                        console.log(`[Test] ${endpoint}:`, response);
+                    } catch (error) {
+                        html += `<div class="error-text">❌ ${endpoint}: ${error.message}</div>`;
+                    }
+                }
+                
+                result.innerHTML = html;
+            } catch (error) {
+                result.innerHTML = `<div class="error-text">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        window.testStore = async function() {
+            const result = document.getElementById('store-result');
+            result.innerHTML = '<div class="log">Testing Dashboard Store...</div>';
+            
+            try {
+                const { useDashboardStore } = await import('/src/stores/dashboard.ts');
+                const store = useDashboardStore();
+                
+                result.innerHTML += '<div class="log">Before fetch:</div>';
+                result.innerHTML += `<pre>Stats: ${JSON.stringify(store.stats, null, 2)}
+Loading: ${store.statsLoading}
+Error: ${store.error}</pre>`;
+                
+                await store.fetchStats();
+                
+                result.innerHTML += '<div class="log">After fetch:</div>';
+                result.innerHTML += `<pre>Stats: ${JSON.stringify(store.stats, null, 2)}
+Loading: ${store.statsLoading}
+Error: ${store.error}</pre>`;
+                
+                if (store.stats) {
+                    result.innerHTML += '<div class="success-text">✅ Store loaded successfully!</div>';
+                } else {
+                    result.innerHTML += '<div class="error-text">❌ Store has no data</div>';
+                }
+            } catch (error) {
+                result.innerHTML += `<div class="error-text">❌ Error: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,21 +1,27 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { kycApi } from '@/services/api/kyc'
-import type {
-  KycQueryParams,
-  ReviewPayload,
-  BatchReviewPayload,
-  KycStats,
-} from '@/services/api/kyc'
-import type { KycApplication } from '@/types/models'
+import {
+  listApplications,
+  getApplicationById,
+  getStats,
+  approveApplication,
+  rejectApplication,
+  type KycApplicationQueryParams,
+  type ApproveKycApplicationPayload,
+  type RejectKycApplicationPayload,
+} from '@/services/api/facade'
+import type { 
+  KycApplication, 
+  KycApplicationDetailResponse,
+  KycStats 
+} from '@/contracts/kyc'
 
 export const useKycStore = defineStore('kyc', () => {
   // State
   const loading = ref(false)
-  const statsLoading = ref(false)
   const detailLoading = ref(false)
-  const reviewLoading = ref(false)
-  const exportLoading = ref(false)
+  const statsLoading = ref(false)
+  const actionLoading = ref(false)
 
   const error = ref<string | null>(null)
 
@@ -24,7 +30,7 @@ export const useKycStore = defineStore('kyc', () => {
   const currentPage = ref(1)
   const pageSize = ref(20)
 
-  const currentItem = ref<KycApplication | null>(null)
+  const currentApplication = ref<KycApplicationDetailResponse | null>(null)
   const stats = ref<KycStats | null>(null)
 
   // Getters
@@ -32,24 +38,37 @@ export const useKycStore = defineStore('kyc', () => {
   const pendingCount = computed(() => stats.value?.pending || 0)
   const approvedCount = computed(() => stats.value?.approved || 0)
   const rejectedCount = computed(() => stats.value?.rejected || 0)
+  const todaySubmissions = computed(() => stats.value?.todaySubmissions || 0)
 
   // Actions
-  async function fetchList(params: KycQueryParams = {}) {
+  async function fetchList(params: KycApplicationQueryParams = {}) {
     loading.value = true
     error.value = null
     try {
-      const response = await kycApi.getList({
+      const { data, error: err } = await listApplications({
         page: currentPage.value,
         pageSize: pageSize.value,
         ...params,
       })
-      list.value = response.data.data
-      total.value = response.data.total
-      currentPage.value = response.data.page
-      pageSize.value = response.data.pageSize
-      return response
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        list.value = []
+        total.value = 0
+        return
+      }
+
+      list.value = data.data
+      total.value = data.total
+      currentPage.value = data.page
+      pageSize.value = data.pageSize
+      return data
     } catch (e: any) {
-      error.value = e.message || 'Failed to fetch KYC list'
+      error.value = e.message || 'Failed to fetch KYC applications list'
       throw e
     } finally {
       loading.value = false
@@ -60,64 +79,24 @@ export const useKycStore = defineStore('kyc', () => {
     detailLoading.value = true
     error.value = null
     try {
-      const response = await kycApi.getById(id)
-      currentItem.value = response.data
-      return response
+      const { data, error: err } = await getApplicationById(id)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('KYC application not found')
+      }
+
+      currentApplication.value = data
+      return data
     } catch (e: any) {
-      error.value = e.message || 'Failed to fetch KYC details'
+      error.value = e.message || 'Failed to fetch KYC application details'
       throw e
     } finally {
       detailLoading.value = false
-    }
-  }
-
-  async function review(id: string, payload: ReviewPayload) {
-    reviewLoading.value = true
-    error.value = null
-    try {
-      const response = await kycApi.review(id, payload)
-
-      // Update the item in the list
-      const index = list.value.findIndex((item) => item.id === id)
-      if (index !== -1) {
-        list.value[index] = response.data
-      }
-
-      // Update current item if it's the same
-      if (currentItem.value?.id === id) {
-        currentItem.value = response.data
-      }
-
-      // Refresh stats
-      await fetchStats()
-
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to review KYC application'
-      throw e
-    } finally {
-      reviewLoading.value = false
-    }
-  }
-
-  async function batchReview(payload: BatchReviewPayload) {
-    reviewLoading.value = true
-    error.value = null
-    try {
-      const response = await kycApi.batchReview(payload)
-
-      // Refresh the list after batch operation
-      await fetchList()
-
-      // Refresh stats
-      await fetchStats()
-
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to batch review KYC applications'
-      throw e
-    } finally {
-      reviewLoading.value = false
     }
   }
 
@@ -125,9 +104,15 @@ export const useKycStore = defineStore('kyc', () => {
     statsLoading.value = true
     error.value = null
     try {
-      const response = await kycApi.getStats(params)
-      stats.value = response.data
-      return response
+      const { data, error: err } = await getStats(params)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      stats.value = data
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch KYC statistics'
       throw e
@@ -136,39 +121,73 @@ export const useKycStore = defineStore('kyc', () => {
     }
   }
 
-  async function exportData(params: KycQueryParams = {}) {
-    exportLoading.value = true
+  async function approveApplicationAction(id: string, payload: ApproveKycApplicationPayload) {
+    actionLoading.value = true
     error.value = null
     try {
-      const blob = await kycApi.export(params)
+      const { data, error: err } = await approveApplication(id, payload)
 
-      // Create download link
-      const url = window.URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
-      link.download = `kyc-export-${new Date().toISOString().split('T')[0]}.csv`
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      window.URL.revokeObjectURL(url)
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
 
-      return blob
+      if (!data) {
+        throw new Error('Failed to approve KYC application')
+      }
+
+      // Update the application in the list if it exists
+      const index = list.value.findIndex((app) => app.id === id)
+      if (index !== -1) {
+        list.value[index] = { ...list.value[index], ...data }
+      }
+
+      // Update current application if it's the same
+      if (currentApplication.value?.application.id === id) {
+        currentApplication.value.application = { ...currentApplication.value.application, ...data }
+      }
+
+      return data
     } catch (e: any) {
-      error.value = e.message || 'Failed to export KYC data'
+      error.value = e.message || 'Failed to approve KYC application'
       throw e
     } finally {
-      exportLoading.value = false
+      actionLoading.value = false
     }
   }
 
-  async function getReviewHistory(id: string) {
+  async function rejectApplicationAction(id: string, payload: RejectKycApplicationPayload) {
+    actionLoading.value = true
     error.value = null
     try {
-      const response = await kycApi.getReviewHistory(id)
-      return response.data
+      const { data, error: err } = await rejectApplication(id, payload)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('Failed to reject KYC application')
+      }
+
+      // Update the application in the list if it exists
+      const index = list.value.findIndex((app) => app.id === id)
+      if (index !== -1) {
+        list.value[index] = { ...list.value[index], ...data }
+      }
+
+      // Update current application if it's the same
+      if (currentApplication.value?.application.id === id) {
+        currentApplication.value.application = { ...currentApplication.value.application, ...data }
+      }
+
+      return data
     } catch (e: any) {
-      error.value = e.message || 'Failed to fetch review history'
+      error.value = e.message || 'Failed to reject KYC application'
       throw e
+    } finally {
+      actionLoading.value = false
     }
   }
 
@@ -183,46 +202,43 @@ export const useKycStore = defineStore('kyc', () => {
 
   function reset() {
     loading.value = false
-    statsLoading.value = false
     detailLoading.value = false
-    reviewLoading.value = false
-    exportLoading.value = false
+    statsLoading.value = false
+    actionLoading.value = false
     error.value = null
     list.value = []
     total.value = 0
     currentPage.value = 1
     pageSize.value = 20
-    currentItem.value = null
+    currentApplication.value = null
     stats.value = null
   }
 
   return {
     // State
     loading,
-    statsLoading,
     detailLoading,
-    reviewLoading,
-    exportLoading,
+    statsLoading,
+    actionLoading,
     error,
     list,
     total,
     currentPage,
     pageSize,
-    currentItem,
+    currentApplication,
     stats,
     // Getters
     hasData,
     pendingCount,
     approvedCount,
     rejectedCount,
+    todaySubmissions,
     // Actions
     fetchList,
     fetchById,
-    review,
-    batchReview,
     fetchStats,
-    exportData,
-    getReviewHistory,
+    approveApplication: approveApplicationAction,
+    rejectApplication: rejectApplicationAction,
     setPage,
     setPageSize,
     reset,

@@ -1,0 +1,362 @@
+{
+  "userList": {
+    "data": [
+      {
+        "id": "user_001",
+        "nickname": "Alice Johnson",
+        "email": "alice.johnson@example.com",
+        "phone": "+1-555-0101",
+        "kycStatus": "approved",
+        "vipLevel": 3,
+        "riskTags": ["high_value"],
+        "assetSnapshot": {
+          "totalUsd": 125000.50,
+          "availableUsd": 120000.25,
+          "frozenUsd": 5000.25,
+          "currencies": {
+            "BTC": {
+              "currency": "BTC",
+              "available": "0.56789000",
+              "frozen": "0.00100000",
+              "usdValue": 34073.40
+            },
+            "ETH": {
+              "currency": "ETH",
+              "available": "5.12345678",
+              "frozen": "0.00500000",
+              "usdValue": 15370.20
+            },
+            "USDT": {
+              "currency": "USDT",
+              "available": "75556.65",
+              "frozen": "4990.05",
+              "usdValue": 75556.65
+            }
+          }
+        },
+        "createdAt": "2023-01-15T09:30:00Z",
+        "lastLoginAt": "2024-11-01T14:22:45Z",
+        "status": "active",
+        "country": "US",
+        "registrationIp": "192.168.1.100"
+      },
+      {
+        "id": "user_002",
+        "nickname": "Bob Smith",
+        "email": "bob.smith@example.com", 
+        "phone": "+1-555-0102",
+        "kycStatus": "pending",
+        "vipLevel": 1,
+        "riskTags": ["new_user"],
+        "assetSnapshot": {
+          "totalUsd": 2500.00,
+          "availableUsd": 2500.00,
+          "frozenUsd": 0,
+          "currencies": {
+            "USDT": {
+              "currency": "USDT",
+              "available": "2500.00",
+              "frozen": "0.00",
+              "usdValue": 2500.00
+            }
+          }
+        },
+        "createdAt": "2024-10-20T11:45:30Z",
+        "lastLoginAt": "2024-11-05T08:15:20Z",
+        "status": "active",
+        "country": "CA",
+        "registrationIp": "203.0.113.5"
+      },
+      {
+        "id": "user_003",
+        "nickname": "Carol Davis",
+        "email": "carol.davis@example.com",
+        "phone": "+1-555-0103",
+        "kycStatus": "rejected",
+        "vipLevel": 0,
+        "riskTags": ["high_risk", "fraud_attempt"],
+        "assetSnapshot": {
+          "totalUsd": 0,
+          "availableUsd": 0,
+          "frozenUsd": 0,
+          "currencies": {}
+        },
+        "createdAt": "2024-08-10T16:20:15Z",
+        "lastLoginAt": "2024-08-11T10:30:45Z",
+        "status": "suspended",
+        "country": "RU",
+        "registrationIp": "198.51.100.10"
+      },
+      {
+        "id": "user_004",
+        "nickname": "David Wilson",
+        "email": "david.wilson@example.com",
+        "phone": "+1-555-0104",
+        "kycStatus": "approved",
+        "vipLevel": 5,
+        "riskTags": ["vip_client", "whitelisted"],
+        "assetSnapshot": {
+          "totalUsd": 2500000.75,
+          "availableUsd": 1800000.25,
+          "frozenUsd": 700000.50,
+          "currencies": {
+            "BTC": {
+              "currency": "BTC",
+              "available": "45.12345678",
+              "frozen": "12.00000000",
+              "usdValue": 2707407.41
+            },
+            "ETH": {
+              "currency": "ETH",
+              "available": "85.12345678",
+              "frozen": "45.00000000",
+              "usdValue": 25537.04
+            },
+            "USDT": {
+              "currency": "USDT",
+              "available": "200000.00",
+              "frozen": "50000.00",
+              "usdValue": 200000.00
+            },
+            "XRP": {
+              "currency": "XRP",
+              "available": "50000.00000000",
+              "frozen": "10000.00000000",
+              "usdValue": 20000.00
+            }
+          }
+        },
+        "createdAt": "2022-03-05T14:10:20Z",
+        "lastLoginAt": "2024-11-07T20:45:30Z",
+        "status": "active",
+        "country": "JP",
+        "registrationIp": "192.0.2.200",
+        "twoFactorEnabled": true
+      },
+      {
+        "id": "user_005",
+        "nickname": "Emma Thompson",
+        "email": "emma.thompson@example.com",
+        "phone": "+1-555-0105",
+        "kycStatus": "none",
+        "vipLevel": 0,
+        "riskTags": [],
+        "assetSnapshot": {
+          "totalUsd": 50.00,
+          "availableUsd": 50.00,
+          "frozenUsd": 0,
+          "currencies": {
+            "USDT": {
+              "currency": "USDT",
+              "available": "50.00",
+              "frozen": "0.00",
+              "usdValue": 50.00
+            }
+          }
+        },
+        "createdAt": "2024-11-05T09:15:00Z",
+        "lastLoginAt": "2024-11-05T09:15:30Z",
+        "status": "active",
+        "country": "GB",
+        "registrationIp": "203.0.113.150"
+      }
+    ],
+    "total": 1500,
+    "page": 1,
+    "pageSize": 20
+  },
+  "userDetail": {
+    "user": {
+      "id": "user_001",
+      "nickname": "Alice Johnson",
+      "email": "alice.johnson@example.com",
+      "phone": "+1-555-0101",
+      "kycStatus": "approved",
+      "vipLevel": 3,
+      "riskTags": ["high_value"],
+      "assetSnapshot": {
+        "totalUsd": 125000.50,
+        "availableUsd": 120000.25,
+        "frozenUsd": 5000.25,
+        "currencies": {
+          "BTC": {
+            "currency": "BTC",
+            "available": "0.56789000",
+            "frozen": "0.00100000",
+            "usdValue": 34073.40
+          },
+          "ETH": {
+            "currency": "ETH",
+            "available": "5.12345678",
+            "frozen": "0.00500000",
+            "usdValue": 15370.20
+          },
+          "USDT": {
+            "currency": "USDT",
+            "available": "75556.65",
+            "frozen": "4990.05",
+            "usdValue": 75556.65
+          }
+        }
+      },
+      "createdAt": "2023-01-15T09:30:00Z",
+      "lastLoginAt": "2024-11-01T14:22:45Z",
+      "status": "active",
+      "country": "US",
+      "registrationIp": "192.168.1.100",
+      "twoFactorEnabled": true
+    },
+    "loginRecords": [
+      {
+        "id": "login_001",
+        "userId": "user_001",
+        "ip": "192.168.1.100",
+        "location": "New York, US",
+        "device": "Chrome on Windows",
+        "userAgent": "Mozilla/5.0...",
+        "timestamp": "2024-11-01T14:22:45Z",
+        "success": true
+      },
+      {
+        "id": "login_002",
+        "userId": "user_001",
+        "ip": "203.0.113.25",
+        "location": "Toronto, CA",
+        "device": "Safari on iPhone",
+        "userAgent": "Mozilla/5.0...",
+        "timestamp": "2024-10-30T09:15:30Z",
+        "success": true
+      },
+      {
+        "id": "login_003",
+        "userId": "user_001",
+        "ip": "198.51.100.50",
+        "location": "Moscow, RU",
+        "device": "Firefox on Linux",
+        "userAgent": "Mozilla/5.0...",
+        "timestamp": "2024-10-28T11:30:20Z",
+        "success": false
+      }
+    ],
+    "devices": [
+      {
+        "id": "device_001",
+        "userId": "user_001",
+        "deviceId": "device_a1b2c3d4",
+        "deviceType": "desktop",
+        "deviceName": "Alice's Work Laptop",
+        "os": "Windows 10",
+        "browser": "Chrome",
+        "firstSeen": "2023-01-15T09:30:00Z",
+        "lastSeen": "2024-11-01T14:22:45Z",
+        "trusted": true
+      },
+      {
+        "id": "device_002",
+        "userId": "user_001",
+        "deviceId": "device_e5f6g7h8",
+        "deviceType": "mobile",
+        "deviceName": "Alice's iPhone",
+        "os": "iOS 17",
+        "browser": "Safari",
+        "firstSeen": "2023-06-20T10:45:00Z",
+        "lastSeen": "2024-10-30T09:15:30Z",
+        "trusted": true
+      }
+    ],
+    "chainAddresses": [
+      {
+        "id": "addr_001",
+        "chain": "Bitcoin",
+        "address": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+        "createdAt": "2023-02-01T12:00:00Z",
+        "lastUsed": "2024-10-15T08:30:00Z"
+      },
+      {
+        "id": "addr_002",
+        "chain": "Ethereum",
+        "address": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+        "createdAt": "2023-02-01T12:05:00Z",
+        "lastUsed": "2024-10-20T09:15:00Z"
+      }
+    ],
+    "recentOrders": [
+      {
+        "id": "order_001",
+        "symbol": "BTC/USDT",
+        "type": "spot",
+        "side": "buy",
+        "orderType": "limit",
+        "price": "60000.00",
+        "quantity": "0.1",
+        "filled": "0.05",
+        "status": "partial",
+        "createdAt": "2024-10-29T10:30:00Z",
+        "updatedAt": "2024-10-29T10:32:15Z"
+      }
+    ],
+    "recentPositions": [
+      {
+        "id": "pos_001",
+        "symbol": "BTC/USDT",
+        "side": "long",
+        "leverage": 5,
+        "marginMode": "isolated",
+        "entryPrice": "59500.00",
+        "markPrice": "60200.00",
+        "liquidationPrice": "57000.00",
+        "quantity": "0.05",
+        "margin": "600.00",
+        "unrealizedPnl": "35.00",
+        "riskRatio": 0.15,
+        "createdAt": "2024-10-29T10:25:00Z"
+      }
+    ],
+    "auditTrail": [
+      {
+        "id": "audit_001",
+        "action": "VIP_LEVEL_UPDATED",
+        "timestamp": "2024-09-15T14:30:00Z",
+        "by": "admin_001",
+        "details": "VIP level updated from 2 to 3"
+      },
+      {
+        "id": "audit_002",
+        "action": "RISK_TAGS_UPDATED",
+        "timestamp": "2024-08-20T09:15:00Z",
+        "by": "admin_002",
+        "details": "Added high_value tag"
+      }
+    ]
+  },
+  "userStats": {
+    "total": 1500,
+    "active": 1420,
+    "disabled": 35,
+    "suspended": 45,
+    "todayRegistrations": 12,
+    "kycPending": 89,
+    "kycApproved": 1200
+  },
+  "userVipUpdatePayload": {
+    "vipLevel": 4,
+    "reason": "Significant trading volume and loyalty",
+    "notes": "User has shown consistent activity over 2 years"
+  },
+  "userTagUpdatePayload": {
+    "tags": ["vip_client", "whitelisted"],
+    "reason": "High-value customer"
+  },
+  "user2faResetPayload": {
+    "reason": "User reported lost 2FA device",
+    "notes": "Verified with security questions"
+  },
+  "userDisablePayload": {
+    "reason": "Multiple violations of terms of service",
+    "notes": "Account locked due to suspicious activity"
+  },
+  "userEnablePayload": {
+    "reason": "User resolved issues and verified identity",
+    "notes": "Identity verification completed successfully"
+  }
+}

@@ -1,0 +1,745 @@
+{
+  "dashboard": [
+    {
+      "routeName": "Dashboard",
+      "path": "/admin/dashboard",
+      "vueFile": "src/pages/dashboard/index.vue",
+      "meta": {
+        "title": "Dashboard",
+        "icon": "DashboardOutlined",
+        "keepAlive": true
+      }
+    }
+  ],
+  "users": [
+    {
+      "routeName": "Users",
+      "path": "/admin/users",
+      "vueFile": null,
+      "meta": {
+        "title": "Users",
+        "icon": "UserOutlined",
+        "permissions": ["users.view"]
+      }
+    },
+    {
+      "routeName": "UsersList",
+      "path": "/admin/users/list",
+      "vueFile": "src/pages/users/List.vue",
+      "meta": {
+        "title": "User List",
+        "permissions": ["users.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "UserDetail",
+      "path": "/admin/users/:id",
+      "vueFile": "src/pages/users/Detail.vue",
+      "meta": {
+        "title": "User Detail",
+        "permissions": ["users.view"],
+        "keepAlive": false
+      }
+    }
+  ],
+  "kyc": [
+    {
+      "routeName": "KYC",
+      "path": "/admin/kyc",
+      "vueFile": null,
+      "meta": {
+        "title": "KYC",
+        "icon": "SafetyCertificateOutlined",
+        "permissions": ["kyc.view"]
+      }
+    },
+    {
+      "routeName": "KYCList",
+      "path": "/admin/kyc/list",
+      "vueFile": "src/pages/kyc/index.vue",
+      "meta": {
+        "title": "KYC List",
+        "permissions": ["kyc.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "KYCDetail",
+      "path": "/admin/kyc/:id",
+      "vueFile": "src/pages/kyc/Detail.vue",
+      "meta": {
+        "title": "KYC Detail",
+        "permissions": ["kyc.view"],
+        "keepAlive": false
+      }
+    }
+  ],
+  "assets": [
+    {
+      "routeName": "Assets",
+      "path": "/admin/assets",
+      "vueFile": null,
+      "meta": {
+        "title": "Assets",
+        "icon": "WalletOutlined",
+        "permissions": ["assets.view"]
+      }
+    },
+    {
+      "routeName": "Deposits",
+      "path": "/admin/assets/deposits",
+      "vueFile": "src/pages/assets/Deposits.vue",
+      "meta": {
+        "title": "Deposits",
+        "permissions": ["assets.deposits.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "Withdrawals",
+      "path": "/admin/assets/withdrawals",
+      "vueFile": "src/pages/assets/Withdrawals.vue",
+      "meta": {
+        "title": "Withdrawals",
+        "permissions": ["assets.withdrawals.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "Wallets",
+      "path": "/admin/assets/wallets",
+      "vueFile": "src/pages/assets/Wallets.vue",
+      "meta": {
+        "title": "Wallets",
+        "permissions": ["assets.wallets.view"],
+        "keepAlive": true
+      }
+    }
+  ],
+  "orders": [
+    {
+      "routeName": "Orders",
+      "path": "/admin/orders",
+      "vueFile": null,
+      "meta": {
+        "title": "Orders",
+        "icon": "TransactionOutlined",
+        "permissions": ["orders.view"]
+      }
+    },
+    {
+      "routeName": "SpotOrders",
+      "path": "/admin/orders/spot",
+      "vueFile": "src/pages/orders/SpotOrders.vue",
+      "meta": {
+        "title": "Spot Orders",
+        "permissions": ["orders.spot.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "FuturesOrders",
+      "path": "/admin/orders/futures",
+      "vueFile": "src/pages/orders/FuturesOrders.vue",
+      "meta": {
+        "title": "Futures Orders",
+        "permissions": ["orders.futures.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "Positions",
+      "path": "/admin/orders/positions",
+      "vueFile": "src/pages/orders/Positions.vue",
+      "meta": {
+        "title": "Positions",
+        "permissions": ["orders.positions.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "Liquidations",
+      "path": "/admin/orders/liquidations",
+      "vueFile": "src/pages/orders/Liquidations.vue",
+      "meta": {
+        "title": "Liquidations",
+        "permissions": ["orders.liquidations.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "CopyTrading",
+      "path": "/admin/orders/copy-trading",
+      "vueFile": "src/pages/orders/CopyTrading.vue",
+      "meta": {
+        "title": "Copy Trading",
+        "permissions": ["orders.copy-trading.view"],
+        "keepAlive": true
+      }
+    }
+  ],
+  "config": [
+    {
+      "routeName": "Config",
+      "path": "/admin/config",
+      "vueFile": null,
+      "meta": {
+        "title": "Configuration",
+        "icon": "SettingOutlined",
+        "permissions": ["config.view"]
+      }
+    },
+    {
+      "routeName": "ConfigInstruments",
+      "path": "/admin/config/instruments",
+      "vueFile": "src/pages/config/instruments/index.vue",
+      "meta": {
+        "title": "Instruments",
+        "permissions": ["config.instruments.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "ConfigMargin",
+      "path": "/admin/config/margin",
+      "vueFile": "src/pages/config/margin/index.vue",
+      "meta": {
+        "title": "Margin",
+        "permissions": ["config.margin.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "ConfigFees",
+      "path": "/admin/config/fees",
+      "vueFile": "src/pages/config/fees/index.vue",
+      "meta": {
+        "title": "Fees",
+        "permissions": ["config.fees.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "ConfigCalendar",
+      "path": "/admin/config/calendar",
+      "vueFile": "src/pages/config/calendar/index.vue",
+      "meta": {
+        "title": "Calendar",
+        "permissions": ["config.calendar.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "ConfigIcons",
+      "path": "/admin/config/icons",
+      "vueFile": "src/pages/config/icons/index.vue",
+      "meta": {
+        "title": "Icons",
+        "permissions": ["config.icons.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "ConfigMappings",
+      "path": "/admin/config/mappings",
+      "vueFile": "src/pages/config/mappings/index.vue",
+      "meta": {
+        "title": "Mappings",
+        "permissions": ["config.mappings.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "ConfigSecurity",
+      "path": "/admin/config/security",
+      "vueFile": "src/pages/config/security/index.vue",
+      "meta": {
+        "title": "Security",
+        "permissions": ["config.security.view"],
+        "keepAlive": true
+      }
+    }
+  ],
+  "risk": [
+    {
+      "routeName": "Risk",
+      "path": "/admin/risk",
+      "vueFile": null,
+      "meta": {
+        "title": "Risk",
+        "icon": "WarningOutlined",
+        "permissions": ["risk.view"]
+      }
+    },
+    {
+      "routeName": "RiskRules",
+      "path": "/admin/risk/rules",
+      "vueFile": "src/pages/risk/Rules.vue",
+      "meta": {
+        "title": "Risk Rules",
+        "permissions": ["risk.rules.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "RiskLimits",
+      "path": "/admin/risk/limits",
+      "vueFile": "src/pages/risk/Limits.vue",
+      "meta": {
+        "title": "Limits",
+        "permissions": ["risk.limits.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "Blacklist",
+      "path": "/admin/risk/blacklist",
+      "vueFile": "src/pages/risk/Blacklist.vue",
+      "meta": {
+        "title": "Blacklist",
+        "permissions": ["risk.blacklist.view"],
+        "keepAlive": true
+      }
+    }
+  ],
+  "ops": [
+    {
+      "routeName": "Ops",
+      "path": "/admin/ops",
+      "vueFile": null,
+      "meta": {
+        "title": "Operations",
+        "icon": "ToolOutlined",
+        "permissions": ["ops.view"]
+      }
+    },
+    {
+      "routeName": "Logs",
+      "path": "/admin/ops/logs",
+      "vueFile": "src/pages/ops/Logs.vue",
+      "meta": {
+        "title": "Logs",
+        "permissions": ["ops.logs.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "Tasks",
+      "path": "/admin/ops/tasks",
+      "vueFile": "src/pages/ops/Tasks.vue",
+      "meta": {
+        "title": "Tasks",
+        "permissions": ["ops.tasks.view"],
+        "keepAlive": true
+      }
+    }
+  ],
+  "reports": [
+    {
+      "routeName": "Reports",
+      "path": "/admin/reports",
+      "vueFile": null,
+      "meta": {
+        "title": "Reports",
+        "icon": "BarChartOutlined",
+        "permissions": ["reports.view"]
+      }
+    },
+    {
+      "routeName": "ReportsTrade",
+      "path": "/admin/reports/trade",
+      "vueFile": "src/pages/reports/Trade.vue",
+      "meta": {
+        "title": "Trade Reports",
+        "permissions": ["reports.trade.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "ReportsFinance",
+      "path": "/admin/reports/finance",
+      "vueFile": "src/pages/reports/Finance.vue",
+      "meta": {
+        "title": "Finance Reports",
+        "permissions": ["reports.finance.view"],
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "ReportsRetention",
+      "path": "/admin/reports/retention",
+      "vueFile": "src/pages/reports/Retention.vue",
+      "meta": {
+        "title": "Retention Reports",
+        "permissions": ["reports.retention.view"],
+        "keepAlive": true
+      }
+    }
+  ],
+  "settings": [
+    {
+      "routeName": "Settings",
+      "path": "/admin/settings",
+      "vueFile": "src/pages/settings/index.vue",
+      "meta": {
+        "title": "Settings",
+        "icon": "SettingOutlined",
+        "permissions": ["settings.view"],
+        "keepAlive": true
+      }
+    }
+  ],
+  "analytics": [
+    {
+      "routeName": "Analytics",
+      "path": "/admin/analytics",
+      "vueFile": null,
+      "meta": {
+        "title": "Analytics",
+        "icon": "BarChartOutlined",
+        "permissions": ["analytics.view"]
+      }
+    },
+    {
+      "routeName": "TradingAnalytics",
+      "path": "/admin/analytics/trading",
+      "vueFile": "src/pages/analytics/trading/index.vue",
+      "meta": {
+        "title": "Trading Analytics",
+        "permissions": ["analytics.trading.view"]
+      }
+    },
+    {
+      "routeName": "UserAnalytics",
+      "path": "/admin/analytics/users",
+      "vueFile": "src/pages/analytics/users/index.vue",
+      "meta": {
+        "title": "User Analytics",
+        "permissions": ["analytics.users.view"]
+      }
+    },
+    {
+      "routeName": "RevenueAnalytics",
+      "path": "/admin/analytics/revenue",
+      "vueFile": "src/pages/analytics/revenue/index.vue",
+      "meta": {
+        "title": "Revenue Analytics",
+        "permissions": ["analytics.revenue.view"]
+      }
+    },
+    {
+      "routeName": "UserBehaviorAnalytics",
+      "path": "/admin/analytics/user-behavior",
+      "vueFile": "src/pages/analytics/user-behavior/index.vue",
+      "meta": {
+        "title": "User Behavior",
+        "permissions": ["analytics.user-behavior.view"]
+      }
+    }
+  ],
+  "compliance": [
+    {
+      "routeName": "Compliance",
+      "path": "/admin/compliance",
+      "vueFile": null,
+      "meta": {
+        "title": "Compliance",
+        "icon": "SafetyCertificateOutlined",
+        "permissions": ["compliance.view"]
+      }
+    },
+    {
+      "routeName": "ComplianceAudit",
+      "path": "/admin/compliance/audit",
+      "vueFile": "src/pages/compliance/audit/index.vue",
+      "meta": {
+        "title": "Audit Trail",
+        "permissions": ["compliance.audit.view"]
+      }
+    }
+  ],
+  "content": [
+    {
+      "routeName": "Content",
+      "path": "/admin/content",
+      "vueFile": null,
+      "meta": {
+        "title": "Content Management",
+        "icon": "ReadOutlined",
+        "permissions": ["content.view"]
+      }
+    },
+    {
+      "routeName": "Blog",
+      "path": "/admin/content/blog",
+      "vueFile": null,
+      "meta": {
+        "title": "Blog",
+        "permissions": ["content.blog.view"]
+      }
+    },
+    {
+      "routeName": "BlogDashboard",
+      "path": "/admin/content/blog/dashboard",
+      "vueFile": "src/pages/content/blog/Dashboard.vue",
+      "meta": {
+        "title": "Dashboard",
+        "permissions": ["content.blog.view"]
+      }
+    },
+    {
+      "routeName": "BlogArticles",
+      "path": "/admin/content/blog/articles",
+      "vueFile": "src/pages/content/blog/index.vue",
+      "meta": {
+        "title": "Articles",
+        "permissions": ["content.blog.articles.view"]
+      }
+    },
+    {
+      "routeName": "BlogCategories",
+      "path": "/admin/content/blog/categories",
+      "vueFile": "src/pages/content/blog/categories.vue",
+      "meta": {
+        "title": "Categories",
+        "permissions": ["content.blog.categories.view"]
+      }
+    },
+    {
+      "routeName": "BlogComments",
+      "path": "/admin/content/blog/comments",
+      "vueFile": "src/pages/content/blog/comments.vue",
+      "meta": {
+        "title": "Comments",
+        "permissions": ["content.blog.comments.view"]
+      }
+    },
+    {
+      "routeName": "Notifications",
+      "path": "/admin/content/notifications",
+      "vueFile": "src/pages/content/notifications/index.vue",
+      "meta": {
+        "title": "Notifications",
+        "permissions": ["content.notifications.view"]
+      }
+    },
+    {
+      "routeName": "Announcements",
+      "path": "/admin/content/announcements",
+      "vueFile": "src/pages/content/announcements/index.vue",
+      "meta": {
+        "title": "Announcements",
+        "permissions": ["content.announcements.view"]
+      }
+    },
+    {
+      "routeName": "EmailMarketing",
+      "path": "/admin/content/email-marketing",
+      "vueFile": "src/pages/content/email-marketing/index.vue",
+      "meta": {
+        "title": "Email Marketing",
+        "permissions": ["content.email.view"]
+      }
+    }
+  ],
+  "market": [
+    {
+      "routeName": "Market",
+      "path": "/admin/market",
+      "vueFile": null,
+      "meta": {
+        "title": "Market",
+        "icon": "StockOutlined",
+        "permissions": ["market.view"]
+      }
+    },
+    {
+      "routeName": "MarketData",
+      "path": "/admin/market/data",
+      "vueFile": "src/pages/market/data/index.vue",
+      "meta": {
+        "title": "Market Data",
+        "permissions": ["market.data.view"]
+      }
+    },
+    {
+      "routeName": "MarketCharts",
+      "path": "/admin/market/charts",
+      "vueFile": "src/pages/market/charts/index.vue",
+      "meta": {
+        "title": "Market Charts",
+        "permissions": ["market.charts.view"]
+      }
+    },
+    {
+      "routeName": "MarketSymbols",
+      "path": "/admin/market/symbols",
+      "vueFile": "src/pages/market/symbols/index.vue",
+      "meta": {
+        "title": "Trading Symbols",
+        "permissions": ["market.symbols.view"]
+      }
+    },
+    {
+      "routeName": "MarketIndices",
+      "path": "/admin/market/indices",
+      "vueFile": "src/pages/market/indices/index.vue",
+      "meta": {
+        "title": "Market Indices",
+        "permissions": ["market.indices.view"]
+      }
+    },
+    {
+      "routeName": "MarketNews",
+      "path": "/admin/market/news",
+      "vueFile": "src/pages/market/news/index.vue",
+      "meta": {
+        "title": "Market News",
+        "permissions": ["market.news.view"]
+      }
+    },
+    {
+      "routeName": "MarketAnalysis",
+      "path": "/admin/market/analysis",
+      "vueFile": "src/pages/market/analysis/index.vue",
+      "meta": {
+        "title": "Market Analysis",
+        "permissions": ["market.analysis.view"]
+      }
+    }
+  ],
+  "monitoring": [
+    {
+      "routeName": "Monitoring",
+      "path": "/admin/monitoring",
+      "vueFile": null,
+      "meta": {
+        "title": "Monitoring",
+        "icon": "MonitorOutlined",
+        "permissions": ["monitoring.view"]
+      }
+    },
+    {
+      "routeName": "TransactionMonitoring",
+      "path": "/admin/monitoring/transactions",
+      "vueFile": "src/pages/monitoring/transactions/index.vue",
+      "meta": {
+        "title": "Transaction Monitoring",
+        "permissions": ["monitoring.transactions.view"]
+      }
+    }
+  ],
+  "strategies": [
+    {
+      "routeName": "Strategies",
+      "path": "/admin/strategies",
+      "vueFile": null,
+      "meta": {
+        "title": "Strategies",
+        "requiresAuth": true
+      }
+    },
+    {
+      "routeName": "StrategyTemplates",
+      "path": "/admin/strategies/templates",
+      "vueFile": "src/pages/strategies/templates/index.vue",
+      "meta": {
+        "title": "Strategy Templates",
+        "requiresAuth": true
+      }
+    },
+    {
+      "routeName": "StrategyInstances",
+      "path": "/admin/strategies/instances",
+      "vueFile": "src/pages/strategies/instances/index.vue",
+      "meta": {
+        "title": "Strategy Instances",
+        "requiresAuth": true
+      }
+    },
+    {
+      "routeName": "StrategyBacktest",
+      "path": "/admin/strategies/backtest",
+      "vueFile": "src/pages/strategies/backtest/index.vue",
+      "meta": {
+        "title": "Strategy Backtest",
+        "requiresAuth": true
+      }
+    },
+    {
+      "routeName": "StrategyPerformance",
+      "path": "/admin/strategies/performance",
+      "vueFile": "src/pages/strategies/performance/index.vue",
+      "meta": {
+        "title": "Strategy Performance",
+        "requiresAuth": true
+      }
+    },
+    {
+      "routeName": "StrategyMonitoring",
+      "path": "/admin/strategies/monitoring",
+      "vueFile": "src/pages/strategies/monitoring/index.vue",
+      "meta": {
+        "title": "Strategy Monitoring",
+        "requiresAuth": true
+      }
+    }
+  ],
+  "examples": [
+    {
+      "routeName": "Examples",
+      "path": "/admin/examples",
+      "vueFile": null,
+      "meta": {
+        "title": "Examples",
+        "icon": "ExperimentOutlined"
+      }
+    },
+    {
+      "routeName": "RBACGuardDemo",
+      "path": "/admin/examples/rbac-guard",
+      "vueFile": "src/pages/examples/RBACGuardDemo.vue",
+      "meta": {
+        "title": "RBAC Guard Demo",
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "SchemaFormDemo",
+      "path": "/admin/examples/schema-form",
+      "vueFile": "src/pages/examples/SchemaFormDemo.vue",
+      "meta": {
+        "title": "Schema Form Demo",
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "ServerTableDemo",
+      "path": "/admin/examples/server-table",
+      "vueFile": "src/pages/examples/ServerTableDemo.vue",
+      "meta": {
+        "title": "Server Table Demo",
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "VersionControlDemo",
+      "path": "/admin/examples/version-control",
+      "vueFile": "src/pages/examples/VersionControlDemo.vue",
+      "meta": {
+        "title": "Version Control Demo",
+        "keepAlive": true
+      }
+    },
+    {
+      "routeName": "SpecializedInputsDemo",
+      "path": "/admin/examples/specialized-inputs",
+      "vueFile": "src/pages/examples/SpecializedInputsDemo.vue",
+      "meta": {
+        "title": "Specialized Inputs Demo",
+        "keepAlive": true
+      }
+    }
+  ]
+}

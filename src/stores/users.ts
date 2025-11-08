@@ -1,15 +1,20 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { usersApi } from '@/services/api/users'
-import type {
-  UserQueryParams,
-  VipUpdatePayload,
-  TagUpdatePayload,
-  Reset2FAPayload,
-  UserStats,
-  UserDetailResponse,
-} from '@/services/api/users'
-import type { User } from '@/types/models'
+import {
+  listUsers,
+  getUserById,
+  getUserStats,
+  updateUserVip,
+  updateUserTags,
+  resetUser2FA,
+  disableUser,
+  enableUser,
+  exportUsers,
+  type UserQueryParams,
+  type UserStats,
+  type UserDetailResponse,
+} from '@/services/api/facade'
+import type { User } from '@/contracts/users'
 
 export const useUsersStore = defineStore('users', () => {
   // State
@@ -42,16 +47,28 @@ export const useUsersStore = defineStore('users', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await usersApi.getList({
+      const { data, error: err } = await listUsers({
         page: currentPage.value,
         pageSize: pageSize.value,
         ...params,
       })
-      list.value = response.data.data
-      total.value = response.data.total
-      currentPage.value = response.data.page
-      pageSize.value = response.data.pageSize
-      return response
+      
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      
+      if (!data) {
+        list.value = []
+        total.value = 0
+        return
+      }
+      
+      list.value = data.data
+      total.value = data.total
+      currentPage.value = data.page
+      pageSize.value = data.pageSize
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch users list'
       throw e
@@ -64,10 +81,44 @@ export const useUsersStore = defineStore('users', () => {
     detailLoading.value = true
     error.value = null
     try {
-      const response = await usersApi.getById(id)
-      currentUser.value = response.data.user
-      currentUserDetail.value = response.data
-      return response
+      const { data, error: err } = await getUserById(id)
+      
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      
+      if (!data) {
+        throw new Error('User not found')
+      }
+      
+      currentUser.value = data.user
+      currentUserDetail.value = data
+      return data
+    } catch (e: any) {
+      error.value = e.message || 'Failed to fetch user details'
+      throw e
+    } finally {
+      detailLoading.value = false
+    }
+  }
+
+  async function fetchUserDetail(id: string) {
+    detailLoading.value = true
+    error.value = null
+    try {
+      const { data, error: err } = await getUserById(id)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('User not found')
+      }
+
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch user details'
       throw e
@@ -80,9 +131,15 @@ export const useUsersStore = defineStore('users', () => {
     statsLoading.value = true
     error.value = null
     try {
-      const response = await usersApi.getStats(params)
-      stats.value = response.data
-      return response
+      const { data, error: err } = await getUserStats(params)
+      
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      
+      stats.value = data
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch user statistics'
       throw e
@@ -91,27 +148,36 @@ export const useUsersStore = defineStore('users', () => {
     }
   }
 
-  async function updateVip(id: string, payload: VipUpdatePayload) {
+  async function updateVip(id: string, payload: { vipLevel: number; reason: string; notes?: string }) {
     actionLoading.value = true
     error.value = null
     try {
-      const response = await usersApi.updateVip(id, payload)
+      const { data, error: err } = await updateUserVip(id, payload)
+      
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      
+      if (!data) {
+        throw new Error('Failed to update VIP level')
+      }
 
       // Update the user in the list
       const index = list.value.findIndex((user) => user.id === id)
       if (index !== -1) {
-        list.value[index] = response.data
+        list.value[index] = data
       }
 
       // Update current user if it's the same
       if (currentUser.value?.id === id) {
-        currentUser.value = response.data
+        currentUser.value = data
         if (currentUserDetail.value) {
-          currentUserDetail.value.user = response.data
+          currentUserDetail.value.user = data
         }
       }
 
-      return response
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to update VIP level'
       throw e
@@ -120,27 +186,36 @@ export const useUsersStore = defineStore('users', () => {
     }
   }
 
-  async function updateTags(id: string, payload: TagUpdatePayload) {
+  async function updateTags(id: string, payload: { tags: string[]; reason: string }) {
     actionLoading.value = true
     error.value = null
     try {
-      const response = await usersApi.updateTags(id, payload)
+      const { data, error: err } = await updateUserTags(id, payload)
+      
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      
+      if (!data) {
+        throw new Error('Failed to update risk tags')
+      }
 
       // Update the user in the list
       const index = list.value.findIndex((user) => user.id === id)
       if (index !== -1) {
-        list.value[index] = response.data
+        list.value[index] = data
       }
 
       // Update current user if it's the same
       if (currentUser.value?.id === id) {
-        currentUser.value = response.data
+        currentUser.value = data
         if (currentUserDetail.value) {
-          currentUserDetail.value.user = response.data
+          currentUserDetail.value.user = data
         }
       }
 
-      return response
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to update risk tags'
       throw e
@@ -149,27 +224,36 @@ export const useUsersStore = defineStore('users', () => {
     }
   }
 
-  async function reset2FA(id: string, payload: Reset2FAPayload) {
+  async function reset2FA(id: string, payload: { reason: string; notes?: string }) {
     actionLoading.value = true
     error.value = null
     try {
-      const response = await usersApi.reset2FA(id, payload)
+      const { data, error: err } = await resetUser2FA(id, payload)
+      
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      
+      if (!data) {
+        throw new Error('Failed to reset 2FA')
+      }
 
       // Update the user in the list
       const index = list.value.findIndex((user) => user.id === id)
       if (index !== -1) {
-        list.value[index] = response.data
+        list.value[index] = data
       }
 
       // Update current user if it's the same
       if (currentUser.value?.id === id) {
-        currentUser.value = response.data
+        currentUser.value = data
         if (currentUserDetail.value) {
-          currentUserDetail.value.user = response.data
+          currentUserDetail.value.user = data
         }
       }
 
-      return response
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to reset 2FA'
       throw e
@@ -178,27 +262,36 @@ export const useUsersStore = defineStore('users', () => {
     }
   }
 
-  async function disableUser(id: string, payload: { reason: string; notes?: string }) {
+  async function disableUserAction(id: string, payload: { reason: string; notes?: string }) {
     actionLoading.value = true
     error.value = null
     try {
-      const response = await usersApi.disableUser(id, payload)
+      const { data, error: err } = await disableUser(id, payload)
+      
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      
+      if (!data) {
+        throw new Error('Failed to disable user')
+      }
 
       // Update the user in the list
       const index = list.value.findIndex((user) => user.id === id)
       if (index !== -1) {
-        list.value[index] = response.data
+        list.value[index] = data
       }
 
       // Update current user if it's the same
       if (currentUser.value?.id === id) {
-        currentUser.value = response.data
+        currentUser.value = data
         if (currentUserDetail.value) {
-          currentUserDetail.value.user = response.data
+          currentUserDetail.value.user = data
         }
       }
 
-      return response
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to disable user'
       throw e
@@ -207,27 +300,36 @@ export const useUsersStore = defineStore('users', () => {
     }
   }
 
-  async function enableUser(id: string, payload: { reason: string; notes?: string }) {
+  async function enableUserAction(id: string, payload: { reason: string; notes?: string }) {
     actionLoading.value = true
     error.value = null
     try {
-      const response = await usersApi.enableUser(id, payload)
+      const { data, error: err } = await enableUser(id, payload)
+      
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      
+      if (!data) {
+        throw new Error('Failed to enable user')
+      }
 
       // Update the user in the list
       const index = list.value.findIndex((user) => user.id === id)
       if (index !== -1) {
-        list.value[index] = response.data
+        list.value[index] = data
       }
 
       // Update current user if it's the same
       if (currentUser.value?.id === id) {
-        currentUser.value = response.data
+        currentUser.value = data
         if (currentUserDetail.value) {
-          currentUserDetail.value.user = response.data
+          currentUserDetail.value.user = data
         }
       }
 
-      return response
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to enable user'
       throw e
@@ -240,7 +342,16 @@ export const useUsersStore = defineStore('users', () => {
     exportLoading.value = true
     error.value = null
     try {
-      const blob = await usersApi.export(params)
+      const { data: blob, error: err } = await exportUsers(params)
+      
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      
+      if (!blob) {
+        throw new Error('Failed to export users data')
+      }
 
       // Create download link
       const url = window.URL.createObjectURL(blob)
@@ -310,12 +421,13 @@ export const useUsersStore = defineStore('users', () => {
     // Actions
     fetchList,
     fetchById,
+    fetchUserDetail,
     fetchStats,
     updateVip,
     updateTags,
     reset2FA,
-    disableUser,
-    enableUser,
+    disableUser: disableUserAction,
+    enableUser: enableUserAction,
     exportData,
     setPage,
     setPageSize,

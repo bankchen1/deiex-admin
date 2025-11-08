@@ -185,7 +185,7 @@ import UserSecuritySection from '@/sections/users/UserSecuritySection.vue'
 import AdjustVipModal from '@/modals/users/AdjustVipModal.vue'
 import Reset2FAModal from '@/modals/users/Reset2FAModal.vue'
 import TagForm from '@/forms/users/TagForm.vue'
-import type { VipUpdatePayload, TagUpdatePayload, Reset2FAPayload } from '@/services/api/users'
+import type { UserVipUpdatePayload as VipUpdatePayload, UserTagUpdatePayload as TagUpdatePayload, User2FAResetPayload as Reset2FAPayload } from '@/contracts/users'
 
 const route = useRoute()
 const router = useRouter()
@@ -218,6 +218,13 @@ const enableUserForm = ref({
 const user = computed(() => usersStore.currentUser)
 const userDetail = computed(() => usersStore.currentUserDetail)
 const actionLoading = computed(() => usersStore.actionLoading)
+
+// Debug
+console.log('[User Detail Page] Initial state:', {
+  user: user.value,
+  userDetail: userDetail.value,
+  loading: loading.value,
+})
 
 // Session info (mock data - would come from API)
 const sessionInfo = computed(() => ({

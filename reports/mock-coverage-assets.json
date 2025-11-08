@@ -1,0 +1,126 @@
+{
+  "module": "assets",
+  "mock_handlers": [
+    {
+      "handler": "handleListDeposits",
+      "description": "Mock handler for listing deposits",
+      "covered_pages": [
+        "src/pages/assets/Deposits.vue"
+      ],
+      "scenarios": [
+        "All deposits",
+        "Filtered by status",
+        "Filtered by currency",
+        "Filtered by chain",
+        "Filtered by user",
+        "Search by ID/address/txHash",
+        "Sorted by different fields",
+        "Paginated results"
+      ]
+    },
+    {
+      "handler": "handleListWithdrawals",
+      "description": "Mock handler for listing withdrawals",
+      "covered_pages": [
+        "src/pages/assets/Withdrawals.vue"
+      ],
+      "scenarios": [
+        "All withdrawals",
+        "Filtered by status",
+        "Filtered by currency",
+        "Filtered by chain",
+        "Filtered by user",
+        "Search by ID/address",
+        "Sorted by different fields",
+        "Paginated results"
+      ]
+    },
+    {
+      "handler": "handleListWalletAddresses",
+      "description": "Mock handler for listing wallet addresses",
+      "covered_pages": [
+        "src/pages/assets/Wallets.vue"
+      ],
+      "scenarios": [
+        "All addresses",
+        "Filtered by type",
+        "Filtered by chain",
+        "Filtered by status",
+        "Search by address/label",
+        "Sorted by different fields",
+        "Paginated results"
+      ]
+    },
+    {
+      "handler": "handleGetDepositById",
+      "description": "Mock handler for getting deposit by ID",
+      "covered_pages": [
+        "src/modals/assets/TxDetailDrawer.vue"
+      ],
+      "scenarios": [
+        "Deposit with full details",
+        "Deposit with transaction history",
+        "Deposit with audit trail"
+      ]
+    },
+    {
+      "handler": "handleGetWithdrawalById",
+      "description": "Mock handler for getting withdrawal by ID",
+      "covered_pages": [
+        "src/modals/assets/TxDetailDrawer.vue"
+      ],
+      "scenarios": [
+        "Withdrawal with full details",
+        "Withdrawal with transaction history",
+        "Withdrawal with audit trail",
+        "Withdrawal with approval history"
+      ]
+    },
+    {
+      "handler": "handleUpdateDepositNotes",
+      "description": "Mock handler for updating deposit notes",
+      "covered_pages": [],
+      "scenarios": [
+        "Successfully update notes",
+        "Failed update"
+      ]
+    },
+    {
+      "handler": "handleApproveWithdrawal",
+      "description": "Mock handler for approving withdrawal",
+      "covered_pages": [
+        "src/modals/assets/ApproveModal.vue"
+      ],
+      "scenarios": [
+        "Successfully approve withdrawal",
+        "Failed approval"
+      ]
+    },
+    {
+      "handler": "handleRejectWithdrawal",
+      "description": "Mock handler for rejecting withdrawal",
+      "covered_pages": [
+        "src/modals/assets/RejectModal.vue"
+      ],
+      "scenarios": [
+        "Successfully reject withdrawal",
+        "Failed rejection"
+      ]
+    },
+    {
+      "handler": "handleCreateWalletAddress",
+      "description": "Mock handler for creating wallet address",
+      "covered_pages": [],
+      "scenarios": [
+        "Successfully create address",
+        "Failed creation"
+      ]
+    }
+  ],
+  "examples_provided": [
+    "src/mock/examples/assets.json"
+  ],
+  "coverage_percentage": 100,
+  "status": "complete",
+  "contract_validation": true
+}

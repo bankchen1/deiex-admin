@@ -43,21 +43,21 @@
         <!-- Number range filter -->
         <a-space v-else-if="filter.type === 'number-range'" :size="8">
           <a-input-number
-            v-model:value="filterValues[filter.key]?.[0]"
+            :value="(filterValues[filter.key] as number[])?.[0]"
             :placeholder="filter.placeholder?.[0] || 'Min'"
             :style="{ width: filter.width || '120px' }"
             :min="filter.min"
             :max="filter.max"
-            @change="handleFilterChange"
+            @update:value="(val) => updateNumberRange(filter.key, 0, val)"
           />
           <span>-</span>
           <a-input-number
-            v-model:value="filterValues[filter.key]?.[1]"
+            :value="(filterValues[filter.key] as number[])?.[1]"
             :placeholder="filter.placeholder?.[1] || 'Max'"
             :style="{ width: filter.width || '120px' }"
             :min="filter.min"
             :max="filter.max"
-            @change="handleFilterChange"
+            @update:value="(val) => updateNumberRange(filter.key, 1, val)"
           />
         </a-space>
 
@@ -206,6 +206,16 @@ function handleSearch(): void {
   }
 
   emit('search', searchQuery.value, { ...filterValues })
+}
+
+// Update number range value
+function updateNumberRange(key: string, index: number, value: number | undefined): void {
+  if (!filterValues[key]) {
+    filterValues[key] = [undefined, undefined]
+  }
+  const arr = filterValues[key] as (number | undefined)[]
+  arr[index] = value
+  handleFilterChange()
 }
 
 // Handle filter change

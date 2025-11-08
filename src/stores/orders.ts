@@ -1,18 +1,44 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import {
-  ordersApi,
-  type Order,
-  type FuturesOrder,
-  type Position,
-  type Liquidation,
-  type CopyTradingRelation,
+  listSpotOrders,
+  listFuturesOrders,
+  listPositions,
+  listLiquidations,
+  getSpotOrderById,
+  getFuturesOrderById,
+  getPositionById,
+  getLiquidationById,
+  exportSpotOrders,
+  exportFuturesOrders,
   type OrderQueryParams,
   type PositionQueryParams,
-  type LiquidationQueryParams,
-  type CopyTradingQueryParams,
-} from '@/services/api/orders'
-import type { PaginatedResponse } from '@/types/api'
+} from '@/services/api/facade'
+import type {
+  Order,
+  FuturesOrder,
+  Position,
+  Liquidation,
+  CopyTradingRelation,
+} from '@/types/models'
+
+// 临时类型定义（等待Facade支持）
+type LiquidationQueryParams = {
+  page?: number
+  pageSize?: number
+  symbol?: string
+  userId?: string
+  startDate?: string
+  endDate?: string
+}
+
+type CopyTradingQueryParams = {
+  page?: number
+  pageSize?: number
+  masterId?: string
+  followerId?: string
+  status?: string
+}
 
 export const useOrdersStore = defineStore('orders', () => {
   // State - Spot Orders
@@ -49,10 +75,16 @@ export const useOrdersStore = defineStore('orders', () => {
   async function fetchSpotOrders(params: OrderQueryParams) {
     spotOrdersLoading.value = true
     try {
-      const response: PaginatedResponse<Order> = await ordersApi.getSpotOrders(params)
-      spotOrders.value = response.data
-      spotOrdersTotal.value = response.total
-      return response
+      const { data, error } = await listSpotOrders(params)
+      if (error) throw new Error(error.message)
+      if (!data) {
+        spotOrders.value = []
+        spotOrdersTotal.value = 0
+        return
+      }
+      spotOrders.value = data.data
+      spotOrdersTotal.value = data.total
+      return data
     } finally {
       spotOrdersLoading.value = false
     }
@@ -61,16 +93,19 @@ export const useOrdersStore = defineStore('orders', () => {
   async function fetchSpotOrderById(id: string) {
     spotOrdersLoading.value = true
     try {
-      const response = await ordersApi.getSpotOrderById(id)
-      currentSpotOrder.value = response.data
-      return response
+      const { data, error } = await getSpotOrderById(id)
+      if (error) throw new Error(error.message)
+      currentSpotOrder.value = data
+      return data
     } finally {
       spotOrdersLoading.value = false
     }
   }
 
-  async function exportSpotOrders(params: OrderQueryParams) {
-    const blob = await ordersApi.exportSpotOrders(params)
+  async function exportSpotOrdersAction(params: OrderQueryParams) {
+    const { data: blob, error } = await exportSpotOrders(params)
+    if (error) throw new Error(error.message)
+    if (!blob) throw new Error('Failed to export')
     const url = window.URL.createObjectURL(blob)
     const link = document.createElement('a')
     link.href = url
@@ -83,10 +118,16 @@ export const useOrdersStore = defineStore('orders', () => {
   async function fetchFuturesOrders(params: OrderQueryParams) {
     futuresOrdersLoading.value = true
     try {
-      const response: PaginatedResponse<FuturesOrder> = await ordersApi.getFuturesOrders(params)
-      futuresOrders.value = response.data
-      futuresOrdersTotal.value = response.total
-      return response
+      const { data, error } = await listFuturesOrders(params)
+      if (error) throw new Error(error.message)
+      if (!data) {
+        futuresOrders.value = []
+        futuresOrdersTotal.value = 0
+        return
+      }
+      futuresOrders.value = data.data
+      futuresOrdersTotal.value = data.total
+      return data
     } finally {
       futuresOrdersLoading.value = false
     }
@@ -95,16 +136,19 @@ export const useOrdersStore = defineStore('orders', () => {
   async function fetchFuturesOrderById(id: string) {
     futuresOrdersLoading.value = true
     try {
-      const response = await ordersApi.getFuturesOrderById(id)
-      currentFuturesOrder.value = response.data
-      return response
+      const { data, error } = await getFuturesOrderById(id)
+      if (error) throw new Error(error.message)
+      currentFuturesOrder.value = data
+      return data
     } finally {
       futuresOrdersLoading.value = false
     }
   }
 
-  async function exportFuturesOrders(params: OrderQueryParams) {
-    const blob = await ordersApi.exportFuturesOrders(params)
+  async function exportFuturesOrdersAction(params: OrderQueryParams) {
+    const { data: blob, error } = await exportFuturesOrders(params)
+    if (error) throw new Error(error.message)
+    if (!blob) throw new Error('Failed to export')
     const url = window.URL.createObjectURL(blob)
     const link = document.createElement('a')
     link.href = url
@@ -117,10 +161,16 @@ export const useOrdersStore = defineStore('orders', () => {
   async function fetchPositions(params: PositionQueryParams) {
     positionsLoading.value = true
     try {
-      const response: PaginatedResponse<Position> = await ordersApi.getPositions(params)
-      positions.value = response.data
-      positionsTotal.value = response.total
-      return response
+      const { data, error } = await listPositions(params)
+      if (error) throw new Error(error.message)
+      if (!data) {
+        positions.value = []
+        positionsTotal.value = 0
+        return
+      }
+      positions.value = data.data
+      positionsTotal.value = data.total
+      return data
     } finally {
       positionsLoading.value = false
     }
@@ -129,32 +179,34 @@ export const useOrdersStore = defineStore('orders', () => {
   async function fetchPositionById(id: string) {
     positionsLoading.value = true
     try {
-      const response = await ordersApi.getPositionById(id)
-      currentPosition.value = response.data
-      return response
+      const { data, error } = await getPositionById(id)
+      if (error) throw new Error(error.message)
+      currentPosition.value = data
+      return data
     } finally {
       positionsLoading.value = false
     }
   }
 
-  async function exportPositions(params: PositionQueryParams) {
-    const blob = await ordersApi.exportPositions(params)
-    const url = window.URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `positions-${Date.now()}.csv`
-    link.click()
-    window.URL.revokeObjectURL(url)
+  async function exportPositionsAction(params: PositionQueryParams) {
+    // TODO: 等待Facade支持positions导出
+    throw new Error('Export positions not implemented yet')
   }
 
   // Actions - Liquidations
   async function fetchLiquidations(params: LiquidationQueryParams) {
     liquidationsLoading.value = true
     try {
-      const response: PaginatedResponse<Liquidation> = await ordersApi.getLiquidations(params)
-      liquidations.value = response.data
-      liquidationsTotal.value = response.total
-      return response
+      const { data, error } = await listLiquidations(params)
+      if (error) throw new Error(error.message)
+      if (!data) {
+        liquidations.value = []
+        liquidationsTotal.value = 0
+        return
+      }
+      liquidations.value = data.data
+      liquidationsTotal.value = data.total
+      return data
     } finally {
       liquidationsLoading.value = false
     }
@@ -162,10 +214,24 @@ export const useOrdersStore = defineStore('orders', () => {
 
   async function fetchLiquidationById(id: string) {
     liquidationsLoading.value = true
+    error.value = null
     try {
-      const response = await ordersApi.getLiquidationById(id)
-      currentLiquidation.value = response.data
-      return response
+      const { data, error: err } = await getLiquidationById(id)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('Liquidation not found')
+      }
+
+      currentLiquidation.value = data
+      return data
+    } catch (e: any) {
+      error.value = e.message || 'Failed to fetch liquidation details'
+      throw e
     } finally {
       liquidationsLoading.value = false
     }

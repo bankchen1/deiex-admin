@@ -1,158 +1,399 @@
-import { apiClient } from './AdminApiClient'
-import type { ApiResponse, PaginatedResponse } from '@/types/api'
-import type {
-  User,
-  LoginRecord,
-  DeviceInfo,
-  ChainAddress,
-  UserOrder,
-  UserPosition,
-  AuditRecord,
-} from '@/types/models'
+/**
+ * Users API Service
+ * 
+ * Facade functions for Users module covering all read/write operations
+ * Internal switching between Mock/Real based on environment
+ */
 
-// Query Parameters
-export interface UserQueryParams {
-  page?: number
-  pageSize?: number
-  status?: 'active' | 'disabled' | 'suspended' | 'all'
-  vipLevel?: number
-  kycStatus?: 'none' | 'pending' | 'approved' | 'rejected'
-  tags?: string[]
-  search?: string
-  startDate?: string
-  endDate?: string
-  sortField?: string
-  sortOrder?: 'asc' | 'desc'
+import type { 
+  UserListResponse, 
+  UserDetailResponse, 
+  UserStats, 
+  UserQueryParams, 
+  UserVipUpdatePayload, 
+  UserTagUpdatePayload, 
+  User2FAResetPayload, 
+  UserDisablePayload, 
+  UserEnablePayload,
+  UserExportResponse,
+  ApiResponse
+} from '@/contracts/users'
+
+// Real API client (to be replaced with actual SDK)
+const realApiClient = {
+  async listUsers(params: UserQueryParams): Promise<ApiResponse<UserListResponse>> {
+    // Placeholder for real API call
+    // const response = await sdk.users.listUsers(params)
+    // return response
+    throw new Error('Real API implementation not available yet')
+  },
+  
+  async getUserById(id: string): Promise<ApiResponse<UserDetailResponse>> {
+    // Placeholder for real API call
+    // const response = await sdk.users.getUserById(id)
+    // return response
+    throw new Error('Real API implementation not available yet')
+  },
+  
+  async getUserStats(params?: { startDate?: string; endDate?: string }): Promise<ApiResponse<UserStats>> {
+    // Placeholder for real API call
+    // const response = await sdk.users.getUserStats(params)
+    // return response
+    throw new Error('Real API implementation not available yet')
+  },
+  
+  async updateUserVip(id: string, payload: UserVipUpdatePayload): Promise<ApiResponse<any>> {
+    // Placeholder for real API call
+    // const response = await sdk.users.updateUserVip(id, payload)
+    // return response
+    throw new Error('Real API implementation not available yet')
+  },
+  
+  async updateUserTags(id: string, payload: UserTagUpdatePayload): Promise<ApiResponse<any>> {
+    // Placeholder for real API call
+    // const response = await sdk.users.updateUserTags(id, payload)
+    // return response
+    throw new Error('Real API implementation not available yet')
+  },
+  
+  async resetUser2FA(id: string, payload: User2FAResetPayload): Promise<ApiResponse<any>> {
+    // Placeholder for real API call
+    // const response = await sdk.users.resetUser2FA(id, payload)
+    // return response
+    throw new Error('Real API implementation not available yet')
+  },
+  
+  async disableUser(id: string, payload: UserDisablePayload): Promise<ApiResponse<any>> {
+    // Placeholder for real API call
+    // const response = await sdk.users.disableUser(id, payload)
+    // return response
+    throw new Error('Real API implementation not available yet')
+  },
+  
+  async enableUser(id: string, payload: UserEnablePayload): Promise<ApiResponse<any>> {
+    // Placeholder for real API call
+    // const response = await sdk.users.enableUser(id, payload)
+    // return response
+    throw new Error('Real API implementation not available yet')
+  },
+  
+  async exportUsers(params: UserQueryParams): Promise<ApiResponse<UserExportResponse>> {
+    // Placeholder for real API call
+    // const response = await sdk.users.exportUsers(params)
+    // return response
+    throw new Error('Real API implementation not available yet')
+  }
 }
 
-// User Statistics
-export interface UserStats {
-  total: number
-  active: number
-  disabled: number
-  suspended: number
-  todayRegistrations: number
-  kycPending: number
-  kycApproved: number
+// Mock API client
+const mockApiClient = {
+  async listUsers(params: UserQueryParams): Promise<ApiResponse<UserListResponse>> {
+    try {
+      // In mock mode, call the mock handler
+      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleListUsers(params))
+      return {
+        success: true,
+        data: mockResponse,
+        meta: {
+          pagination: {
+            page: params.page || 1,
+            pageSize: params.pageSize || 20,
+            total: mockResponse.total || 0
+          }
+        }
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  },
+  
+  async getUserById(id: string): Promise<ApiResponse<UserDetailResponse>> {
+    try {
+      // In mock mode, call the mock handler
+      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleGetUserById(id))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  },
+  
+  async getUserStats(params?: { startDate?: string; endDate?: string }): Promise<ApiResponse<UserStats>> {
+    try {
+      // In mock mode, call the mock handler
+      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleGetUserStats(params))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  },
+  
+  async updateUserVip(id: string, payload: UserVipUpdatePayload): Promise<ApiResponse<any>> {
+    try {
+      // In mock mode, call the mock handler
+      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleUpdateUserVip(id, payload))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  },
+  
+  async updateUserTags(id: string, payload: UserTagUpdatePayload): Promise<ApiResponse<any>> {
+    try {
+      // In mock mode, call the mock handler
+      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleUpdateUserTags(id, payload))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  },
+  
+  async resetUser2FA(id: string, payload: User2FAResetPayload): Promise<ApiResponse<any>> {
+    try {
+      // In mock mode, call the mock handler
+      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleResetUser2FA(id, payload))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  },
+  
+  async disableUser(id: string, payload: UserDisablePayload): Promise<ApiResponse<any>> {
+    try {
+      // In mock mode, call the mock handler
+      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleDisableUser(id, payload))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  },
+  
+  async enableUser(id: string, payload: UserEnablePayload): Promise<ApiResponse<any>> {
+    try {
+      // In mock mode, call the mock handler
+      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleEnableUser(id, payload))
+      return {
+        success: true,
+        data: mockResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  },
+  
+  async exportUsers(params: UserQueryParams): Promise<ApiResponse<UserExportResponse>> {
+    try {
+      // In mock mode, call the mock handler
+      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleExportUsers(params))
+      return {
+        success: true,
+        data: mockResponse as UserExportResponse
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: {
+          code: 'MOCK_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          details: error
+        }
+      }
+    }
+  }
 }
 
-// VIP Update Payload
-export interface VipUpdatePayload {
-  vipLevel: number
-  reason: string
-  notes?: string
+// Determine which client to use based on environment
+const isMockMode = (): boolean => {
+  return import.meta.env.VITE_USE_MOCK === 'true'
 }
 
-// Tag Update Payload
-export interface TagUpdatePayload {
-  tags: string[]
-  reason: string
-}
-
-// Reset 2FA Payload
-export interface Reset2FAPayload {
-  reason: string
-  notes?: string
-}
-
-// User Detail Response
-export interface UserDetailResponse {
-  user: User
-  loginRecords: LoginRecord[]
-  devices: DeviceInfo[]
-  chainAddresses: ChainAddress[]
-  recentOrders: UserOrder[]
-  recentPositions: UserPosition[]
-  auditTrail: AuditRecord[]
-}
-
+// Export facade functions
 export const usersApi = {
-  // Get users list with pagination and filters
-  getList(params: UserQueryParams) {
-    return apiClient.get<ApiResponse<PaginatedResponse<User>>>('/admin/users', {
-      params,
-    })
+  /**
+   * List users with pagination and filtering
+   */
+  async listUsers(params: UserQueryParams = {}): Promise<ApiResponse<UserListResponse>> {
+    if (isMockMode()) {
+      return mockApiClient.listUsers(params)
+    } else {
+      return realApiClient.listUsers(params)
+    }
   },
 
-  // Get user by ID with full details
-  getById(id: string) {
-    return apiClient.get<ApiResponse<UserDetailResponse>>(`/admin/users/${id}`)
+  /**
+   * Get user by ID
+   */
+  async getById(id: string): Promise<ApiResponse<UserDetailResponse>> {
+    if (isMockMode()) {
+      return mockApiClient.getUserById(id)
+    } else {
+      return realApiClient.getUserById(id)
+    }
   },
 
-  // Get user statistics
-  getStats(params?: { startDate?: string; endDate?: string }) {
-    return apiClient.get<ApiResponse<UserStats>>('/admin/users/stats', { params })
+  /**
+   * Get user statistics
+   */
+  async getStats(params?: { startDate?: string; endDate?: string }): Promise<ApiResponse<UserStats>> {
+    if (isMockMode()) {
+      return mockApiClient.getUserStats(params)
+    } else {
+      return realApiClient.getUserStats(params)
+    }
   },
 
-  // Update user VIP level (requires dual approval)
-  updateVip(id: string, payload: VipUpdatePayload) {
-    return apiClient.post<ApiResponse<User>>(`/admin/users/${id}/vip`, payload)
+  /**
+   * Update user VIP level
+   */
+  async updateVip(id: string, payload: UserVipUpdatePayload): Promise<ApiResponse<any>> {
+    if (isMockMode()) {
+      return mockApiClient.updateUserVip(id, payload)
+    } else {
+      return realApiClient.updateUserVip(id, payload)
+    }
   },
 
-  // Update user risk tags
-  updateTags(id: string, payload: TagUpdatePayload) {
-    return apiClient.post<ApiResponse<User>>(`/admin/users/${id}/tags`, payload)
+  /**
+   * Update user risk tags
+   */
+  async updateTags(id: string, payload: UserTagUpdatePayload): Promise<ApiResponse<any>> {
+    if (isMockMode()) {
+      return mockApiClient.updateUserTags(id, payload)
+    } else {
+      return realApiClient.updateUserTags(id, payload)
+    }
   },
 
-  // Reset user 2FA
-  reset2FA(id: string, payload: Reset2FAPayload) {
-    return apiClient.post<ApiResponse<User>>(`/admin/users/${id}/reset-2fa`, payload)
+  /**
+   * Reset user 2FA
+   */
+  async reset2FA(id: string, payload: User2FAResetPayload): Promise<ApiResponse<any>> {
+    if (isMockMode()) {
+      return mockApiClient.resetUser2FA(id, payload)
+    } else {
+      return realApiClient.resetUser2FA(id, payload)
+    }
   },
 
-  // Get user login records
-  getLoginRecords(id: string, params?: { page?: number; pageSize?: number }) {
-    return apiClient.get<ApiResponse<PaginatedResponse<LoginRecord>>>(`/admin/users/${id}/logins`, {
-      params,
-    })
+  /**
+   * Disable user account
+   */
+  async disable(id: string, payload: UserDisablePayload): Promise<ApiResponse<any>> {
+    if (isMockMode()) {
+      return mockApiClient.disableUser(id, payload)
+    } else {
+      return realApiClient.disableUser(id, payload)
+    }
   },
 
-  // Get user devices
-  getDevices(id: string) {
-    return apiClient.get<ApiResponse<DeviceInfo[]>>(`/admin/users/${id}/devices`)
+  /**
+   * Enable user account
+   */
+  async enable(id: string, payload: UserEnablePayload): Promise<ApiResponse<any>> {
+    if (isMockMode()) {
+      return mockApiClient.enableUser(id, payload)
+    } else {
+      return realApiClient.enableUser(id, payload)
+    }
   },
 
-  // Get user chain addresses
-  getChainAddresses(id: string) {
-    return apiClient.get<ApiResponse<ChainAddress[]>>(`/admin/users/${id}/addresses`)
-  },
-
-  // Get user recent orders
-  getRecentOrders(
-    id: string,
-    params?: { page?: number; pageSize?: number; type?: 'spot' | 'futures' }
-  ) {
-    return apiClient.get<ApiResponse<PaginatedResponse<UserOrder>>>(`/admin/users/${id}/orders`, {
-      params,
-    })
-  },
-
-  // Get user recent positions
-  getRecentPositions(id: string) {
-    return apiClient.get<ApiResponse<UserPosition[]>>(`/admin/users/${id}/positions`)
-  },
-
-  // Get user audit trail
-  getAuditTrail(id: string, params?: { page?: number; pageSize?: number }) {
-    return apiClient.get<ApiResponse<PaginatedResponse<AuditRecord>>>(`/admin/users/${id}/audit`, {
-      params,
-    })
-  },
-
-  // Export users data
-  export(params: UserQueryParams) {
-    return apiClient.get<Blob>('/admin/users/export', {
-      params,
-      responseType: 'blob',
-    })
-  },
-
-  // Disable user account
-  disableUser(id: string, payload: { reason: string; notes?: string }) {
-    return apiClient.post<ApiResponse<User>>(`/admin/users/${id}/disable`, payload)
-  },
-
-  // Enable user account
-  enableUser(id: string, payload: { reason: string; notes?: string }) {
-    return apiClient.post<ApiResponse<User>>(`/admin/users/${id}/enable`, payload)
-  },
+  /**
+   * Export users data
+   */
+  async export(params: UserQueryParams = {}): Promise<ApiResponse<UserExportResponse>> {
+    if (isMockMode()) {
+      return mockApiClient.exportUsers(params)
+    } else {
+      return realApiClient.exportUsers(params)
+    }
+  }
 }
+
+// Export individual functions for specific use cases
+export {
+  listUsers,
+  getUserById,
+  getUserStats,
+  updateUserVip,
+  updateUserTags,
+  resetUser2FA,
+  disableUser,
+  enableUser,
+  exportUsers
+} from './facade/users'
+
+// Default export for backward compatibility
+export default usersApi

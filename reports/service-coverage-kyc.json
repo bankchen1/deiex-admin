@@ -1,0 +1,51 @@
+{
+  "module": "kyc",
+  "facade_functions": [
+    {
+      "function": "kycApi.listApplications",
+      "description": "List KYC applications with pagination and filtering",
+      "covered_pages": [
+        "src/pages/kyc/index.vue"
+      ],
+      "operations": ["read"]
+    },
+    {
+      "function": "kycApi.getApplicationById",
+      "description": "Get KYC application by ID",
+      "covered_pages": [
+        "src/pages/kyc/Detail.vue",
+        "src/modals/kyc/ReviewDrawer.vue"
+      ],
+      "operations": ["read"]
+    },
+    {
+      "function": "kycApi.getStats",
+      "description": "Get KYC statistics",
+      "covered_pages": [
+        "src/pages/kyc/index.vue"
+      ],
+      "operations": ["read"]
+    },
+    {
+      "function": "kycApi.approveApplication",
+      "description": "Approve KYC application",
+      "covered_pages": [
+        "src/modals/kyc/ReviewDrawer.vue"
+      ],
+      "operations": ["update"]
+    },
+    {
+      "function": "kycApi.rejectApplication",
+      "description": "Reject KYC application",
+      "covered_pages": [
+        "src/modals/kyc/ReviewDrawer.vue"
+      ],
+      "operations": ["update"]
+    }
+  ],
+  "coverage_percentage": 100,
+  "total_pages": 3,
+  "covered_pages": 3,
+  "uncovered_pages": [],
+  "status": "complete"
+}

@@ -223,7 +223,7 @@
     <!-- Funding Rule Drawer -->
     <EditFundingDrawer
       v-model:open="fundingDrawerVisible"
-      :funding="currentFunding"
+      :funding="editingFunding"
       :mode="fundingDrawerMode"
       :loading="calendarStore.loading"
       @submit="handleFundingSubmit"
@@ -233,7 +233,7 @@
     <!-- Maintenance Drawer -->
     <EditMaintenanceDrawer
       v-model:open="maintenanceDrawerVisible"
-      :maintenance="currentMaintenance"
+      :maintenance="editingMaintenance"
       :mode="maintenanceDrawerMode"
       :loading="calendarStore.loading"
       @submit="handleMaintenanceSubmit"
@@ -243,7 +243,7 @@
     <!-- Announcement Drawer -->
     <EditAnnouncementDrawer
       v-model:open="announcementDrawerVisible"
-      :announcement="currentAnnouncement"
+      :announcement="editingAnnouncement"
       :mode="announcementDrawerMode"
       :loading="calendarStore.loading"
       @submit="handleAnnouncementSubmit"
@@ -301,15 +301,15 @@ const selectedAnnouncements = ref<Announcement[]>([])
 
 const fundingDrawerVisible = ref(false)
 const fundingDrawerMode = ref<'create' | 'edit' | 'view'>('create')
-const currentFunding = ref<FundingRule | null>(null)
+const editingFunding = ref<FundingRule | null>(null)
 
 const maintenanceDrawerVisible = ref(false)
 const maintenanceDrawerMode = ref<'create' | 'edit' | 'view'>('create')
-const currentMaintenance = ref<MaintenanceWindow | null>(null)
+const editingMaintenance = ref<MaintenanceWindow | null>(null)
 
 const announcementDrawerVisible = ref(false)
 const announcementDrawerMode = ref<'create' | 'edit' | 'view'>('create')
-const currentAnnouncement = ref<Announcement | null>(null)
+const editingAnnouncement = ref<Announcement | null>(null)
 
 const publishModalVisible = ref(false)
 const diffModalVisible = ref(false)
@@ -384,19 +384,19 @@ watch(announcementStatus, async (newStatus) => {
 
 // Funding handlers
 function handleCreateFunding() {
-  currentFunding.value = null
+  editingFunding.value = null
   fundingDrawerMode.value = 'create'
   fundingDrawerVisible.value = true
 }
 
 function handleEditFunding(record: FundingRule) {
-  currentFunding.value = record
+  editingFunding.value = record
   fundingDrawerMode.value = 'edit'
   fundingDrawerVisible.value = true
 }
 
 function handleViewFunding(record: FundingRule) {
-  currentFunding.value = record
+  editingFunding.value = record
   fundingDrawerMode.value = 'view'
   fundingDrawerVisible.value = true
 }
@@ -440,7 +440,7 @@ async function handleFundingSubmit(payload: any) {
 
 function handleFundingDrawerClose() {
   fundingDrawerVisible.value = false
-  currentFunding.value = null
+  editingFunding.value = null
 }
 
 function handleFetchFunding(params: TableParams) {
@@ -464,19 +464,19 @@ function handleFundingSelectionChange(keys: string[], rows: FundingRule[]) {
 
 // Maintenance handlers
 function handleCreateMaintenance() {
-  currentMaintenance.value = null
+  editingMaintenance.value = null
   maintenanceDrawerMode.value = 'create'
   maintenanceDrawerVisible.value = true
 }
 
 function handleEditMaintenance(record: MaintenanceWindow) {
-  currentMaintenance.value = record
+  editingMaintenance.value = record
   maintenanceDrawerMode.value = 'edit'
   maintenanceDrawerVisible.value = true
 }
 
 function handleViewMaintenance(record: MaintenanceWindow) {
-  currentMaintenance.value = record
+  editingMaintenance.value = record
   maintenanceDrawerMode.value = 'view'
   maintenanceDrawerVisible.value = true
 }
@@ -520,7 +520,7 @@ async function handleMaintenanceSubmit(payload: any) {
 
 function handleMaintenanceDrawerClose() {
   maintenanceDrawerVisible.value = false
-  currentMaintenance.value = null
+  editingMaintenance.value = null
 }
 
 function handleFetchMaintenance(params: TableParams) {
@@ -544,19 +544,19 @@ function handleMaintenanceSelectionChange(keys: string[], rows: MaintenanceWindo
 
 // Announcement handlers
 function handleCreateAnnouncement() {
-  currentAnnouncement.value = null
+  editingAnnouncement.value = null
   announcementDrawerMode.value = 'create'
   announcementDrawerVisible.value = true
 }
 
 function handleEditAnnouncement(record: Announcement) {
-  currentAnnouncement.value = record
+  editingAnnouncement.value = record
   announcementDrawerMode.value = 'edit'
   announcementDrawerVisible.value = true
 }
 
 function handleViewAnnouncement(record: Announcement) {
-  currentAnnouncement.value = record
+  editingAnnouncement.value = record
   announcementDrawerMode.value = 'view'
   announcementDrawerVisible.value = true
 }
@@ -600,7 +600,7 @@ async function handleAnnouncementSubmit(payload: any) {
 
 function handleAnnouncementDrawerClose() {
   announcementDrawerVisible.value = false
-  currentAnnouncement.value = null
+  editingAnnouncement.value = null
 }
 
 function handleFetchAnnouncements(params: TableParams) {

@@ -1,0 +1,212 @@
+{
+  "applicationList": [
+    {
+      "id": "kyc_001",
+      "userId": "user_001",
+      "country": "US",
+      "submittedAt": "2024-11-01T09:30:00Z",
+      "status": "approved",
+      "score": 95,
+      "matchedRules": [],
+      "documents": [
+        {
+          "type": "id_front",
+          "url": "https://example.com/docs/id_front_001.jpg",
+          "verificationStatus": "verified"
+        },
+        {
+          "type": "id_back", 
+          "url": "https://example.com/docs/id_back_001.jpg",
+          "verificationStatus": "verified"
+        },
+        {
+          "type": "selfie",
+          "url": "https://example.com/docs/selfie_001.jpg", 
+          "verificationStatus": "verified"
+        }
+      ],
+      "reviewHistory": [],
+      "firstName": "Alice",
+      "lastName": "Johnson",
+      "dateOfBirth": "1990-05-15",
+      "nationality": "US",
+      "address": "123 Main St",
+      "city": "New York",
+      "postalCode": "10001",
+      "reviewedAt": "2024-11-01T14:22:45Z",
+      "reviewedBy": "admin_001",
+      "reviewNotes": "All documents verified successfully",
+      "riskLevel": "low"
+    },
+    {
+      "id": "kyc_002",
+      "userId": "user_002",
+      "country": "CA",
+      "submittedAt": "2024-11-05T11:45:00Z",
+      "status": "pending",
+      "score": 65,
+      "matchedRules": ["new_user"],
+      "documents": [
+        {
+          "type": "id_front",
+          "url": "https://example.com/docs/id_front_002.jpg",
+          "verificationStatus": "pending"
+        },
+        {
+          "type": "selfie",
+          "url": "https://example.com/docs/selfie_002.jpg",
+          "verificationStatus": "pending"
+        }
+      ],
+      "reviewHistory": [],
+      "firstName": "Bob",
+      "lastName": "Smith",
+      "dateOfBirth": "1985-12-03",
+      "nationality": "CA",
+      "address": "456 Oak Ave",
+      "city": "Toronto",
+      "postalCode": "M4W 1N5"
+    },
+    {
+      "id": "kyc_003",
+      "userId": "user_003",
+      "country": "RU",
+      "submittedAt": "2024-11-07T16:20:00Z",
+      "status": "rejected",
+      "score": 30,
+      "matchedRules": ["high_risk_country"],
+      "documents": [
+        {
+          "type": "id_front",
+          "url": "https://example.com/docs/id_front_003.jpg",
+          "verificationStatus": "failed"
+        },
+        {
+          "type": "proof_of_address",
+          "url": "https://example.com/docs/address_003.jpg",
+          "verificationStatus": "failed"
+        }
+      ],
+      "reviewHistory": [],
+      "firstName": "Carol",
+      "lastName": "Davis",
+      "dateOfBirth": "1992-08-22",
+      "nationality": "RU",
+      "address": "789 Red Square",
+      "city": "Moscow",
+      "postalCode": "103000",
+      "reviewedAt": "2024-11-08T10:15:00Z",
+      "reviewedBy": "admin_002",
+      "reviewNotes": "Document verification failed, possible fraud",
+      "riskLevel": "high"
+    }
+  ],
+  "applicationDetail": {
+    "application": {
+      "id": "kyc_001",
+      "userId": "user_001",
+      "country": "US",
+      "submittedAt": "2024-11-01T09:30:00Z",
+      "status": "approved",
+      "score": 95,
+      "matchedRules": [],
+      "documents": [
+        {
+          "type": "id_front",
+          "url": "https://example.com/docs/id_front_001.jpg",
+          "verificationStatus": "verified",
+          "ocrData": {
+            "documentNumber": "A12345678",
+            "expiryDate": "2028-05-15",
+            "fullName": "Alice Johnson"
+          }
+        },
+        {
+          "type": "id_back",
+          "url": "https://example.com/docs/id_back_001.jpg", 
+          "verificationStatus": "verified"
+        },
+        {
+          "type": "selfie",
+          "url": "https://example.com/docs/selfie_001.jpg",
+          "verificationStatus": "verified"
+        }
+      ],
+      "reviewHistory": [
+        {
+          "id": "review_001",
+          "adminId": "admin_001",
+          "adminName": "John Admin",
+          "action": "approved",
+          "timestamp": "2024-11-01T14:22:45Z",
+          "notes": "All documents verified successfully"
+        }
+      ],
+      "firstName": "Alice",
+      "lastName": "Johnson",
+      "dateOfBirth": "1990-05-15",
+      "nationality": "US",
+      "address": "123 Main St",
+      "city": "New York",
+      "postalCode": "10001",
+      "reviewedAt": "2024-11-01T14:22:45Z",
+      "reviewedBy": "admin_001",
+      "reviewNotes": "All documents verified successfully",
+      "riskLevel": "low"
+    },
+    "user": {
+      "id": "user_001",
+      "nickname": "Alice Johnson",
+      "email": "alice.johnson@example.com",
+      "phone": "+1-555-0101",
+      "kycStatus": "approved",
+      "vipLevel": 3,
+      "riskTags": ["high_value"],
+      "createdAt": "2023-01-15T09:30:00Z",
+      "lastLoginAt": "2024-11-01T14:22:45Z",
+      "status": "active"
+    },
+    "reviewHistory": [
+      {
+        "id": "review_001",
+        "adminId": "admin_001",
+        "adminName": "John Admin",
+        "action": "approved",
+        "timestamp": "2024-11-01T14:22:45Z",
+        "notes": "All documents verified successfully"
+      }
+    ],
+    "auditTrail": [
+      {
+        "id": "audit_001",
+        "action": "KYC_SUBMITTED",
+        "timestamp": "2024-11-01T09:30:00Z",
+        "by": "user_001",
+        "details": "KYC application submitted with documents"
+      },
+      {
+        "id": "audit_002",
+        "action": "KYC_APPROVED",
+        "timestamp": "2024-11-01T14:22:45Z",
+        "by": "admin_001",
+        "details": "KYC application approved by admin review"
+      }
+    ]
+  },
+  "kycStats": {
+    "total": 1250,
+    "pending": 245,
+    "approved": 950,
+    "rejected": 55,
+    "todaySubmissions": 12,
+    "avgProcessingTime": 4.5
+  },
+  "approveApplicationPayload": {
+    "reviewNotes": "All documents verified successfully",
+    "riskLevel": "low"
+  },
+  "rejectApplicationPayload": {
+    "reason": "Document verification failed",
+    "reviewNotes": "ID document appears to be fraudulent"
+  }
+}

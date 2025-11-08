@@ -18,7 +18,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 interface Props {
   confirmTitle?: string
@@ -37,13 +36,11 @@ interface Emits {
   (e: 'confirm'): void | Promise<void>
 }
 
-const { t } = useI18n()
-
 const props = withDefaults(defineProps<Props>(), {
-  confirmTitle: () => t('messages.confirmAction'),
+  confirmTitle: 'Confirm Action',
   confirmDescription: '',
-  okText: () => t('common.confirm'),
-  cancelText: () => t('common.cancel'),
+  okText: 'Confirm',
+  cancelText: 'Cancel',
   okType: 'primary',
   type: 'default',
   danger: false,

@@ -1,0 +1,741 @@
+{
+  "users": {
+    "User": [
+      "id",
+      "nickname", 
+      "email",
+      "phone",
+      "kycStatus",
+      "vipLevel",
+      "riskTags",
+      "assetSnapshot",
+      "createdAt",
+      "lastLoginAt",
+      "status",
+      "country",
+      "registrationIp",
+      "twoFactorEnabled",
+      "total",
+      "active",
+      "todayRegistrations",
+      "kycPending"
+    ],
+    "AssetSnapshot": [
+      "totalUsd",
+      "availableUsd", 
+      "frozenUsd",
+      "currencies"
+    ],
+    "CurrencyBalance": [
+      "currency",
+      "available",
+      "frozen", 
+      "usdValue"
+    ],
+    "LoginRecord": [
+      "id",
+      "userId",
+      "ip",
+      "location", 
+      "device",
+      "userAgent",
+      "timestamp",
+      "success"
+    ],
+    "DeviceInfo": [
+      "id", 
+      "userId",
+      "deviceId",
+      "deviceType",
+      "deviceName",
+      "os",
+      "browser",
+      "firstSeen",
+      "lastSeen",
+      "trusted"
+    ],
+    "pages": [
+      "src/pages/users/List.vue",
+      "src/pages/users/Detail.vue"
+    ],
+    "forms": [
+      "src/forms/users/VipUpdateForm.vue",
+      "src/forms/users/TagForm.vue"
+    ],
+    "tables": [
+      "src/tables/users/UserTable.vue"
+    ],
+    "modals": [
+      "src/modals/users/QuickViewDrawer.vue",
+      "src/modals/users/AdjustVipModal.vue",
+      "src/modals/users/Reset2FAModal.vue"
+    ]
+  },
+  "kyc": {
+    "KycApplication": [
+      "id",
+      "userId", 
+      "country",
+      "submittedAt",
+      "status",
+      "score",
+      "matchedRules",
+      "documents",
+      "reviewHistory",
+      "firstName",
+      "lastName", 
+      "dateOfBirth",
+      "nationality",
+      "address",
+      "city",
+      "postalCode",
+      "reviewedAt",
+      "reviewedBy",
+      "reviewNotes",
+      "riskLevel"
+    ],
+    "KycDocument": [
+      "type",
+      "url", 
+      "ocrData",
+      "verificationStatus"
+    ],
+    "pages": [
+      "src/pages/kyc/index.vue",
+      "src/pages/kyc/Detail.vue"
+    ],
+    "tables": [
+      "src/tables/kyc/KycTable.vue"
+    ],
+    "modals": [
+      "src/modals/kyc/ReviewDrawer.vue"
+    ]
+  },
+  "assets": {
+    "Deposit": [
+      "id",
+      "userId",
+      "userNickname",
+      "currency",
+      "chain", 
+      "txHash",
+      "amount",
+      "status",
+      "confirmations",
+      "requiredConfirmations",
+      "riskFlags",
+      "riskScore",
+      "address",
+      "createdAt",
+      "completedAt",
+      "notes"
+    ],
+    "Withdrawal": [
+      "id", 
+      "userId",
+      "userNickname",
+      "currency",
+      "chain",
+      "address",
+      "amount",
+      "fee",
+      "status",
+      "riskScore",
+      "matchedRules",
+      "approvals",
+      "txHash",
+      "createdAt",
+      "completedAt",
+      "rejectedReason",
+      "notes"
+    ],
+    "Approval": [
+      "role",
+      "adminId",
+      "adminName", 
+      "action",
+      "reason",
+      "timestamp"
+    ],
+    "WalletAddress": [
+      "id",
+      "chain",
+      "type", 
+      "address",
+      "label",
+      "balance",
+      "balanceUsd",
+      "status",
+      "createdAt",
+      "lastSyncAt"
+    ],
+    "ChainHealth": [
+      "chain",
+      "status", 
+      "blockHeight",
+      "lastBlockTime",
+      "syncStatus",
+      "nodeCount",
+      "issues"
+    ],
+    "RetryTask": [
+      "id",
+      "type",
+      "transactionId",
+      "chain", 
+      "attempts",
+      "maxAttempts",
+      "lastError",
+      "nextRetryAt",
+      "createdAt"
+    ],
+    "pages": [
+      "src/pages/assets/Deposits.vue",
+      "src/pages/assets/Withdrawals.vue", 
+      "src/pages/assets/Wallets.vue",
+      "src/pages/assets/Overview.vue"
+    ],
+    "tables": [
+      "src/tables/assets/DepositTable.vue",
+      "src/tables/assets/WithdrawalTable.vue",
+      "src/tables/assets/BalanceTable.vue",
+      "src/tables/assets/CurrencyBalanceTable.vue",
+      "src/tables/assets/AddressTable.vue",
+      "src/tables/assets/LargeTransactionTable.vue",
+      "src/tables/assets/RetryQueueTable.vue"
+    ],
+    "modals": [
+      "src/modals/assets/TxDetailDrawer.vue",
+      "src/modals/assets/ApproveModal.vue",
+      "src/modals/assets/RejectModal.vue"
+    ]
+  },
+  "orders": {
+    "Order": [
+      "id",
+      "userId",
+      "userNickname",
+      "symbol",
+      "type",
+      "side",
+      "orderType",
+      "price",
+      "quantity",
+      "filled",
+      "status",
+      "errorCode",
+      "matchingLatency",
+      "createdAt",
+      "updatedAt"
+    ],
+    "FuturesOrder": [
+      "id",
+      "userId",
+      "userNickname",
+      "symbol",
+      "type",
+      "side",
+      "orderType",
+      "price",
+      "quantity",
+      "filled",
+      "status",
+      "errorCode",
+      "matchingLatency",
+      "createdAt",
+      "updatedAt",
+      "leverage",
+      "marginMode",
+      "positionSide",
+      "liquidationPrice",
+      "fundingImpact"
+    ],
+    "Position": [
+      "id",
+      "userId",
+      "userNickname",
+      "symbol",
+      "side",
+      "leverage",
+      "marginMode",
+      "entryPrice",
+      "markPrice",
+      "liquidationPrice",
+      "quantity",
+      "margin",
+      "unrealizedPnl",
+      "riskRatio",
+      "createdAt"
+    ],
+    "Liquidation": [
+      "id",
+      "userId",
+      "userNickname",
+      "symbol",
+      "side",
+      "leverage",
+      "entryPrice",
+      "liquidationPrice",
+      "quantity",
+      "loss",
+      "timestamp",
+      "reason"
+    ],
+    "CopyTradingRelation": [
+      "id",
+      "followerId",
+      "followerNickname",
+      "traderId",
+      "traderNickname",
+      "copyRatio",
+      "maxPositionSize",
+      "stopLossRatio",
+      "profitShareRatio",
+      "status",
+      "totalProfit",
+      "createdAt"
+    ],
+    "pages": [
+      "src/pages/orders/SpotOrders.vue",
+      "src/pages/orders/FuturesOrders.vue",
+      "src/pages/orders/Positions.vue",
+      "src/pages/orders/Liquidations.vue",
+      "src/pages/orders/CopyTrading.vue"
+    ],
+    "tables": [
+      "src/tables/orders/SpotOrderTable.vue",
+      "src/tables/orders/FuturesOrderTable.vue",
+      "src/tables/orders/PositionTable.vue",
+      "src/tables/orders/LiquidationTable.vue",
+      "src/tables/orders/CopyTradingTable.vue"
+    ],
+    "modals": [
+      "src/modals/orders/OrderDetailDrawer.vue"
+    ]
+  },
+  "config": {
+    "Instrument": [
+      "symbol",
+      "displayName",
+      "base",
+      "quote",
+      "type",
+      "pricePrecision",
+      "qtyStep",
+      "minOrder",
+      "visible",
+      "rank",
+      "region",
+      "tags",
+      "feeTemplateId",
+      "marginTemplateId",
+      "iconId",
+      "status",
+      "version",
+      "createdAt",
+      "updatedAt",
+      "maxOrder",
+      "maxPosition",
+      "priceTickSize",
+      "oracleSource",
+      "indexSymbol",
+      "maxLeverage",
+      "maintenanceMarginRate"
+    ],
+    "MarginTier": [
+      "notionalFrom",
+      "notionalTo",
+      "initialMarginRate",
+      "maintenanceMarginRate",
+      "maxLeverage"
+    ],
+    "MarginTemplate": [
+      "id",
+      "name",
+      "description",
+      "tiers",
+      "status",
+      "version",
+      "createdAt",
+      "updatedAt"
+    ],
+    "MarginBinding": [
+      "symbol",
+      "templateId",
+      "templateName",
+      "status",
+      "version",
+      "updatedAt"
+    ],
+    "TradingFeeTemplate": [
+      "id",
+      "vipLevel",
+      "makerRate",
+      "takerRate",
+      "inheritFromPrevious",
+      "description",
+      "status",
+      "version",
+      "createdAt",
+      "updatedAt"
+    ],
+    "WithdrawalFeeTemplate": [
+      "id",
+      "currency",
+      "chain",
+      "fixedFee",
+      "percentageFee",
+      "minFee",
+      "dailyLimit",
+      "description",
+      "status",
+      "version",
+      "createdAt",
+      "updatedAt"
+    ],
+    "FeeQueryParams": [
+      "page",
+      "pageSize",
+      "sortField",
+      "sortOrder",
+      "status",
+      "vipLevel",
+      "currency",
+      "chain"
+    ],
+    "TradingFeeCreatePayload": [
+      "vipLevel",
+      "makerRate",
+      "takerRate",
+      "inheritFromPrevious",
+      "description"
+    ],
+    "TradingFeeUpdatePayload": [
+      "makerRate",
+      "takerRate",
+      "inheritFromPrevious",
+      "description"
+    ],
+    "WithdrawalFeeCreatePayload": [
+      "currency",
+      "chain",
+      "fixedFee",
+      "percentageFee",
+      "minFee",
+      "dailyLimit",
+      "description"
+    ],
+    "WithdrawalFeeUpdatePayload": [
+      "fixedFee",
+      "percentageFee",
+      "minFee",
+      "dailyLimit",
+      "description"
+    ],
+    "FeeCalculationParams": [
+      "type",
+      "vipLevel",
+      "tradingVolume",
+      "symbol",
+      "currency",
+      "chain",
+      "amount"
+    ],
+    "FeeCalculationResult": [
+      "type",
+      "vipLevel",
+      "makerFee",
+      "takerFee",
+      "withdrawalFee",
+      "effectiveRate",
+      "breakdown"
+    ],
+    "FundingRule": [
+      "id",
+      "symbol",
+      "period",
+      "nextFundingTime",
+      "calculationRule",
+      "enabled",
+      "status",
+      "version",
+      "createdAt",
+      "updatedAt"
+    ],
+    "MaintenanceWindow": [
+      "id",
+      "title",
+      "description",
+      "startTime",
+      "endTime",
+      "affectedScope",
+      "announcementPush",
+      "status",
+      "version",
+      "createdAt",
+      "updatedAt"
+    ],
+    "Announcement": [
+      "id",
+      "title",
+      "content",
+      "type",
+      "pinned",
+      "pushChannels",
+      "publishTime",
+      "status",
+      "version",
+      "createdAt",
+      "updatedAt"
+    ],
+    "pages": [
+      "src/pages/config/instruments/index.vue",
+      "src/pages/config/margin/index.vue",
+      "src/pages/config/fees/index.vue",
+      "src/pages/config/calendar/index.vue",
+      "src/pages/config/icons/index.vue",
+      "src/pages/config/mappings/index.vue",
+      "src/pages/config/security/index.vue"
+    ],
+    "forms": [
+      "src/forms/instruments/InstrumentForm.vue",
+      "src/forms/margin/TemplateForm.vue",
+      "src/forms/margin/BindingForm.vue",
+      "src/forms/fees/TradingTierForm.vue",
+      "src/forms/fees/WithdrawFeeForm.vue",
+      "src/forms/calendar/AnnouncementForm.vue",
+      "src/forms/calendar/MaintenanceForm.vue",
+      "src/forms/calendar/FundingRuleForm.vue",
+      "src/forms/icons/IconAssetForm.vue",
+      "src/forms/icons/IconMappingForm.vue",
+      "src/forms/icons/BulkUploadForm.vue",
+      "src/forms/mappings/NavApiForm.vue",
+      "src/forms/mappings/PageApiForm.vue",
+      "src/forms/mappings/RedirectForm.vue",
+      "src/forms/security/AdminUserForm.vue",
+      "src/forms/security/ApiKeyForm.vue",
+      "src/forms/security/IpWhitelistForm.vue",
+      "src/forms/security/RoleForm.vue"
+    ],
+    "tables": [
+      "src/tables/instruments/InstrumentTable.vue",
+      "src/tables/margin/TemplateTable.vue",
+      "src/tables/margin/BindingTable.vue",
+      "src/tables/fees/TradingFeeTable.vue",
+      "src/tables/fees/WithdrawalFeeTable.vue",
+      "src/tables/calendar/AnnouncementTable.vue",
+      "src/tables/calendar/MaintenanceTable.vue",
+      "src/tables/calendar/FundingScheduleTable.vue",
+      "src/tables/icons/IconAssetTable.vue",
+      "src/tables/icons/IconMappingTable.vue",
+      "src/tables/mappings/NavToApiTable.vue",
+      "src/tables/mappings/RedirectTable.vue",
+      "src/tables/security/AdminUsersTable.vue",
+      "src/tables/security/ApiKeysTable.vue",
+      "src/tables/security/IpWhitelistTable.vue",
+      "src/tables/security/RolesTable.vue"
+    ],
+    "modals": [
+      "src/modals/instruments/EditInstrumentDrawer.vue",
+      "src/modals/instruments/BulkImportModal.vue",
+      "src/modals/instruments/PublishModal.vue",
+      "src/modals/margin/EditTemplateDrawer.vue",
+      "src/modals/margin/BulkBindModal.vue",
+      "src/modals/margin/DiffModal.vue",
+      "src/modals/margin/PublishModal.vue",
+      "src/modals/margin/VersionModal.vue",
+      "src/modals/fees/EditWithdrawalFeeDrawer.vue",
+      "src/modals/fees/BulkImportModal.vue",
+      "src/modals/fees/DiffModal.vue",
+      "src/modals/fees/NewTierModal.vue",
+      "src/modals/fees/PublishModal.vue",
+      "src/modals/calendar/EditAnnouncementDrawer.vue",
+      "src/modals/calendar/EditMaintenanceDrawer.vue",
+      "src/modals/calendar/EditFundingDrawer.vue",
+      "src/modals/calendar/DiffModal.vue",
+      "src/modals/calendar/PublishModal.vue",
+      "src/modals/icons/PreviewModal.vue",
+      "src/modals/icons/ReplaceModal.vue",
+      "src/modals/mappings/EditMappingModal.vue",
+      "src/modals/mappings/BulkSyncModal.vue",
+      "src/modals/security/EditAdminUserDrawer.vue",
+      "src/modals/security/EditRoleDrawer.vue",
+      "src/modals/security/AssignPermModal.vue",
+      "src/modals/security/DisableAdminModal.vue"
+    ]
+  },
+  "risk": {
+    "RiskCondition": [
+      "field",
+      "operator",
+      "value"
+    ],
+    "RiskAction": [
+      "type",
+      "params"
+    ],
+    "RiskRule": [
+      "id",
+      "name",
+      "description",
+      "conditions",
+      "actions",
+      "priority",
+      "enabled",
+      "status",
+      "version",
+      "createdAt",
+      "updatedAt",
+      "createdBy",
+      "matchCount",
+      "lastMatchedAt"
+    ],
+    "RiskLimit": [
+      "id",
+      "name",
+      "description",
+      "scope",
+      "scopeValue",
+      "type",
+      "period",
+      "threshold",
+      "currency",
+      "enabled",
+      "effectiveFrom",
+      "effectiveTo",
+      "createdAt",
+      "updatedAt",
+      "createdBy",
+      "currentUsage",
+      "usagePercentage"
+    ],
+    "BlacklistEntry": [
+      "id",
+      "type",
+      "value",
+      "reason",
+      "source",
+      "status",
+      "addedBy",
+      "addedAt",
+      "expiresAt",
+      "removedAt",
+      "removedBy",
+      "notes",
+      "matchCount",
+      "lastMatchedAt"
+    ],
+    "RiskSimulationResult": [
+      "matched",
+      "matchedRules",
+      "actions",
+      "timestamp"
+    ],
+    "pages": [
+      "src/pages/risk/Rules.vue",
+      "src/pages/risk/Limits.vue",
+      "src/pages/risk/Blacklist.vue"
+    ],
+    "tables": [
+      "src/tables/risk/RiskRuleTable.vue"
+    ],
+    "forms": [
+      "src/forms/risk/RiskRuleForm.vue",
+      "src/forms/risk/LimitForm.vue",
+      "src/forms/risk/BlacklistForm.vue"
+    ],
+    "modals": [
+      "src/modals/risk/BulkImportModal.vue"
+    ]
+  },
+  "reports": {
+    "pages": [
+      "src/pages/reports/Trade.vue",
+      "src/pages/reports/Finance.vue",
+      "src/pages/reports/Retention.vue"
+    ],
+    "tables": [
+      "src/tables/reports/TradeDailyTable.vue",
+      "src/tables/reports/SymbolVolumeTable.vue",
+      "src/tables/reports/FeeIncomeTable.vue",
+      "src/tables/reports/FinanceDailyTable.vue",
+      "src/tables/reports/RetentionTable.vue",
+      "src/tables/reports/FunnelTable.vue"
+    ]
+  },
+  "ops": {
+    "AuditRecord": [
+      "id",
+      "adminId",
+      "adminName",
+      "action",
+      "objectType",
+      "objectId",
+      "before",
+      "after",
+      "ip",
+      "userAgent",
+      "timestamp"
+    ],
+    "Version": [
+      "id",
+      "version",
+      "createdAt",
+      "createdBy",
+      "notes",
+      "tags"
+    ],
+    "pages": [
+      "src/pages/ops/Logs.vue",
+      "src/pages/ops/Tasks.vue"
+    ],
+    "tables": [
+      "src/tables/ops/AuditLogTable.vue",
+      "src/tables/ops/SystemLogTable.vue",
+      "src/tables/ops/ErrorLogTable.vue",
+      "src/tables/ops/RetryQueueTable.vue",
+      "src/tables/ops/TaskTable.vue"
+    ],
+    "modals": [
+      "src/modals/ops/LogDetailDrawer.vue",
+      "src/modals/ops/TaskScheduleModal.vue",
+      "src/modals/ops/RunNowModal.vue",
+      "src/modals/ops/DisableTaskModal.vue"
+    ]
+  },
+  "dashboard": {
+    "pages": [
+      "src/pages/dashboard/index.vue"
+    ]
+  },
+  "settings": {
+    "AdminUser": [
+      "id",
+      "username",
+      "email",
+      "roles",
+      "permissions",
+      "avatar",
+      "lastLoginAt",
+      "status"
+    ],
+    "pages": [
+      "src/pages/settings/index.vue",
+      "src/pages/settings/General.vue",
+      "src/pages/settings/Theme.vue",
+      "src/pages/settings/I18n.vue",
+      "src/pages/settings/CacheAndSwitches.vue"
+    ],
+    "tables": [
+      "src/tables/settings/I18nKeyTable.vue"
+    ],
+    "forms": [
+      "src/forms/settings/GeneralSettingForm.vue",
+      "src/forms/settings/ThemeForm.vue",
+      "src/forms/settings/I18nEntryForm.vue"
+    ],
+    "modals": [
+      "src/modals/settings/BulkI18nImportModal.vue"
+    ]
+  }
+}

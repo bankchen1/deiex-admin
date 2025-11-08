@@ -1,0 +1,77 @@
+{
+  "module": "kyc",
+  "mock_handlers": [
+    {
+      "handler": "handleListApplications",
+      "description": "Mock handler for listing KYC applications",
+      "covered_pages": [
+        "src/pages/kyc/index.vue"
+      ],
+      "scenarios": [
+        "All applications",
+        "Filtered by status",
+        "Filtered by country",
+        "Filtered by risk level",
+        "Filtered by user",
+        "Search by name/ID",
+        "Sorted by different fields",
+        "Paginated results"
+      ]
+    },
+    {
+      "handler": "handleGetApplicationById",
+      "description": "Mock handler for getting KYC application by ID",
+      "covered_pages": [
+        "src/pages/kyc/Detail.vue",
+        "src/modals/kyc/ReviewDrawer.vue"
+      ],
+      "scenarios": [
+        "Application with full details",
+        "Application with user info",
+        "Application with document verification",
+        "Application with review history"
+      ]
+    },
+    {
+      "handler": "handleGetStats",
+      "description": "Mock handler for getting KYC stats",
+      "covered_pages": [
+        "src/pages/kyc/index.vue"
+      ],
+      "scenarios": [
+        "Overall stats",
+        "Stats by date range"
+      ]
+    },
+    {
+      "handler": "handleApproveApplication",
+      "description": "Mock handler for approving KYC application",
+      "covered_pages": [
+        "src/modals/kyc/ReviewDrawer.vue"
+      ],
+      "scenarios": [
+        "Successfully approve application",
+        "Set risk level during approval",
+        "Add review notes"
+      ]
+    },
+    {
+      "handler": "handleRejectApplication",
+      "description": "Mock handler for rejecting KYC application",
+      "covered_pages": [
+        "src/modals/kyc/ReviewDrawer.vue"
+      ],
+      "scenarios": [
+        "Successfully reject application",
+        "Add rejection reason",
+        "Add review notes"
+      ]
+    }
+  ],
+  "examples_provided": [
+    "src/mock/examples/kyc.json"
+  ],
+  "coverage_percentage": 100,
+  "status": "complete",
+  "contract_validation": true
+}

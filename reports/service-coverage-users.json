@@ -1,0 +1,80 @@
+{
+  "module": "users",
+  "facade_functions": [
+    {
+      "function": "usersApi.listUsers",
+      "description": "List users with pagination and filtering",
+      "covered_pages": [
+        "src/pages/users/List.vue"
+      ],
+      "operations": ["read"]
+    },
+    {
+      "function": "usersApi.getById",
+      "description": "Get user by ID",
+      "covered_pages": [
+        "src/pages/users/Detail.vue",
+        "src/modals/users/QuickViewDrawer.vue"
+      ],
+      "operations": ["read"]
+    },
+    {
+      "function": "usersApi.getStats",
+      "description": "Get user statistics",
+      "covered_pages": [
+        "src/pages/users/List.vue"
+      ],
+      "operations": ["read"]
+    },
+    {
+      "function": "usersApi.updateVip",
+      "description": "Update user VIP level",
+      "covered_pages": [
+        "src/forms/users/VipUpdateForm.vue",
+        "src/modals/users/AdjustVipModal.vue"
+      ],
+      "operations": ["update"]
+    },
+    {
+      "function": "usersApi.updateTags",
+      "description": "Update user risk tags",
+      "covered_pages": [
+        "src/forms/users/TagForm.vue"
+      ],
+      "operations": ["update"]
+    },
+    {
+      "function": "usersApi.reset2FA",
+      "description": "Reset user 2FA",
+      "covered_pages": [
+        "src/modals/users/Reset2FAModal.vue"
+      ],
+      "operations": ["update"]
+    },
+    {
+      "function": "usersApi.disable",
+      "description": "Disable user account",
+      "covered_pages": [],
+      "operations": ["update"]
+    },
+    {
+      "function": "usersApi.enable",
+      "description": "Enable user account",
+      "covered_pages": [],
+      "operations": ["update"]
+    },
+    {
+      "function": "usersApi.export",
+      "description": "Export users data",
+      "covered_pages": [
+        "src/pages/users/List.vue"
+      ],
+      "operations": ["read"]
+    }
+  ],
+  "coverage_percentage": 100,
+  "total_pages": 2,
+  "covered_pages": 2,
+  "uncovered_pages": [],
+  "status": "complete"
+}

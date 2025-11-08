@@ -165,8 +165,8 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { EnvironmentOutlined, LaptopOutlined, ClockCircleOutlined } from '@ant-design/icons-vue'
-import { usersApi } from '@/services/api/users'
-import type { User, LoginRecord, DeviceInfo } from '@/types/models'
+import { useUsersStore } from '@/stores/users'
+import type { User, LoginRecord, DeviceInfo } from '@/contracts/users'
 import { formatDate } from '@/utils/date'
 import { formatCurrency } from '@/utils/format'
 
@@ -188,6 +188,7 @@ const loading = ref(false)
 const user = ref<User | null>(null)
 const loginRecords = ref<LoginRecord[]>([])
 const devices = ref<DeviceInfo[]>([])
+const usersStore = useUsersStore()
 
 // Watch for open prop changes
 watch(
@@ -211,11 +212,11 @@ async function fetchUserData() {
 
   loading.value = true
   try {
-    // Fetch user details
-    const response = await usersApi.getById(props.userId)
-    user.value = response.data.user
-    loginRecords.value = response.data.loginRecords || []
-    devices.value = response.data.devices || []
+    // Fetch user details using store instead of direct API call
+    const response = await usersStore.fetchUserDetail(props.userId)
+    user.value = response.user
+    loginRecords.value = response.loginRecords || []
+    devices.value = response.devices || []
   } catch (error) {
     console.error('Failed to fetch user data:', error)
   } finally {

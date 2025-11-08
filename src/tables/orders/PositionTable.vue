@@ -17,12 +17,12 @@
 </template>
 
 <script setup lang="tsx">
-import { ref, computed } from 'vue'
+import { ref, computed, h } from 'vue'
 import { Tag, Tooltip, Progress } from 'ant-design-vue'
 import { WarningOutlined } from '@ant-design/icons-vue'
 import ServerTable from '@/shared/ServerTable.vue'
 import type { TableColumn } from '@/types/components'
-import type { Position, PositionQueryParams } from '@/services/api/orders'
+import type { Position } from '@/types/models'
 import { useOrdersStore } from '@/stores/orders'
 import { formatDate } from '@/utils/date'
 import { formatNumber } from '@/utils/format'
@@ -82,7 +82,7 @@ const columns = ref<TableColumn[]>([
     render: (value: string) => {
       const color = value === 'long' ? 'green' : 'red'
       const text = value === 'long' ? 'Long' : 'Short'
-      return <Tag color={color}>{text}</Tag>
+      return h(Tag, { color }, () => text)
     },
   },
   {
@@ -100,7 +100,7 @@ const columns = ref<TableColumn[]>([
     width: 120,
     render: (value: string) => {
       const text = value === 'isolated' ? 'Isolated' : 'Cross'
-      return <Tag>{text}</Tag>
+      return h(Tag, {}, () => text)
     },
   },
   {
@@ -131,13 +131,11 @@ const columns = ref<TableColumn[]>([
       const distance = Math.abs((markPrice - liqPrice) / markPrice) * 100
 
       if (distance < 10) {
-        return (
-          <Tooltip title={`Only ${distance.toFixed(2)}% away from liquidation!`}>
-            <span style={{ color: '#ff4d4f' }}>
-              <WarningOutlined style={{ marginRight: '4px' }} />
-              {formatNumber(value, 8)}
-            </span>
-          </Tooltip>
+        return h(Tooltip, { title: `Only ${distance.toFixed(2)}% away from liquidation!` }, () =>
+          h('span', { style: { color: '#ff4d4f' } }, [
+            h(WarningOutlined, { style: { marginRight: '4px' } }),
+            formatNumber(value, 8),
+          ])
         )
       }
 
@@ -171,18 +169,14 @@ const columns = ref<TableColumn[]>([
       const pnl = parseFloat(value)
       const color = pnl >= 0 ? '#52c41a' : '#ff4d4f'
       const sign = pnl >= 0 ? '+' : ''
-      return (
-        <div>
-          <div style={{ color, fontWeight: 'bold' }}>
-            {sign}
-            {formatNumber(value, 8)}
-          </div>
-          <div style={{ color, fontSize: '12px' }}>
-            ({sign}
-            {record.unrealizedPnlPercent.toFixed(2)}%)
-          </div>
-        </div>
-      )
+      return h('div', {}, [
+        h('div', { style: { color, fontWeight: 'bold' } }, `${sign}${formatNumber(value, 8)}`),
+        h(
+          'div',
+          { style: { color, fontSize: '12px' } },
+          `(${sign}${record.unrealizedPnlPercent.toFixed(2)}%)`
+        ),
+      ])
     },
   },
   {
@@ -205,12 +199,10 @@ const columns = ref<TableColumn[]>([
         strokeColor = '#faad14'
       }
 
-      return (
-        <div>
-          <Progress percent={percent} status={status} strokeColor={strokeColor} size="small" />
-          <div style={{ fontSize: '12px', marginTop: '4px' }}>{percent.toFixed(2)}%</div>
-        </div>
-      )
+      return h('div', {}, [
+        h(Progress, { percent, status, strokeColor, size: 'small' }),
+        h('div', { style: { fontSize: '12px', marginTop: '4px' } }, `${percent.toFixed(2)}%`),
+      ])
     },
   },
   {
@@ -227,7 +219,8 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'actions',
     width: 100,
     fixed: 'right',
-    render: (_: unknown, record: Position) => <a onClick={() => handleViewDetail(record)}>View</a>,
+    render: (_: unknown, record: Position) =>
+      h('a', { onClick: () => handleViewDetail(record), style: { cursor: 'pointer' } }, 'View'),
   },
 ])
 
