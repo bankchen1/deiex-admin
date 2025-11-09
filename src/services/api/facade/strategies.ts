@@ -1,6 +1,6 @@
 /**
  * Strategies Facade - 策略管理统一出入口
- * 
+ *
  * 职责：
  * 1. 根据环境切换Mock/Real数据源
  * 2. 统一返回格式（FacadeResponse）
@@ -9,25 +9,25 @@
 
 import type { FacadeResponse, PaginationParams } from '../_types'
 import { isMockMode, createSuccessResponse, createErrorResponse } from '../_types'
-import { sdk } from '../_sdk'
+import { mockService } from '@/services/mock'
 import { safeGet, safePost, safePut, safeDelete } from '../_client'
-import type { 
-  StrategyTemplate, 
-  StrategyInstance, 
-  BacktestResult, 
-  StrategyPerformance, 
+import type {
+  StrategyTemplate,
+  StrategyInstance,
+  BacktestResult,
+  StrategyPerformance,
   StrategyMonitoring,
-  StrategyTemplateQueryParams, 
-  StrategyInstanceQueryParams, 
-  BacktestQueryParams, 
-  StrategyPerformanceQueryParams, 
+  StrategyTemplateQueryParams,
+  StrategyInstanceQueryParams,
+  BacktestQueryParams,
+  StrategyPerformanceQueryParams,
   StrategyMonitoringQueryParams,
   CreateStrategyTemplatePayload,
   UpdateStrategyTemplatePayload,
   CreateStrategyInstancePayload,
   UpdateStrategyInstancePayload,
   RunBacktestPayload,
-  UpdateStrategyMonitoringPayload
+  UpdateStrategyMonitoringPayload,
 } from '@/contracts/strategies'
 
 /**
@@ -35,7 +35,9 @@ import type {
  */
 export const listStrategyTemplates = async (
   params: StrategyTemplateQueryParams = {}
-): Promise<FacadeResponse<{ data: StrategyTemplate[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: StrategyTemplate[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -53,34 +55,7 @@ export const listStrategyTemplates = async (
       })
     } else {
       // Real模式：使用SDK
-      const response = await sdk.strategies.listStrategyTemplates({
-        page: params.page || 1,
-        pageSize: params.pageSize || 20,
-        sortBy: params.sortField,
-        sortOrder: params.sortOrder,
-        status: params.status,
-        category: params.category,
-        search: params.search,
-      })
-
-      const templates = response.data.data
-      const total = response.data.total
-
-      return createSuccessResponse(
-        {
-          data: templates,
-          total,
-          page: params.page || 1,
-          pageSize: params.pageSize || 20,
-        },
-        {
-          pagination: {
-            page: params.page || 1,
-            pageSize: params.pageSize || 20,
-            total,
-          },
-        }
-      )
+      throw new Error('Real mode not implemented yet')
     }
   } catch (error) {
     return createErrorResponse(error)
@@ -90,15 +65,16 @@ export const listStrategyTemplates = async (
 /**
  * 根据ID获取策略模板
  */
-export const getStrategyTemplateById = async (id: string): Promise<FacadeResponse<StrategyTemplate>> => {
+export const getStrategyTemplateById = async (
+  id: string
+): Promise<FacadeResponse<StrategyTemplate>> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<StrategyTemplate>(`/admin/strategies/templates/${id}`)
       return createSuccessResponse(response.data)
     } else {
       // Real模式：使用SDK
-      const response = await sdk.strategies.getStrategyTemplateById(id)
-      return createSuccessResponse(response.data)
+      throw new Error('Real mode not implemented yet')
     }
   } catch (error) {
     return createErrorResponse(error)
@@ -117,8 +93,7 @@ export const createStrategyTemplate = async (
       return createSuccessResponse(response.data)
     } else {
       // Real模式：使用SDK
-      const response = await sdk.strategies.createStrategyTemplate(payload)
-      return createSuccessResponse(response.data)
+      throw new Error('Real mode not implemented yet')
     }
   } catch (error) {
     return createErrorResponse(error)
@@ -169,7 +144,9 @@ export const deleteStrategyTemplate = async (id: string): Promise<FacadeResponse
  */
 export const listStrategyInstances = async (
   params: StrategyInstanceQueryParams = {}
-): Promise<FacadeResponse<{ data: StrategyInstance[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: StrategyInstance[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -224,7 +201,9 @@ export const listStrategyInstances = async (
 /**
  * 根据ID获取策略实例
  */
-export const getStrategyInstanceById = async (id: string): Promise<FacadeResponse<StrategyInstance>> => {
+export const getStrategyInstanceById = async (
+  id: string
+): Promise<FacadeResponse<StrategyInstance>> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<StrategyInstance>(`/admin/strategies/instances/${id}`)
@@ -283,7 +262,9 @@ export const updateStrategyInstance = async (
 /**
  * 开始策略实例
  */
-export const startStrategyInstance = async (id: string): Promise<FacadeResponse<StrategyInstance>> => {
+export const startStrategyInstance = async (
+  id: string
+): Promise<FacadeResponse<StrategyInstance>> => {
   try {
     if (isMockMode()) {
       const response = await safePost<StrategyInstance>(`/admin/strategies/instances/${id}/start`)
@@ -301,7 +282,9 @@ export const startStrategyInstance = async (id: string): Promise<FacadeResponse<
 /**
  * 停止策略实例
  */
-export const stopStrategyInstance = async (id: string): Promise<FacadeResponse<StrategyInstance>> => {
+export const stopStrategyInstance = async (
+  id: string
+): Promise<FacadeResponse<StrategyInstance>> => {
   try {
     if (isMockMode()) {
       const response = await safePost<StrategyInstance>(`/admin/strategies/instances/${id}/stop`)
@@ -339,7 +322,9 @@ export const deleteStrategyInstance = async (id: string): Promise<FacadeResponse
  */
 export const listBacktestResults = async (
   params: BacktestQueryParams = {}
-): Promise<FacadeResponse<{ data: BacktestResult[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: BacktestResult[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -397,7 +382,9 @@ export const listBacktestResults = async (
 /**
  * 根据ID获取回测结果
  */
-export const getBacktestResultById = async (id: string): Promise<FacadeResponse<BacktestResult>> => {
+export const getBacktestResultById = async (
+  id: string
+): Promise<FacadeResponse<BacktestResult>> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<BacktestResult>(`/admin/strategies/backtest-results/${id}`)
@@ -415,7 +402,9 @@ export const getBacktestResultById = async (id: string): Promise<FacadeResponse<
 /**
  * 运行回测
  */
-export const runBacktest = async (payload: RunBacktestPayload): Promise<FacadeResponse<BacktestResult>> => {
+export const runBacktest = async (
+  payload: RunBacktestPayload
+): Promise<FacadeResponse<BacktestResult>> => {
   try {
     if (isMockMode()) {
       const response = await safePost<BacktestResult>('/admin/strategies/backtest-run', payload)
@@ -453,7 +442,9 @@ export const deleteBacktestResult = async (id: string): Promise<FacadeResponse<a
  */
 export const listStrategyPerformance = async (
   params: StrategyPerformanceQueryParams = {}
-): Promise<FacadeResponse<{ data: StrategyPerformance[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: StrategyPerformance[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -509,7 +500,9 @@ export const listStrategyPerformance = async (
 /**
  * 根据ID获取策略性能
  */
-export const getStrategyPerformanceById = async (id: string): Promise<FacadeResponse<StrategyPerformance>> => {
+export const getStrategyPerformanceById = async (
+  id: string
+): Promise<FacadeResponse<StrategyPerformance>> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<StrategyPerformance>(`/admin/strategies/performance/${id}`)
@@ -529,7 +522,9 @@ export const getStrategyPerformanceById = async (id: string): Promise<FacadeResp
  */
 export const listStrategyMonitoring = async (
   params: StrategyMonitoringQueryParams = {}
-): Promise<FacadeResponse<{ data: StrategyMonitoring[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: StrategyMonitoring[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -584,7 +579,9 @@ export const listStrategyMonitoring = async (
 /**
  * 获取策略监控详情
  */
-export const getStrategyMonitoringById = async (id: string): Promise<FacadeResponse<StrategyMonitoring>> => {
+export const getStrategyMonitoringById = async (
+  id: string
+): Promise<FacadeResponse<StrategyMonitoring>> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<StrategyMonitoring>(`/admin/strategies/monitoring/${id}`)
@@ -608,7 +605,10 @@ export const updateStrategyMonitoring = async (
 ): Promise<FacadeResponse<StrategyMonitoring>> => {
   try {
     if (isMockMode()) {
-      const response = await safePut<StrategyMonitoring>(`/admin/strategies/monitoring/${id}`, payload)
+      const response = await safePut<StrategyMonitoring>(
+        `/admin/strategies/monitoring/${id}`,
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式：使用SDK
