@@ -4,8 +4,9 @@
 
 import type { FacadeResponse, PaginationParams } from '../_types'
 import { isMockMode, createSuccessResponse, createErrorResponse } from '../_types'
+import { mockService } from '@/services/mock'
 import { safeGet, safePost, safePut, safeDelete } from '../_client'
-import type { RiskRule, RiskLimit, BlacklistEntry } from '@/types/models'
+import type { RiskRule, RiskLimit, BlacklistEntry } from '@/contracts/risk'
 
 /**
  * 风险规则查询参数

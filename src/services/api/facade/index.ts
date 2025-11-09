@@ -15,6 +15,7 @@ export * as assetsFacade from './assets'
 export * as kycFacade from './kyc'
 export * as configFacade from './config'
 export * as riskFacade from './risk'
+export * as strategiesFacade from './strategies'
 export * as dashboardFacade from './dashboard'
 
 // 便捷导出（可选）
@@ -80,6 +81,30 @@ export {
   addBlacklistEntry,
   removeBlacklistEntry,
 } from './risk'
+
+export {
+  listStrategyTemplates,
+  getStrategyTemplateById,
+  createStrategyTemplate,
+  updateStrategyTemplate,
+  deleteStrategyTemplate,
+  listStrategyInstances,
+  getStrategyInstanceById,
+  createStrategyInstance,
+  updateStrategyInstance,
+  deleteStrategyInstance,
+  startStrategyInstance,
+  stopStrategyInstance,
+  listBacktestResults,
+  getBacktestResultById,
+  runBacktest,
+  deleteBacktestResult,
+  listStrategyPerformance,
+  getStrategyPerformanceById,
+  listStrategyMonitoring,
+  getStrategyMonitoringById,
+  updateStrategyMonitoring,
+} from './strategies'
 
 export { getDashboardStats, getDashboardCharts } from './dashboard'
 

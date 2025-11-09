@@ -143,137 +143,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
 import { PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue'
+import { useStrategiesStore } from '@/stores/strategies'
 import StrategyInstanceTable from '@/tables/strategies/StrategyInstanceTable.vue'
 import StrategyInstanceDrawer from '@/modals/strategies/StrategyInstanceDrawer.vue'
-import type { StrategyInstance, StrategyTemplate } from '@/types/models'
-
-// Mock data for demonstration
-const mockTemplates: StrategyTemplate[] = [
-  {
-    id: '1',
-    name: 'Moving Average Crossover',
-    description: 'A classic trend-following strategy based on moving average crossovers',
-    category: 'trend',
-    parameters: {
-      fastPeriod: 10,
-      slowPeriod: 30,
-      takeProfit: 2.0,
-      stopLoss: 1.0,
-    },
-    code: '// Strategy code here...',
-    riskLevel: 'medium',
-    maxDrawdown: '15.5',
-    expectedReturn: '25.0',
-    status: 'active',
-    version: '1.0',
-    createdBy: 'admin',
-    updatedBy: 'admin',
-    createdAt: '2023-01-15T10:00:00Z',
-    updatedAt: '2023-01-15T10:00:00Z',
-  },
-  {
-    id: '2',
-    name: 'RSI Mean Reversion',
-    description: 'A mean-reversion strategy based on RSI indicator',
-    category: 'mean-reversion',
-    parameters: {
-      rsiPeriod: 14,
-      overbought: 70,
-      oversold: 30,
-      takeProfit: 1.5,
-      stopLoss: 0.8,
-    },
-    code: '// Strategy code here...',
-    riskLevel: 'low',
-    maxDrawdown: '8.2',
-    expectedReturn: '18.5',
-    status: 'active',
-    version: '1.2',
-    createdBy: 'admin',
-    updatedBy: 'admin',
-    createdAt: '2023-02-20T14:30:00Z',
-    updatedAt: '2023-02-20T14:30:00Z',
-  },
-]
-
-const mockInstances: StrategyInstance[] = [
-  {
-    id: '101',
-    templateId: '1',
-    templateName: 'Moving Average Crossover',
-    name: 'BTC MA Strategy',
-    description: 'BTC strategy using MA crossover',
-    symbol: 'BTCUSDT',
-    parameters: {
-      fastPeriod: 10,
-      slowPeriod: 30,
-      takeProfit: 2.0,
-      stopLoss: 1.0,
-    },
-    status: 'running',
-    riskLevel: 'medium',
-    allocatedCapital: '10000',
-    allocatedCurrency: 'USDT',
-    currentPnl: '1250',
-    currentPnlPercent: '12.5',
-    maxDrawdown: '15.5',
-    totalTrades: 45,
-    winRate: '65.5',
-    sharpeRatio: '1.8',
-    createdBy: 'admin',
-    createdAt: '2023-05-01T10:00:00Z',
-    updatedAt: '2023-05-01T10:00:00Z',
-  },
-  {
-    id: '102',
-    templateId: '2',
-    templateName: 'RSI Mean Reversion',
-    name: 'ETH RSI Strategy',
-    description: 'ETH strategy using RSI mean reversion',
-    symbol: 'ETHUSDT',
-    parameters: {
-      rsiPeriod: 14,
-      overbought: 70,
-      oversold: 30,
-      takeProfit: 1.5,
-      stopLoss: 0.8,
-    },
-    status: 'paused',
-    riskLevel: 'low',
-    allocatedCapital: '5000',
-    allocatedCurrency: 'USDT',
-    currentPnl: '-75',
-    currentPnlPercent: '-1.5',
-    maxDrawdown: '8.2',
-    totalTrades: 28,
-    winRate: '58.2',
-    sharpeRatio: '0.9',
-    createdBy: 'admin',
-    createdAt: '2023-05-10T14:30:00Z',
-    updatedAt: '2023-05-10T14:30:00Z',
-  },
-]
+import type { StrategyInstance, StrategyTemplate } from '@/contracts/strategies'
 
 // State
+const strategiesStore = useStrategiesStore()
 const { t } = useI18n()
-const strategyTemplates = ref<StrategyTemplate[]>(mockTemplates)
-const instances = ref<StrategyInstance[]>(mockInstances)
 
 const filters = ref({
-  name: '',
+  status: undefined as string | undefined,
   templateId: undefined as string | undefined,
   symbol: undefined as string | undefined,
-  status: undefined as string | undefined,
+  search: '',
 })
 
 const loading = ref(false)
-const total = ref(2)
 const currentPage = ref(1)
 const pageSize = ref(20)
+
+// Computed getters that map to store values
+const instances = computed(() => strategiesStore.strategyInstances)
+const total = computed(() => strategiesStore.strategyInstancesTotal)
+const templates = computed(() => strategiesStore.strategyTemplates)
 
 const drawerVisible = ref(false)
 const drawerMode = ref<'create' | 'edit' | 'view'>('create')

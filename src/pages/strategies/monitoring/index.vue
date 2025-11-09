@@ -227,115 +227,46 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useStrategiesStore } from '@/stores/strategies'
 import * as echarts from 'echarts'
 import dayjs from 'dayjs'
 import { ReloadOutlined } from '@ant-design/icons-vue'
 import StrategyInstanceMonitorTable from '@/tables/strategies/StrategyInstanceMonitorTable.vue'
-import type { StrategyInstance } from '@/types/models'
+import type { StrategyInstance } from '@/contracts/strategies'
 import { formatDate } from '@/utils/date'
 
-// Mock data for demonstration
-const mockInstances: StrategyInstance[] = [
-  {
-    id: '101',
-    templateId: '1',
-    templateName: 'Moving Average Crossover',
-    name: 'BTC MA Strategy',
-    description: 'BTC strategy using MA crossover',
-    symbol: 'BTCUSDT',
-    parameters: {
-      fastPeriod: 10,
-      slowPeriod: 30,
-      takeProfit: 2.0,
-      stopLoss: 1.0,
-    },
-    status: 'running',
-    riskLevel: 'medium',
-    allocatedCapital: '10000',
-    allocatedCurrency: 'USDT',
-    currentPnl: '1250',
-    currentPnlPercent: '12.5',
-    maxDrawdown: '15.5',
-    totalTrades: 45,
-    winRate: '65.5',
-    sharpeRatio: '1.8',
-    createdBy: 'admin',
-    createdAt: '2023-05-01T10:00:00Z',
-    updatedAt: '2023-05-01T10:00:00Z',
-  },
-  {
-    id: '102',
-    templateId: '2',
-    templateName: 'RSI Mean Reversion',
-    name: 'ETH RSI Strategy',
-    description: 'ETH strategy using RSI mean reversion',
-    symbol: 'ETHUSDT',
-    parameters: {
-      rsiPeriod: 14,
-      overbought: 70,
-      oversold: 30,
-      takeProfit: 1.5,
-      stopLoss: 0.8,
-    },
-    status: 'running',
-    riskLevel: 'low',
-    allocatedCapital: '5000',
-    allocatedCurrency: 'USDT',
-    currentPnl: '-75',
-    currentPnlPercent: '-1.5',
-    maxDrawdown: '8.2',
-    totalTrades: 28,
-    winRate: '58.2',
-    sharpeRatio: '0.9',
-    createdBy: 'admin',
-    createdAt: '2023-05-10T14:30:00Z',
-    updatedAt: '2023-05-10T14:30:00Z',
-  },
-]
-
-// Mock log data
-const mockLogs = [
-  {
-    id: '1',
-    timestamp: '2023-05-15T10:30:00Z',
-    strategyId: '101',
-    strategyName: 'BTC MA Strategy',
-    level: 'info',
-    message: 'Position opened: BUY 0.1 BTC at 29000 USDT',
-  },
-  {
-    id: '2',
-    timestamp: '2023-05-15T10:25:00Z',
-    strategyId: '102',
-    strategyName: 'ETH RSI Strategy',
-    level: 'warning',
-    message: 'RSI reached oversold level (28.5), preparing buy signal',
-  },
-  {
-    id: '3',
-    timestamp: '2023-05-15T10:20:00Z',
-    strategyId: '101',
-    strategyName: 'BTC MA Strategy',
-    level: 'error',
-    message: 'Order execution failed: Insufficient balance for order',
-  },
-  {
-    id: '4',
-    timestamp: '2023-05-15T10:15:00Z',
-    strategyId: '101',
-    strategyName: 'BTC MA Strategy',
-    level: 'info',
-    message: 'Take profit triggered: SELL 0.05 BTC at 29200 USDT',
-  },
-]
-
 // State
+const strategiesStore = useStrategiesStore()
 const { t } = useI18n()
-const strategyInstances = ref<StrategyInstance[]>(mockInstances)
-const instances = ref<StrategyInstance[]>(mockInstances)
-const recentLogs = ref(mockLogs)
+
+// Computed getters that map to store values
+const strategyInstances = computed(() => strategiesStore.strategyInstances)
+const instances = computed(() => strategiesStore.strategyInstances)
+const total = computed(() => strategiesStore.strategyInstancesTotal)
+
+const recentLogs = ref([])
+
+const filters = ref({
+  strategyId: undefined as string | undefined,
+  symbol: undefined as string | undefined,
+  status: undefined as string | undefined,
+})
+
+const dateRange = ref<[dayjs.Dayjs, dayjs.Dayjs] | undefined>(undefined)
+
+const loading = ref(false)
+const currentPage = ref(1)
+const pageSize = ref(20)
+
+const realTimeMetrics = ref({
+  activeStrategies: 0,
+  totalPnl: 0,
+  openPositions: 0,
+  pendingOrders: 0,
+  riskAlerts: 0,
+})
 
 const filters = ref({
   strategyId: undefined as string | undefined,

@@ -132,76 +132,14 @@ import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
 import dayjs from 'dayjs'
 import { PlayCircleOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue'
+import { useStrategiesStore } from '@/stores/strategies' // Will need to be created
 import BacktestResultTable from '@/tables/strategies/BacktestResultTable.vue'
 import RunBacktestDrawer from '@/modals/strategies/RunBacktestDrawer.vue'
-import type { BacktestResult } from '@/types/models'
-
-// Mock data for demonstration
-const mockBacktestResults: BacktestResult[] = [
-  {
-    id: '1001',
-    strategyId: '1',
-    strategyName: 'Moving Average Crossover',
-    symbol: 'BTCUSDT',
-    startTime: '2023-01-01T00:00:00Z',
-    endTime: '2023-12-31T23:59:59Z',
-    initialCapital: '10000',
-    finalCapital: '12500',
-    totalReturn: '2500',
-    totalReturnPercent: '25.0',
-    maxDrawdown: '15.5',
-    sharpeRatio: '1.8',
-    winRate: '65.5',
-    totalTrades: 145,
-    profitableTrades: 95,
-    avgTradeReturn: '1.72',
-    maxConsecutiveWins: 8,
-    maxConsecutiveLosses: 3,
-    parameters: {
-      fastPeriod: 10,
-      slowPeriod: 30,
-      takeProfit: 2.0,
-      stopLoss: 1.0,
-    },
-    status: 'completed',
-    createdAt: '2023-05-01T10:00:00Z',
-    updatedAt: '2023-05-01T10:00:00Z',
-  },
-  {
-    id: '1002',
-    strategyId: '2',
-    strategyName: 'RSI Mean Reversion',
-    symbol: 'ETHUSDT',
-    startTime: '2023-01-01T00:00:00Z',
-    endTime: '2023-12-31T23:59:59Z',
-    initialCapital: '5000',
-    finalCapital: '4925',
-    totalReturn: '-75',
-    totalReturnPercent: '-1.5',
-    maxDrawdown: '8.2',
-    sharpeRatio: '0.9',
-    winRate: '58.2',
-    totalTrades: 88,
-    profitableTrades: 51,
-    avgTradeReturn: '-0.85',
-    maxConsecutiveWins: 5,
-    maxConsecutiveLosses: 4,
-    parameters: {
-      rsiPeriod: 14,
-      overbought: 70,
-      oversold: 30,
-      takeProfit: 1.5,
-      stopLoss: 0.8,
-    },
-    status: 'completed',
-    createdAt: '2023-05-10T14:30:00Z',
-    updatedAt: '2023-05-10T14:30:00Z',
-  },
-]
+import type { BacktestResult } from '@/contracts/strategies' // Will need to be created
 
 // State
+const strategiesStore = useStrategiesStore()
 const { t } = useI18n()
-const backtestResults = ref<BacktestResult[]>(mockBacktestResults)
 
 const filters = ref({
   templateName: '',
@@ -212,10 +150,6 @@ const filters = ref({
 const dateRange = ref<[dayjs.Dayjs, dayjs.Dayjs] | undefined>(undefined)
 
 const loading = ref(false)
-const total = ref(2)
-const currentPage = ref(1)
-const pageSize = ref(20)
-
 const drawerVisible = ref(false)
 
 // Lifecycle
@@ -223,13 +157,30 @@ onMounted(() => {
   fetchData()
 })
 
+// Getters (computed values)
+const backtestResults = computed(() => strategiesStore.backtestResults)
+const total = computed(() => strategiesStore.totalBacktestResults)
+const currentPage = computed(() => strategiesStore.currentPage)
+const pageSize = computed(() => strategiesStore.pageSize)
+
 // Methods
 async function fetchData() {
   loading.value = true
-  // In a real implementation, fetch data from API
-  setTimeout(() => {
+  try {
+    await strategiesStore.fetchBacktestResults({
+      page: currentPage.value,
+      pageSize: pageSize.value,
+      templateName: filters.value.templateName,
+      symbol: filters.value.symbol,
+      status: filters.value.status,
+      startDate: dateRange.value?.[0]?.toISOString(),
+      endDate: dateRange.value?.[1]?.toISOString(),
+    })
+  } catch (error: any) {
+    message.error(error.message || 'Failed to load backtest results')
+  } finally {
     loading.value = false
-  }, 500)
+  }
 }
 
 function handleFilterChange() {
@@ -259,8 +210,8 @@ function handleRefresh() {
 }
 
 function handleTableChange(pagination: any) {
-  currentPage.value = pagination.current
-  pageSize.value = pagination.pageSize
+  strategiesStore.setPage(pagination.current)
+  strategiesStore.setPageSize(pagination.pageSize)
   fetchData()
 }
 
@@ -273,11 +224,13 @@ function handleView(record: BacktestResult) {
   message.info(t('strategies.backtest.messages.viewNotImplemented'))
 }
 
-function handleDelete(record: BacktestResult) {
-  // In a real implementation, delete from API
-  backtestResults.value = backtestResults.value.filter((result) => result.id !== record.id)
-  total.value -= 1
-  message.success(t('messages.deleteSuccess'))
+async function handleDelete(record: BacktestResult) {
+  try {
+    await strategiesStore.deleteBacktestResult(record.id)
+    message.success(t('messages.deleteSuccess'))
+  } catch (error: any) {
+    message.error(error.message || 'Failed to delete backtest result')
+  }
 }
 
 async function handleBacktestSubmit(payload: any) {

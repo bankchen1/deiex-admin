@@ -4,9 +4,9 @@
 
 import type { FacadeResponse, PaginationParams } from '../_types'
 import { isMockMode, createSuccessResponse, createErrorResponse } from '../_types'
-import { sdk } from '../_sdk'
+import { mockService } from '@/services/mock'
 import { safeGet, safePost, safePut } from '../_client'
-import type { Instrument, MarginTemplate, TradingFeeTemplate } from '@/types/models'
+import type { Instrument, MarginTemplate, TradingFeeTemplate } from '@/contracts/config'
 
 /**
  * 交易对查询参数

@@ -4,9 +4,9 @@
 
 import type { FacadeResponse, PaginationParams } from '../_types'
 import { isMockMode, createSuccessResponse, createErrorResponse } from '../_types'
-import { sdk } from '../_sdk'
+import { mockService } from '@/services/mock'
 import { safeGet, safePost, safePatch } from '../_client'
-import type { Deposit, Withdrawal } from '@/types/models'
+import type { Deposit, Withdrawal } from '@/contracts/assets'
 
 /**
  * 存款查询参数

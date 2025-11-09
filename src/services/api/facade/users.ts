@@ -9,7 +9,7 @@
 
 import type { FacadeResponse, PaginationParams } from '../_types'
 import { isMockMode, createSuccessResponse, createErrorResponse } from '../_types'
-import { sdk } from '../_sdk'
+import { mockService } from '@/services/mock'
 import { safeGet, safePost } from '../_client'
 import type { 
   UserListResponse, 

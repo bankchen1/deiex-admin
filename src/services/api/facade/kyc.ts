@@ -4,8 +4,9 @@
 
 import type { FacadeResponse, PaginationParams } from '../_types'
 import { isMockMode, createSuccessResponse, createErrorResponse } from '../_types'
+import { mockService } from '@/services/mock'
 import { safeGet, safePost } from '../_client'
-import type { KycApplication } from '@/types/models'
+import type { KycApplication } from '@/contracts/kyc'
 
 /**
  * KYC查询参数

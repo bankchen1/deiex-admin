@@ -126,85 +126,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
 import { PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue'
+import { useStrategiesStore } from '@/stores/strategies'
 import StrategyTemplateTable from '@/tables/strategies/StrategyTemplateTable.vue'
 import StrategyTemplateDrawer from '@/modals/strategies/StrategyTemplateDrawer.vue'
-import type { StrategyTemplate } from '@/types/models'
-
-// Mock data for demonstration
-const mockTemplates: StrategyTemplate[] = [
-  {
-    id: '1',
-    name: 'Moving Average Crossover',
-    description: 'A classic trend-following strategy based on moving average crossovers',
-    category: 'trend',
-    parameters: {
-      fastPeriod: 10,
-      slowPeriod: 30,
-      takeProfit: 2.0,
-      stopLoss: 1.0,
-    },
-    code: '// Strategy code here...',
-    riskLevel: 'medium',
-    maxDrawdown: '15.5',
-    expectedReturn: '25.0',
-    status: 'active',
-    version: '1.0',
-    createdBy: 'admin',
-    updatedBy: 'admin',
-    createdAt: '2023-01-15T10:00:00Z',
-    updatedAt: '2023-01-15T10:00:00Z',
-  },
-  {
-    id: '2',
-    name: 'RSI Mean Reversion',
-    description: 'A mean-reversion strategy based on RSI indicator',
-    category: 'mean-reversion',
-    parameters: {
-      rsiPeriod: 14,
-      overbought: 70,
-      oversold: 30,
-      takeProfit: 1.5,
-      stopLoss: 0.8,
-    },
-    code: '// Strategy code here...',
-    riskLevel: 'low',
-    maxDrawdown: '8.2',
-    expectedReturn: '18.5',
-    status: 'active',
-    version: '1.2',
-    createdBy: 'admin',
-    updatedBy: 'admin',
-    createdAt: '2023-02-20T14:30:00Z',
-    updatedAt: '2023-02-20T14:30:00Z',
-  },
-  {
-    id: '3',
-    name: 'Grid Trading',
-    description: 'A market-making strategy that places buy and sell orders in a grid',
-    category: 'market-making',
-    parameters: {
-      gridSpacing: 1.0,
-      orderSize: 0.1,
-      maxOrders: 10,
-      stopLoss: 5.0,
-    },
-    code: '// Strategy code here...',
-    riskLevel: 'high',
-    maxDrawdown: '30.0',
-    expectedReturn: '45.0',
-    status: 'inactive',
-    version: '2.1',
-    createdBy: 'admin',
-    updatedBy: 'admin',
-    createdAt: '2023-03-10T09:15:00Z',
-    updatedAt: '2023-03-10T09:15:00Z',
-  },
-]
+import type { StrategyTemplate } from '@/contracts/strategies'
 
 // State
+const strategiesStore = useStrategiesStore()
+const { t } = useI18n()
 const filters = ref({
   category: undefined as string | undefined,
   riskLevel: undefined as string | undefined,
@@ -212,15 +145,18 @@ const filters = ref({
   search: '',
 })
 
-const templates = ref<StrategyTemplate[]>(mockTemplates)
 const loading = ref(false)
-const total = ref(3)
 const currentPage = ref(1)
 const pageSize = ref(20)
 
+// Computed getters that map to store values
+const templates = computed(() => strategiesStore.strategyTemplates)
+const total = computed(() => strategiesStore.strategyTemplatesTotal)
+
+// Current template for detail view/edit
+const currentTemplate = ref<StrategyTemplate | null>(null)
 const drawerVisible = ref(false)
 const drawerMode = ref<'create' | 'edit' | 'view'>('create')
-const currentTemplate = ref<StrategyTemplate | null>(null)
 
 // Lifecycle
 onMounted(() => {
@@ -230,10 +166,20 @@ onMounted(() => {
 // Methods
 async function fetchData() {
   loading.value = true
-  // In a real implementation, fetch data from API
-  setTimeout(() => {
+  try {
+    await strategiesStore.fetchStrategyTemplates({
+      page: currentPage.value,
+      pageSize: pageSize.value,
+      category: filters.value.category,
+      riskLevel: filters.value.riskLevel,
+      status: filters.value.status,
+      search: filters.value.search,
+    })
+  } catch (error: any) {
+    message.error(error.message || 'Failed to load strategy templates')
+  } finally {
     loading.value = false
-  }, 500)
+  }
 }
 
 function handleFilterChange() {
@@ -282,27 +228,29 @@ function handleEdit(record: StrategyTemplate) {
   drawerVisible.value = true
 }
 
-function handleDelete(record: StrategyTemplate) {
-  // In a real implementation, delete from API
-  templates.value = templates.value.filter((template) => template.id !== record.id)
-  total.value -= 1
-  message.success('Strategy template deleted successfully')
+async function handleDelete(record: StrategyTemplate) {
+  try {
+    await strategiesStore.deleteStrategyTemplate(record.id)
+    message.success('Strategy template deleted successfully')
+  } catch (error: any) {
+    message.error(error.message || 'Failed to delete strategy template')
+  }
 }
 
-function handleClone(record: StrategyTemplate) {
-  const clonedTemplate: StrategyTemplate = {
+async function handleClone(record: StrategyTemplate) {
+  const payload: CreateStrategyTemplatePayload = {
     ...record,
-    id: (templates.value.length + 1).toString(),
     name: `${record.name} (Copy)`,
     version: '1.0',
-    createdBy: 'admin',
-    updatedBy: 'admin',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   }
-  templates.value.push(clonedTemplate)
-  total.value += 1
-  message.success('Strategy template cloned successfully')
+  try {
+    await strategiesStore.createStrategyTemplate(payload)
+    message.success('Strategy template cloned successfully')
+  } catch (error: any) {
+    message.error(error.message || 'Failed to clone strategy template')
+  }
 }
 
 async function handleTemplateSubmit(payload: any) {

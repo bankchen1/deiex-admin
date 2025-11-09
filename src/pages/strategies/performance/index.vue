@@ -196,101 +196,32 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useStrategiesStore } from '@/stores/strategies'
 import * as echarts from 'echarts'
 import dayjs from 'dayjs'
 import { ReloadOutlined, FullscreenOutlined } from '@ant-design/icons-vue'
-import type { StrategyInstance, StrategyPerformance } from '@/types/models'
-
-// Mock data for demonstration
-const mockInstances: StrategyInstance[] = [
-  {
-    id: '101',
-    templateId: '1',
-    templateName: 'Moving Average Crossover',
-    name: 'BTC MA Strategy',
-    description: 'BTC strategy using MA crossover',
-    symbol: 'BTCUSDT',
-    parameters: {
-      fastPeriod: 10,
-      slowPeriod: 30,
-      takeProfit: 2.0,
-      stopLoss: 1.0,
-    },
-    status: 'running',
-    riskLevel: 'medium',
-    allocatedCapital: '10000',
-    allocatedCurrency: 'USDT',
-    currentPnl: '1250',
-    currentPnlPercent: '12.5',
-    maxDrawdown: '15.5',
-    totalTrades: 45,
-    winRate: '65.5',
-    sharpeRatio: '1.8',
-    createdBy: 'admin',
-    createdAt: '2023-05-01T10:00:00Z',
-    updatedAt: '2023-05-01T10:00:00Z',
-  },
-  {
-    id: '102',
-    templateId: '2',
-    templateName: 'RSI Mean Reversion',
-    name: 'ETH RSI Strategy',
-    description: 'ETH strategy using RSI mean reversion',
-    symbol: 'ETHUSDT',
-    parameters: {
-      rsiPeriod: 14,
-      overbought: 70,
-      oversold: 30,
-      takeProfit: 1.5,
-      stopLoss: 0.8,
-    },
-    status: 'paused',
-    riskLevel: 'low',
-    allocatedCapital: '5000',
-    allocatedCurrency: 'USDT',
-    currentPnl: '-75',
-    currentPnlPercent: '-1.5',
-    maxDrawdown: '8.2',
-    totalTrades: 28,
-    winRate: '58.2',
-    sharpeRatio: '0.9',
-    createdBy: 'admin',
-    createdAt: '2023-05-10T14:30:00Z',
-    updatedAt: '2023-05-10T14:30:00Z',
-  },
-]
-
-// Mock performance data
-const mockPerformanceData: StrategyPerformance[] = []
-for (let i = 0; i < 30; i++) {
-  const timestamp = dayjs()
-    .subtract(29 - i, 'day')
-    .toISOString()
-  const equity = 10000 + Math.random() * 2000 - 500
-  const pnl = Math.random() * 200 - 50
-  const drawdown = Math.random() * 10
-
-  mockPerformanceData.push({
-    timestamp,
-    strategyId: '101',
-    strategyName: 'BTC MA Strategy',
-    symbol: 'BTCUSDT',
-    equity: equity.toFixed(2),
-    pnl: pnl.toFixed(2),
-    pnlPercent: ((pnl / 10000) * 100).toFixed(2),
-    allocatedCapital: '10000',
-    drawdown: drawdown.toFixed(2),
-    totalTrades: 45,
-    winRate: '65.5',
-  })
-}
+import type { StrategyInstance, StrategyPerformance } from '@/contracts/strategies'
 
 // State
+const strategiesStore = useStrategiesStore()
 const { t } = useI18n()
-const strategyInstances = ref<StrategyInstance[]>(mockInstances)
-const performanceData = ref<StrategyPerformance[]>(mockPerformanceData)
+const performanceData = ref<StrategyPerformance[]>([])
+
+// Computed getter for instances
+const strategyInstances = computed(() => strategiesStore.strategyInstances)
+
+const filters = ref({
+  strategyId: undefined as string | undefined,
+  symbol: undefined as string | undefined,
+  interval: '1d',
+})
+
+const dateRange = ref<[dayjs.Dayjs, dayjs.Dayjs] | undefined>([
+  dayjs().subtract(29, 'day'),
+  dayjs(),
+])
 
 const filters = ref({
   strategyId: '101',
