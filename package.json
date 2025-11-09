@@ -17,7 +17,8 @@
     "mock:check": "node scripts/validate-mocks.js",
     "ui:lintsources": "node scripts/check-forbidden-imports.js",
     "services:coverage": "node scripts/check-service-coverage.js",
-    "switch:test": "node scripts/test-switch-mode.js"
+    "switch:test": "node scripts/test-switch-mode.js",
+    "arch:verify": "node scripts/verify-architecture-compliance.cjs"
   },
   "dependencies": {
     "ant-design-vue": "^4.2.6",

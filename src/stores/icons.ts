@@ -1,18 +1,38 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { iconsApi } from '@/services/api/config.icons'
+import { 
+  listIconAssets,
+  getIconAssetById,
+  createIconAsset,
+  updateIconAsset,
+  deleteIconAsset,
+  listIconMappings,
+  getIconMappingById,
+  createIconMapping,
+  updateIconMapping,
+  deleteIconMapping,
+  bulkUploadIcons,
+  validateIcon,
+  publishIconAsset,
+  exportIcons,
+  replaceIconAsset,
+  type IconAssetQueryParams,
+  type IconMappingQueryParams,
+  type CreateIconAssetPayload,
+  type UpdateIconAssetPayload,
+  type CreateIconMappingPayload,
+  type UpdateIconMappingPayload,
+  type BulkUploadPayload,
+  type ValidateIconPayload,
+  type PublishIconPayload,
+} from '@/services/api/facade'
+import { message } from 'ant-design-vue'
 import type {
   IconAsset,
   IconMapping,
-  IconAssetQueryParams,
-  IconMappingQueryParams,
-  CreateIconAssetPayload,
-  UpdateIconAssetPayload,
-  CreateIconMappingPayload,
-  BulkUploadResult,
   ValidationResult,
-} from '@/services/api/config.icons'
-import type { PaginationResponse } from '@/types/api'
+  BulkUploadResult,
+} from '@/contracts/icons'
 
 export const useIconsStore = defineStore('icons', () => {
   // State - Assets

@@ -1,9 +1,46 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { calendarApi } from '@/services/api/config.calendar'
-import type { FundingRule, MaintenanceWindow, Announcement, Version } from '@/types/models'
-import type { PublishPayload, ImportPayload, ExportParams } from '@/types/api'
+import { 
+  listFundingRules,
+  getFundingRuleById,
+  createFundingRule,
+  updateFundingRule,
+  deleteFundingRule,
+  listMaintenanceWindows,
+  getMaintenanceWindowById,
+  createMaintenanceWindow,
+  updateMaintenanceWindow,
+  deleteMaintenanceWindow,
+  listAnnouncements,
+  getAnnouncementById,
+  createAnnouncement,
+  updateAnnouncement,
+  publishAnnouncement,
+  deleteAnnouncement,
+  getVersionHistory,
+  exportCalendarConfig,
+  importCalendarConfig,
+  type FundingRuleQueryParams,
+  type MaintenanceWindowQueryParams,
+  type AnnouncementQueryParams,
+  type VersionQueryParams,
+  type CreateFundingRulePayload,
+  type UpdateFundingRulePayload,
+  type CreateMaintenanceWindowPayload,
+  type UpdateMaintenanceWindowPayload,
+  type CreateAnnouncementPayload,
+  type UpdateAnnouncementPayload,
+  type PublishPayload,
+  type ImportPayload,
+  type ExportParams,
+} from '@/services/api/facade'
 import { message } from 'ant-design-vue'
+import type { 
+  FundingRule, 
+  MaintenanceWindow, 
+  Announcement, 
+  Version 
+} from '@/contracts/calendar'
 
 export const useCalendarStore = defineStore('calendar', () => {
   // State

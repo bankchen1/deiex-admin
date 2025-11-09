@@ -1,119 +1,92 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import {
-  mappingsApi,
-  type NavToApiMapping,
-  type RouteRedirect,
-  type PageApiRelation,
-  type MappingValidationResult,
-} from '@/services/api/config.mappings'
+  listNavMappings,
+  getNavMappingById,
+  createNavMapping,
+  updateNavMapping,
+  deleteNavMapping,
+  validateNavMappings,
+  listRouteRedirects,
+  getRedirectById,
+  createRedirect,
+  updateRedirect,
+  deleteRedirect,
+  validateRedirects,
+  getPageApiRelations,
+  getPageApiRelation,
+  updatePageApiRelation,
+  scanPageApiRelations,
+  validatePageApiRelations,
+  exportMappings,
+  importMappings,
+  type NavMappingQueryParams,
+  type RedirectQueryParams,
+  type PageApiRelationQueryParams,
+} from '@/services/api/facade'
 import { message } from 'ant-design-vue'
+import type { 
+  NavToApiMapping,
+  RouteRedirect,
+  PageApiRelation,
+  MappingValidationResult,
+} from '@/contracts/mappings'
 
 export const useMappingsStore = defineStore('mappings', () => {
   // State
   const loading = ref(false)
+  const actionLoading = ref(false)
   const error = ref<string | null>(null)
 
-  // Nav to API mappings
+  // Nav Mappings
   const navMappings = ref<NavToApiMapping[]>([])
   const navMappingsTotal = ref(0)
+  const navMappingsCurrentPage = ref(1)
+  const navMappingsPageSize = ref(20)
   const currentNavMapping = ref<NavToApiMapping | null>(null)
 
-  // Route redirects
+  // Route Redirects
   const redirects = ref<RouteRedirect[]>([])
   const redirectsTotal = ref(0)
+  const redirectsCurrentPage = ref(1)
+  const redirectsPageSize = ref(20)
   const currentRedirect = ref<RouteRedirect | null>(null)
-  const redirectGraph = ref<{ nodes: any[]; edges: any[] } | null>(null)
 
-  // Page to API relations
+  // Page API Relations
   const pageApiRelations = ref<PageApiRelation[]>([])
   const pageApiRelationsTotal = ref(0)
   const currentPageApiRelation = ref<PageApiRelation | null>(null)
 
-  // Validation results
-  const validationResult = ref<MappingValidationResult | null>(null)
-
-  // Getters
-  const hasNavMappings = computed(() => navMappings.value.length > 0)
-  const hasRedirects = computed(() => redirects.value.length > 0)
-  const hasPageApiRelations = computed(() => pageApiRelations.value.length > 0)
-  const hasBrokenLinks = computed(
-    () => validationResult.value && validationResult.value.brokenLinks.length > 0
-  )
-  const hasRedundantLinks = computed(
-    () => validationResult.value && validationResult.value.redundantLinks.length > 0
-  )
-
-  // Nav to API Mapping Actions
-  async function fetchNavMappings(params?: { status?: string; search?: string }) {
+  // Actions
+  async function fetchNavMappings(params: NavMappingQueryParams = {}) {
     loading.value = true
     error.value = null
     try {
-      const response = await mappingsApi.getNavMappings(params)
-      navMappings.value = response.data
-      navMappingsTotal.value = response.total
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to fetch nav mappings'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
-  }
+      const { data, error: err } = await listNavMappings({
+        page: navMappingsCurrentPage.value,
+        pageSize: navMappingsPageSize.value,
+        ...params
+      })
 
-  async function fetchNavMappingById(id: string) {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await mappingsApi.getNavMappingById(id)
-      currentNavMapping.value = response.data
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to fetch nav mapping'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
-  }
-
-  async function createNavMapping(
-    payload: Omit<NavToApiMapping, 'id' | 'createdAt' | 'updatedAt'>
-  ) {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await mappingsApi.createNavMapping(payload)
-      navMappings.value.unshift(response.data)
-      navMappingsTotal.value++
-      message.success('Nav mapping created successfully')
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to create nav mapping'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
-  }
-
-  async function updateNavMapping(id: string, payload: Partial<NavToApiMapping>) {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await mappingsApi.updateNavMapping(id, payload)
-      const index = navMappings.value.findIndex((m) => m.id === id)
-      if (index !== -1) {
-        navMappings.value[index] = response.data
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
       }
-      if (currentNavMapping.value?.id === id) {
-        currentNavMapping.value = response.data
+
+      if (!data) {
+        navMappings.value = []
+        navMappingsTotal.value = 0
+        return
       }
-      message.success('Nav mapping updated successfully')
-      return response
+
+      navMappings.value = data.data
+      navMappingsTotal.value = data.total
+      navMappingsCurrentPage.value = data.page
+      navMappingsPageSize.value = data.pageSize
+
+      return data
     } catch (e: any) {
-      error.value = e.message || 'Failed to update nav mapping'
+      error.value = e.message || 'Failed to fetch navigation mappings'
       message.error(error.value)
       throw e
     } finally {
@@ -121,134 +94,35 @@ export const useMappingsStore = defineStore('mappings', () => {
     }
   }
 
-  async function deleteNavMapping(id: string) {
+  async function fetchRedirects(params: RedirectQueryParams = {}) {
     loading.value = true
     error.value = null
     try {
-      await mappingsApi.deleteNavMapping(id)
-      navMappings.value = navMappings.value.filter((m) => m.id !== id)
-      navMappingsTotal.value--
-      message.success('Nav mapping deleted successfully')
-    } catch (e: any) {
-      error.value = e.message || 'Failed to delete nav mapping'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
-  }
+      const { data, error: err } = await listRouteRedirects({
+        page: redirectsCurrentPage.value,
+        pageSize: redirectsPageSize.value,
+        ...params
+      })
 
-  async function validateNavMappings() {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await mappingsApi.validateNavMappings()
-      validationResult.value = response.data
-      if (response.data.valid) {
-        message.success('All nav mappings are valid')
-      } else {
-        message.warning('Some nav mappings have issues')
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
       }
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to validate nav mappings'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
-  }
 
-  async function bulkSyncNavMappings(payload: {
-    mappings: Partial<NavToApiMapping>[]
-    mode: 'merge' | 'replace'
-  }) {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await mappingsApi.bulkSyncNavMappings(payload)
-      message.success(
-        `Bulk sync completed: ${response.data.success} succeeded, ${response.data.failed} failed`
-      )
-      await fetchNavMappings()
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to bulk sync nav mappings'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
-  }
-
-  // Route Redirect Actions
-  async function fetchRedirects(params?: { search?: string; page?: number; pageSize?: number }) {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await mappingsApi.getRouteRedirects(params)
-      redirects.value = response.data
-      redirectsTotal.value = response.total
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to fetch redirects'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
-  }
-
-  async function fetchRedirectById(id: string) {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await mappingsApi.getRedirectById(id)
-      currentRedirect.value = response.data
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to fetch redirect'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
-  }
-
-  async function createRedirect(payload: Omit<RouteRedirect, 'id' | 'hitCount' | 'createdAt'>) {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await mappingsApi.createRedirect(payload)
-      redirects.value.unshift(response.data)
-      redirectsTotal.value++
-      message.success('Redirect created successfully')
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to create redirect'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
-  }
-
-  async function updateRedirect(id: string, payload: Partial<RouteRedirect>) {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await mappingsApi.updateRedirect(id, payload)
-      const index = redirects.value.findIndex((r) => r.id === id)
-      if (index !== -1) {
-        redirects.value[index] = response.data
+      if (!data) {
+        redirects.value = []
+        redirectsTotal.value = 0
+        return
       }
-      if (currentRedirect.value?.id === id) {
-        currentRedirect.value = response.data
-      }
-      message.success('Redirect updated successfully')
-      return response
+
+      redirects.value = data.data
+      redirectsTotal.value = data.total
+      redirectsCurrentPage.value = data.page
+      redirectsPageSize.value = data.pageSize
+
+      return data
     } catch (e: any) {
-      error.value = e.message || 'Failed to update redirect'
+      error.value = e.message || 'Failed to fetch route redirects'
       message.error(error.value)
       throw e
     } finally {
@@ -256,110 +130,29 @@ export const useMappingsStore = defineStore('mappings', () => {
     }
   }
 
-  async function deleteRedirect(id: string) {
-    loading.value = true
-    error.value = null
-    try {
-      await mappingsApi.deleteRedirect(id)
-      redirects.value = redirects.value.filter((r) => r.id !== id)
-      redirectsTotal.value--
-      message.success('Redirect deleted successfully')
-    } catch (e: any) {
-      error.value = e.message || 'Failed to delete redirect'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
-  }
-
-  async function fetchRedirectGraph() {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await mappingsApi.getRedirectGraph()
-      redirectGraph.value = response.data
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to fetch redirect graph'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
-  }
-
-  async function validateRedirects() {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await mappingsApi.validateRedirects()
-      validationResult.value = response.data
-      if (response.data.valid) {
-        message.success('All redirects are valid')
-      } else {
-        message.warning('Some redirects have issues')
-      }
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to validate redirects'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
-  }
-
-  // Page to API Relation Actions
   async function fetchPageApiRelations(params?: { status?: string; search?: string }) {
     loading.value = true
     error.value = null
     try {
-      const response = await mappingsApi.getPageApiRelations(params)
-      pageApiRelations.value = response.data
-      pageApiRelationsTotal.value = response.total
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to fetch page-API relations'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
-  }
+      const { data, error: err } = await getPageApiRelations(params)
 
-  async function fetchPageApiRelation(pageKey: string) {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await mappingsApi.getPageApiRelation(pageKey)
-      currentPageApiRelation.value = response.data
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to fetch page-API relation'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
-  }
-
-  async function updatePageApiRelation(pageKey: string, payload: Partial<PageApiRelation>) {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await mappingsApi.updatePageApiRelation(pageKey, payload)
-      const index = pageApiRelations.value.findIndex((r) => r.pageKey === pageKey)
-      if (index !== -1) {
-        pageApiRelations.value[index] = response.data
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
       }
-      if (currentPageApiRelation.value?.pageKey === pageKey) {
-        currentPageApiRelation.value = response.data
+
+      if (!data) {
+        pageApiRelations.value = []
+        pageApiRelationsTotal.value = 0
+        return
       }
-      message.success('Page-API relation updated successfully')
-      return response
+
+      pageApiRelations.value = data.data
+      pageApiRelationsTotal.value = data.total
+
+      return data
     } catch (e: any) {
-      error.value = e.message || 'Failed to update page-API relation'
+      error.value = e.message || 'Failed to fetch page API relations'
       message.error(error.value)
       throw e
     } finally {
@@ -367,155 +160,82 @@ export const useMappingsStore = defineStore('mappings', () => {
     }
   }
 
-  async function scanPageApiRelations() {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await mappingsApi.scanPageApiRelations()
-      message.success(
-        `Scan completed: ${response.data.scanned} pages scanned, ${response.data.updated} updated`
-      )
-      await fetchPageApiRelations()
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to scan page-API relations'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
+  // Page setters
+  function setNavMappingsPage(page: number) {
+    navMappingsCurrentPage.value = page
   }
 
-  async function validatePageApiRelations() {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await mappingsApi.validatePageApiRelations()
-      validationResult.value = response.data
-      if (response.data.valid) {
-        message.success('All page-API relations are valid')
-      } else {
-        message.warning('Some page-API relations have issues')
-      }
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to validate page-API relations'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
+  function setNavMappingsPageSize(size: number) {
+    navMappingsPageSize.value = size
+    navMappingsCurrentPage.value = 1 // Reset to first page when changing page size
   }
 
-  // Export/Import Actions
-  async function exportMappings(type: 'nav-to-api' | 'redirects' | 'page-to-api') {
-    loading.value = true
-    error.value = null
-    try {
-      const blob = await mappingsApi.exportMappings(type)
-      const url = window.URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
-      link.download = `${type}-mappings-${Date.now()}.json`
-      link.click()
-      window.URL.revokeObjectURL(url)
-      message.success('Mappings exported successfully')
-    } catch (e: any) {
-      error.value = e.message || 'Failed to export mappings'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
+  function setRedirectsPage(page: number) {
+    redirectsCurrentPage.value = page
   }
 
-  async function importMappings(type: 'nav-to-api' | 'redirects' | 'page-to-api', file: File) {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await mappingsApi.importMappings(type, file)
-      message.success(
-        `Import completed: ${response.data.success} succeeded, ${response.data.failed} failed`
-      )
-      // Refresh data based on type
-      if (type === 'nav-to-api') {
-        await fetchNavMappings()
-      } else if (type === 'redirects') {
-        await fetchRedirects()
-      } else {
-        await fetchPageApiRelations()
-      }
-      return response
-    } catch (e: any) {
-      error.value = e.message || 'Failed to import mappings'
-      message.error(error.value)
-      throw e
-    } finally {
-      loading.value = false
-    }
+  function setRedirectsPageSize(size: number) {
+    redirectsPageSize.value = size
+    redirectsCurrentPage.value = 1 // Reset to first page when changing page size
   }
 
+  // Reset function
   function reset() {
     loading.value = false
+    actionLoading.value = false
     error.value = null
+    
+    // Reset nav mappings state
     navMappings.value = []
     navMappingsTotal.value = 0
+    navMappingsCurrentPage.value = 1
+    navMappingsPageSize.value = 20
     currentNavMapping.value = null
+
+    // Reset redirects state
     redirects.value = []
     redirectsTotal.value = 0
+    redirectsCurrentPage.value = 1
+    redirectsPageSize.value = 20
     currentRedirect.value = null
-    redirectGraph.value = null
+
+    // Reset page API relations state
     pageApiRelations.value = []
     pageApiRelationsTotal.value = 0
     currentPageApiRelation.value = null
-    validationResult.value = null
   }
 
   return {
     // State
     loading,
+    actionLoading,
     error,
+    // Nav Mappings
     navMappings,
     navMappingsTotal,
+    navMappingsCurrentPage,
+    navMappingsPageSize,
     currentNavMapping,
+    // Redirects
     redirects,
     redirectsTotal,
+    redirectsCurrentPage,
+    redirectsPageSize,
     currentRedirect,
-    redirectGraph,
+    // Page API Relations
     pageApiRelations,
     pageApiRelationsTotal,
     currentPageApiRelation,
-    validationResult,
-
-    // Getters
-    hasNavMappings,
-    hasRedirects,
-    hasPageApiRelations,
-    hasBrokenLinks,
-    hasRedundantLinks,
-
     // Actions
     fetchNavMappings,
-    fetchNavMappingById,
-    createNavMapping,
-    updateNavMapping,
-    deleteNavMapping,
-    validateNavMappings,
-    bulkSyncNavMappings,
     fetchRedirects,
-    fetchRedirectById,
-    createRedirect,
-    updateRedirect,
-    deleteRedirect,
-    fetchRedirectGraph,
-    validateRedirects,
     fetchPageApiRelations,
-    fetchPageApiRelation,
-    updatePageApiRelation,
-    scanPageApiRelations,
-    validatePageApiRelations,
-    exportMappings,
-    importMappings,
+    // Page setters
+    setNavMappingsPage,
+    setNavMappingsPageSize,
+    setRedirectsPage,
+    setRedirectsPageSize,
+    // Reset
     reset,
   }
 })

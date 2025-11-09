@@ -1,18 +1,42 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { feesApi } from '@/services/api/config.fees'
-import type {
-  FeeQueryParams,
-  TradingFeeCreatePayload,
-  TradingFeeUpdatePayload,
-  WithdrawalFeeCreatePayload,
-  WithdrawalFeeUpdatePayload,
-  FeeCalculationParams,
+import { 
+  listTradingFeeTemplates,
+  getTradingFeeTemplateById,
+  createTradingFeeTemplateDraft,
+  updateTradingFeeTemplateDraft,
+  deleteTradingFeeTemplateDraft,
+  listWithdrawalFeeTemplates,
+  getWithdrawalFeeTemplateById,
+  createWithdrawalFeeTemplateDraft,
+  updateWithdrawalFeeTemplateDraft,
+  deleteWithdrawalFeeTemplateDraft,
+  publishFees,
+  getFeeVersions,
+  getFeeVersionById,
+  rollbackFeeVersion,
+  getFeeVersionDiff,
+  exportFees,
+  importFees,
+  validateFeeImport,
+  calculateFee,
+  validateFeeConsistency,
+  type TradingFeeQueryParams,
+  type WithdrawalFeeQueryParams,
+  type VersionQueryParams,
+  type PublishPayload,
+  type ImportPayload,
+  type ExportParams,
+} from '@/services/api/facade'
+import { message } from 'ant-design-vue'
+import type { 
   TradingFeeTemplate,
   WithdrawalFeeTemplate,
   Version,
-} from '@/types/models'
-import type { PublishPayload, ImportPayload, ExportParams } from '@/types/api'
+  FeeCalculationParams,
+  FeeCalculationResult,
+  ValidateConsistencyResult
+} from '@/contracts/fees'
 import { message } from 'ant-design-vue'
 
 export const useFeesStore = defineStore('fees', () => {

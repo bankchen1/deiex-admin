@@ -1,0 +1,190 @@
+{
+  "tradeReportList": {
+    "data": [
+      {
+        "id": "trade_report_001",
+        "symbol": "BTCUSDT",
+        "date": "2024-11-08",
+        "volume": "250.50000000",
+        "turnover": "15030000.00",
+        "trades": 1250,
+        "takerBuyVolume": "130.25000000",
+        "takerBuyTurnover": "7815000.00"
+      },
+      {
+        "id": "trade_report_002",
+        "symbol": "ETHUSDT", 
+        "date": "2024-11-08",
+        "volume": "1200.75000000",
+        "turnover": "4803000.00",
+        "trades": 2100,
+        "takerBuyVolume": "680.45000000",
+        "takerBuyTurnover": "2721800.00"
+      }
+    ],
+    "total": 150,
+    "page": 1,
+    "pageSize": 20
+  },
+  "financeReportList": {
+    "data": [
+      {
+        "id": "finance_report_001",
+        "date": "2024-11-08",
+        "depositAmount": "1200000.00",
+        "depositCount": 45,
+        "withdrawalAmount": "1050000.00",
+        "withdrawalCount": 32,
+        "feeIncome": "12500.00",
+        "userCount": 52000,
+        "activeUserCount": 1500
+      }
+    ],
+    "total": 95,
+    "page": 1,
+    "pageSize": 20
+  },
+  "retentionReportList": {
+    "data": [
+      {
+        "id": "retention_report_001",
+        "date": "2024-11-08",
+        "newUserCount": 12,
+        "day1": 0.85,
+        "day7": 0.65,
+        "day30": 0.35,
+        "day90": 0.15,
+        "mtd": 0.45,
+        "qtd": 0.38,
+        "ytd": 0.28
+      }
+    ],
+    "total": 320,
+    "page": 1,
+    "pageSize": 20
+  },
+  "tradeDailyData": [
+    {
+      "date": "2024-11-01",
+      "volume": "1250.25000000",
+      "turnover": "75012500.00",
+      "trades": 5210
+    },
+    {
+      "date": "2024-11-02",
+      "volume": "1400.80000000",
+      "turnover": "84048000.00",
+      "trades": 6520
+    },
+    {
+      "date": "2024-11-03",
+      "volume": "1320.45000000",
+      "turnover": "79227000.00",
+      "trades": 5980
+    },
+    {
+      "date": "2024-11-04",
+      "volume": "1580.75000000",
+      "turnover": "94845000.00",
+      "trades": 7230
+    },
+    {
+      "date": "2024-11-05",
+      "volume": "1420.35000000",
+      "turnover": "85221000.00",
+      "trades": 6450
+    },
+    {
+      "date": "2024-11-06",
+      "volume": "1350.90000000",
+      "turnover": "81054000.00",
+      "trades": 6120
+    },
+    {
+      "date": "2024-11-07",
+      "volume": "1280.65000000",
+      "turnover": "76839000.00",
+      "trades": 5820
+    },
+    {
+      "date": "2024-11-08",
+      "volume": "1300.50000000",
+      "turnover": "78030000.00",
+      "trades": 5950
+    }
+  ],
+  "symbolVolumeData": [
+    {
+      "symbol": "BTCUSDT",
+      "volume": "250.50000000",
+      "turnover": "15030000.00",
+      "percentage": 32.5
+    },
+    {
+      "symbol": "ETHUSDT",
+      "volume": "1200.75000000",
+      "turnover": "4803000.00",
+      "percentage": 15.2
+    },
+    {
+      "symbol": "SOLUSDT",
+      "volume": "9500.25000000",
+      "turnover": "1900000.00",
+      "percentage": 12.8
+    }
+  ],
+  "financeDailyData": [
+    {
+      "date": "2024-11-08",
+      "depositAmount": "1200000.00",
+      "withdrawalAmount": "1050000.00",
+      "feeIncome": "12500.00",
+      "netFlow": "150000.00"
+    }
+  ],
+  "feeIncomeData": [
+    {
+      "date": "2024-11-08",
+      "feeType": "trading",
+      "income": "8500.00",
+      "currency": "USDT"
+    },
+    {
+      "date": "2024-11-08",
+      "feeType": "withdrawal",
+      "income": "4000.00",
+      "currency": "USDT"
+    }
+  ],
+  "retentionData": [
+    {
+      "date": "2024-11-08",
+      "day1": 0.85,
+      "day7": 0.65,
+      "day30": 0.35,
+      "day90": 0.15
+    }
+  ],
+  "funnelData": [
+    {
+      "stage": "Registered",
+      "count": 120,
+      "conversion": 100
+    },
+    {
+      "stage": "Verified",
+      "count": 85,
+      "conversion": 70.8
+    },
+    {
+      "stage": "Deposited",
+      "count": 42,
+      "conversion": 35.0
+    },
+    {
+      "stage": "Traded",
+      "count": 32,
+      "conversion": 26.7
+    }
+  ]
+}

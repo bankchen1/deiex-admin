@@ -213,3 +213,134 @@ export const rejectWithdrawal = async (
     return createErrorResponse(error)
   }
 }
+
+/**
+ * 钱包地址查询参数
+ */
+export interface WalletAddressQueryParams extends PaginationParams {
+  type?: 'hot' | 'cold'
+  chain?: string
+  status?: 'active' | 'inactive' | 'maintenance'
+  search?: string
+}
+
+/**
+ * 钱包地址创建载荷
+ */
+export interface CreateWalletAddressPayload {
+  chain: string
+  address: string
+  label: string
+  type: 'hot' | 'cold'
+}
+
+/**
+ * 钱包地址更新载荷
+ */
+export interface UpdateWalletAddressPayload {
+  label?: string
+  status?: 'active' | 'inactive' | 'maintenance'
+}
+
+/**
+ * 获取钱包地址列表
+ */
+export const listWalletAddresses = async (
+  params: WalletAddressQueryParams = {}
+): Promise<FacadeResponse<{ data: WalletAddress[]; total: number; page: number; pageSize: number }>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safeGet<{
+        data: WalletAddress[]
+        total: number
+        page: number
+        pageSize: number
+      }>('/admin/assets/wallet-addresses', { params })
+      return createSuccessResponse(response.data, {
+        pagination: {
+          page: response.data.page,
+          pageSize: response.data.pageSize,
+          total: response.data.total,
+        },
+      })
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 根据ID获取钱包地址
+ */
+export const getWalletAddressById = async (id: string): Promise<FacadeResponse<WalletAddress>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safeGet<WalletAddress>(`/admin/assets/wallet-addresses/${id}`)
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 创建钱包地址
+ */
+export const createWalletAddress = async (
+  payload: CreateWalletAddressPayload
+): Promise<FacadeResponse<WalletAddress>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safePost<WalletAddress>('/admin/assets/wallet-addresses', payload)
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 更新钱包地址
+ */
+export const updateWalletAddress = async (
+  id: string,
+  payload: UpdateWalletAddressPayload
+): Promise<FacadeResponse<WalletAddress>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safePut<WalletAddress>(`/admin/assets/wallet-addresses/${id}`, payload)
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 删除钱包地址
+ */
+export const deleteWalletAddress = async (id: string): Promise<FacadeResponse<boolean>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safeDelete<boolean>(`/admin/assets/wallet-addresses/${id}`)
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
