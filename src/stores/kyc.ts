@@ -7,7 +7,6 @@ import {
   approveKycApplication,
   rejectKycApplication,
   type KycQueryParams,
-  type KycStats,
 } from '@/services/api/facade'
 import type { 
   KycApplication, 
