@@ -1,14 +1,13 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import {
-  listApplications,
-  getApplicationById,
-  getStats,
-  approveApplication,
-  rejectApplication,
-  type KycApplicationQueryParams,
-  type ApproveKycApplicationPayload,
-  type RejectKycApplicationPayload,
+  listKycApplications,
+  getKycApplicationById,
+  getKycStats,
+  approveKycApplication,
+  rejectKycApplication,
+  type KycQueryParams,
+  type KycStats,
 } from '@/services/api/facade'
 import type { 
   KycApplication, 
@@ -121,11 +120,11 @@ export const useKycStore = defineStore('kyc', () => {
     }
   }
 
-  async function approveApplicationAction(id: string, payload: ApproveKycApplicationPayload) {
+  async function approveApplicationAction(id: string, payload: { reason?: string; notes?: string }) {
     actionLoading.value = true
     error.value = null
     try {
-      const { data, error: err } = await approveApplication(id, payload)
+      const { data, error: err } = await approveKycApplication(id, payload)
 
       if (err) {
         error.value = err.message
@@ -156,11 +155,11 @@ export const useKycStore = defineStore('kyc', () => {
     }
   }
 
-  async function rejectApplicationAction(id: string, payload: RejectKycApplicationPayload) {
+  async function rejectApplicationAction(id: string, payload: { reason: string; notes?: string }) {
     actionLoading.value = true
     error.value = null
     try {
-      const { data, error: err } = await rejectApplication(id, payload)
+      const { data, error: err } = await rejectKycApplication(id, payload)
 
       if (err) {
         error.value = err.message
