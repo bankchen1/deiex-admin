@@ -42,5 +42,16 @@ export default defineConfig({
     port: 5173,
     host: true,
     open: false,
+    fs: {
+      allow: [
+        '.',
+        '..',
+        '../..',
+        '/Volumes',
+        '/Volumes/BankChen',
+        '/Volumes/BankChen/deiex1',
+        '/Volumes/BankChen/deiex1/deiex-admin',
+      ]
+    }
   },
 })

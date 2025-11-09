@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { dashboardApi, usersApi } from '@/services/api/facade'
+import { getDashboardStats, listUsers } from '@/services/api/facade'
 import { mockService } from '@/services/mock'
 import { useDashboardStore } from '@/stores/dashboard'
 
@@ -51,7 +51,7 @@ const mockStatus = computed(() => ({
 async function testDashboardApi() {
   testResult.value = 'Testing...'
   try {
-    const response = await dashboardApi.getStats()
+    const response = await getDashboardStats()
     testResult.value = JSON.stringify(
       {
         success: '✅ API call successful',
@@ -76,7 +76,7 @@ async function testDashboardApi() {
 async function testUsersApi() {
   testResult.value = 'Testing...'
   try {
-    const response = await usersApi.listUsers({ page: 1, pageSize: 10 })
+    const response = await listUsers({ page: 1, pageSize: 10 })
     testResult.value = JSON.stringify(
       {
         success: '✅ Users API successful',
