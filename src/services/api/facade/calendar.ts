@@ -268,9 +268,9 @@ export const listAnnouncements = async (
 }
 
 /**
- * 根据ID获取公告
+ * 根据ID获取公告（仅获取已发布的）
  */
-export const getAnnouncementById = async (id: string): Promise<FacadeResponse<Announcement>> => {
+export const getPublishedAnnouncementById = async (id: string): Promise<FacadeResponse<Announcement>> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<Announcement>(`/admin/config/calendar/announcements/${id}`)
@@ -699,9 +699,9 @@ export const getDraftAnnouncements = async (
 }
 
 /**
- * 根据ID获取公告
+ * 根据ID获取公告（支持草稿/已发布模式）
  */
-export const getAnnouncementById = async (
+export const getAnnouncementByIdWithDraftOption = async (
   id: string,
   isDraft = false
 ): Promise<FacadeResponse<Announcement>> => {
