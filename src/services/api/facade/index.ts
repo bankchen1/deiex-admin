@@ -81,7 +81,6 @@ export {
   updateInstrument,
   publishInstrument,
   listMarginTemplates,
-  listTradingFeeTemplates,
 } from './config'
 
 export {

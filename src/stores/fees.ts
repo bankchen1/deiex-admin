@@ -37,7 +37,6 @@ import type {
   FeeCalculationResult,
   ValidateConsistencyResult
 } from '@/contracts/fees'
-import { message } from 'ant-design-vue'
 
 export const useFeesStore = defineStore('fees', () => {
   // State
