@@ -1,15 +1,28 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { instrumentsApi } from '@/services/api/config.instruments'
-import type {
-  InstrumentQueryParams,
-  InstrumentCreatePayload,
-  InstrumentUpdatePayload,
-  PublishPayload,
-  ImportPayload,
-  ExportParams,
-} from '@/types/api'
-import type { Instrument, Version } from '@/types/models'
+import {
+  listInstruments,
+  getInstrumentBySymbol,
+  createInstrument as createInstrumentFacade,
+  updateInstrument as updateInstrumentFacade,
+  publishInstrument as publishInstrumentFacade,
+  importInstruments as importInstrumentsFacade,
+  exportInstruments as exportInstrumentsFacade,
+  getInstrumentVersions,
+  getInstrumentVersion,
+  rollbackInstrumentVersion,
+  getInstrumentDiff,
+  validateImport,
+  calculateImpact,
+  type InstrumentQueryParams,
+  type CreateInstrumentPayload,
+  type UpdateInstrumentPayload,
+  type PublishPayload,
+  type ImportPayload,
+  type ExportParams,
+  type VersionQueryParams,
+} from '@/services/api/facade'
+import type { Instrument, Version } from '@/contracts/instruments'
 import { message } from 'ant-design-vue'
 
 export const useInstrumentsStore = defineStore('instruments', () => {
@@ -36,13 +49,25 @@ export const useInstrumentsStore = defineStore('instruments', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await instrumentsApi.getPublished(params)
-      published.value = response.data.data
-      publishedTotal.value = response.data.total
-      if (response.data.data.length > 0 && response.data.data[0]) {
-        currentVersion.value = response.data.data[0].version
+      const { data, error: err } = await listInstruments({ ...params, status: 'published' })
+      
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
       }
-      return response
+      
+      if (!data) {
+        published.value = []
+        publishedTotal.value = 0
+        return
+      }
+      
+      published.value = data.data
+      publishedTotal.value = data.total
+      if (data.data.length > 0 && data.data[0]) {
+        currentVersion.value = data.data[0].version
+      }
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch published instruments'
       message.error(error.value)

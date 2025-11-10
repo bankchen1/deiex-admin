@@ -83,6 +83,53 @@ export {
 } from './config'
 
 export {
+  listFundingRules,
+  getFundingRuleById,
+  createFundingRule,
+  updateFundingRule,
+  deleteFundingRule,
+  listMaintenanceWindows,
+  getMaintenanceWindowById,
+  createMaintenanceWindow,
+  updateMaintenanceWindow,
+  deleteMaintenanceWindow,
+  listAnnouncements,
+  getAnnouncementById,
+  createAnnouncement,
+  updateAnnouncement,
+  publishAnnouncement,
+  deleteAnnouncement,
+  // Calendar specific functions
+  getPublishedFunding,
+  getDraftFunding,
+  getFundingById,
+  createDraftFunding,
+  updateDraftFunding,
+  deleteDraftFunding,
+  getPublishedMaintenance,
+  getDraftMaintenance,
+  getMaintenanceById,
+  createDraftMaintenance,
+  updateDraftMaintenance,
+  deleteDraftMaintenance,
+  getPublishedAnnouncements,
+  getDraftAnnouncements,
+  createDraftAnnouncement,
+  updateDraftAnnouncement,
+  deleteDraftAnnouncement,
+  getVersions,
+  getDiff,
+  publish,
+  rollback,
+  validateTimeConflicts,
+  exportData,
+  importData,
+  getVersionHistory,
+  exportCalendarConfig,
+  importCalendarConfig,
+} from './calendar'
+
+export {
   listRiskRules,
   getRiskRuleById,
   createRiskRule,
@@ -155,16 +202,6 @@ export {
   exportCalendarConfig,
   importCalendarConfig,
 } from './calendar'
-
-export {
-  listInstruments,
-  getInstrumentBySymbol,
-  createInstrument,
-  updateInstrument,
-  publishInstrument,
-  listMarginTemplates,
-  listTradingFeeTemplates,
-} from './config'
 
 // 导出类型
 export type { UserQueryParams, UserStats, UserDetailResponse } from './users'

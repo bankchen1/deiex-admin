@@ -18,7 +18,8 @@
     "ui:lintsources": "node scripts/check-forbidden-imports.js",
     "services:coverage": "node scripts/check-service-coverage.js",
     "switch:test": "node scripts/test-switch-mode.js",
-    "arch:verify": "node scripts/verify-architecture-compliance.cjs"
+    "arch:verify": "node scripts/verify-architecture-compliance.cjs",
+    "arch:fullcheck": "node scripts/check-architecture-compliance-comprehensive.mjs"
   },
   "dependencies": {
     "ant-design-vue": "^4.2.6",

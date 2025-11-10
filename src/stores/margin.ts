@@ -1,16 +1,35 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { marginApi } from '@/services/api/config.margin'
-import type {
-  MarginQueryParams,
-  MarginTemplateCreatePayload,
-  MarginTemplateUpdatePayload,
-  MarginBindingPayload,
-  PublishPayload,
-  ImportPayload,
-  ExportParams,
-} from '@/types/api'
-import type { MarginTemplate, MarginBinding, Version } from '@/types/models'
+import {
+  listMarginTemplates,
+  getMarginTemplateById,
+  createMarginTemplate,
+  updateMarginTemplate,
+  deleteMarginTemplate,
+  listMarginBindings,
+  getMarginBindingById,
+  createMarginBinding,
+  updateMarginBinding,
+  deleteMarginBinding,
+  publishMarginTemplate,
+  importMarginData,
+  exportMarginData,
+  getMarginVersions,
+  getMarginVersion,
+  rollbackMarginVersion,
+  getMarginTemplateDiff,
+  getMarginBindingDiff,
+  type MarginTemplateQueryParams,
+  type MarginBindingQueryParams,
+  type CreateMarginTemplatePayload,
+  type UpdateMarginTemplatePayload,
+  type CreateMarginBindingPayload,
+  type PublishPayload,
+  type ImportPayload,
+  type ExportParams,
+  type VersionQueryParams,
+} from '@/services/api/facade'
+import type { MarginTemplate, MarginBinding, Version } from '@/contracts/margin'
 import { message } from 'ant-design-vue'
 
 export const useMarginStore = defineStore('margin', () => {
