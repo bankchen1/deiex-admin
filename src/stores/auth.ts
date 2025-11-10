@@ -1,20 +1,16 @@
 // Authentication Store
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { apiClient } from '@/services/api/AdminApiClient'
+import { 
+  login as loginFacade,
+  logout as logoutFacade,
+  refreshToken as refreshTokenFacade,
+  getCurrentUser as getCurrentUserFacade,
+  type LoginPayload,
+  type LoginResponse,
+} from '@/services/api/facade'
 import { hasPermission, hasAnyPermission, hasAllPermissions } from '@/utils/permission'
-import type { AdminUser, ApiResponse } from '@/types'
-
-interface LoginPayload {
-  username: string
-  password: string
-}
-
-interface LoginResponse {
-  accessToken: string
-  refreshToken: string
-  user: AdminUser
-}
+import type { AdminUser } from '@/contracts/auth'
 
 export const useAuthStore = defineStore('auth', () => {
   // State
@@ -31,13 +27,23 @@ export const useAuthStore = defineStore('auth', () => {
   const userPermissions = computed(() => Array.from(permissions.value))
 
   // Actions
-  async function login(payload: LoginPayload): Promise<void> {
+  async function loginAction(payload: LoginPayload): Promise<void> {
     loading.value = true
     error.value = null
 
     try {
-      const response = await apiClient.post<ApiResponse<LoginResponse>>('/auth/login', payload)
-      const { accessToken, refreshToken: newRefreshToken, user: userData } = response.data
+      const { data, error: err } = await loginFacade(payload)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('Login failed - no response data')
+      }
+
+      const { accessToken, refreshToken: newRefreshToken, user: userData } = data
 
       // Store tokens
       token.value = accessToken
@@ -47,7 +53,7 @@ export const useAuthStore = defineStore('auth', () => {
 
       // Store user data
       user.value = userData
-      permissions.value = new Set(userData.permissions)
+      permissions.value = new Set(userData.permissions || [])
 
       // Store user in localStorage for persistence
       localStorage.setItem('user', JSON.stringify(userData))
@@ -59,13 +65,17 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  async function logout(): Promise<void> {
+  async function logoutAction(): Promise<void> {
     loading.value = true
     error.value = null
 
     try {
-      // Call logout API
-      await apiClient.post('/auth/logout')
+      const { data, error: err } = await logoutFacade()
+
+      if (err) {
+        console.error('Logout API call failed:', err.message)
+        // Continue with local cleanup even if API call fails
+      }
     } catch (err) {
       console.error('Logout API call failed:', err)
       // Continue with local cleanup even if API call fails
@@ -82,11 +92,21 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     try {
-      const response = await apiClient.post<
-        ApiResponse<{ accessToken: string; refreshToken: string }>
-      >('/auth/refresh', { refreshToken: refreshToken.value })
+      const { data, error: err } = await refreshTokenFacade({ refreshToken: refreshToken.value })
 
-      const { accessToken, refreshToken: newRefreshToken } = response.data
+      if (err) {
+        // Clear auth data on refresh failure
+        clearAuthData()
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        // Clear auth data on refresh failure
+        clearAuthData()
+        throw new Error('Failed to refresh access token')
+      }
+
+      const { accessToken, refreshToken: newRefreshToken } = data
 
       // Update tokens
       token.value = accessToken
@@ -105,12 +125,22 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null
 
     try {
-      const response = await apiClient.get<ApiResponse<AdminUser>>('/auth/me')
-      user.value = response.data
-      permissions.value = new Set(response.data.permissions)
+      const { data, error: err } = await getCurrentUserFacade()
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('Failed to fetch user info')
+      }
+
+      user.value = data
+      permissions.value = new Set(data.permissions || [])
 
       // Update localStorage
-      localStorage.setItem('user', JSON.stringify(response.data))
+      localStorage.setItem('user', JSON.stringify(data))
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to fetch user info'
       throw err
@@ -176,8 +206,8 @@ export const useAuthStore = defineStore('auth', () => {
     userRoles,
     userPermissions,
     // Actions
-    login,
-    logout,
+    login: loginAction,
+    logout: logoutAction,
     refreshAccessToken,
     fetchUserInfo,
     checkPermission,

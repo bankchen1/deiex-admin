@@ -21,7 +21,9 @@ export * as reportsFacade from './reports'
 export * as calendarFacade from './calendar'
 export * as feesFacade from './fees'
 export * as iconsFacade from './icons'
+export * as authFacade from './auth'
 export * as dashboardFacade from './dashboard'
+export * as securityFacade from './security'
 
 // 便捷导出（可选）
 export {
@@ -239,6 +241,42 @@ export {
   exportMappings,
   importMappings,
 } from './mappings'
+
+export {
+  login,
+  logout,
+  refreshToken,
+  getCurrentUser,
+  updateUserPermissions,
+  resetUserPassword,
+} from './auth'
+
+export {
+  listRoles,
+  getRoleById,
+  createRole,
+  updateRole,
+  deleteRole,
+  getPermissionTree,
+  getAllPermissions,
+  listAdminUsers,
+  getAdminUserById,
+  createAdminUser,
+  updateAdminUser,
+  disableAdminUser,
+  enableAdminUser,
+  resetAdminPassword,
+  listIpWhitelist,
+  addIpWhitelistEntry,
+  removeIpWhitelistEntry,
+  getApiKeys,
+  createApiKey,
+  revokeApiKey,
+  regenerateApiKey,
+  getAuditLogs,
+  getAuditLogById,
+  exportAuditLogs,
+} from './security'
 
 export {
   listTradingFeeTemplates,
