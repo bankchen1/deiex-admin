@@ -155,7 +155,7 @@ import { message } from 'ant-design-vue'
 import { InboxOutlined } from '@ant-design/icons-vue'
 import { useIconsStore } from '@/stores/icons'
 import type { UploadProps } from 'ant-design-vue'
-import type { ValidationResult, BulkUploadResult } from '@/services/api/config.icons'
+import type { ValidationResult, BulkUploadResult } from '@/services/api/facade'
 
 interface Emits {
   (e: 'success', result: BulkUploadResult): void

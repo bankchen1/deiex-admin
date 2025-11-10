@@ -18,12 +18,12 @@ import {
   type RejectWithdrawalPayload,
   type CreateWalletAddressPayload,
 } from '@/services/api/facade'
-import type { 
-  Deposit, 
-  Withdrawal, 
+import type {
+  Deposit,
+  Withdrawal,
   WalletAddress,
   DepositDetailResponse,
-  WithdrawalDetailResponse
+  WithdrawalDetailResponse,
 } from '@/contracts/assets'
 
 export const useAssetsStore = defineStore('assets', () => {

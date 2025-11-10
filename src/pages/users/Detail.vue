@@ -185,7 +185,11 @@ import UserSecuritySection from '@/sections/users/UserSecuritySection.vue'
 import AdjustVipModal from '@/modals/users/AdjustVipModal.vue'
 import Reset2FAModal from '@/modals/users/Reset2FAModal.vue'
 import TagForm from '@/forms/users/TagForm.vue'
-import type { UserVipUpdatePayload as VipUpdatePayload, UserTagUpdatePayload as TagUpdatePayload, User2FAResetPayload as Reset2FAPayload } from '@/contracts/users'
+import type {
+  UserVipUpdatePayload as VipUpdatePayload,
+  UserTagUpdatePayload as TagUpdatePayload,
+  User2FAResetPayload as Reset2FAPayload,
+} from '@/contracts/users'
 
 const route = useRoute()
 const router = useRouter()

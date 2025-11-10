@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { SystemLog } from '@/services/api/ops'
+import type { SystemLog } from '@/services/api/facade'
 import { formatDateTime } from '@/utils/date'
 
 interface Props {

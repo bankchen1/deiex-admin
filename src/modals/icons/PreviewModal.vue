@@ -117,7 +117,7 @@
 import { ref, watch } from 'vue'
 import { message, Modal } from 'ant-design-vue'
 import { useIconsStore } from '@/stores/icons'
-import type { IconAsset } from '@/services/api/config.icons'
+import type { IconAsset } from '@/services/api/facade'
 import { formatDate } from '@/utils/date'
 
 interface Props {

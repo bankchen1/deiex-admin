@@ -112,7 +112,7 @@ import { SearchOutlined, ExportOutlined } from '@ant-design/icons-vue'
 import type { Dayjs } from 'dayjs'
 import FuturesOrderTable from '@/tables/orders/FuturesOrderTable.vue'
 import OrderDetailDrawer from '@/modals/orders/OrderDetailDrawer.vue'
-import type { FuturesOrder, OrderQueryParams } from '@/services/api/orders'
+import type { FuturesOrder, OrderQueryParams } from '@/services/api/facade'
 import { useOrdersStore } from '@/stores/orders'
 
 const router = useRouter()

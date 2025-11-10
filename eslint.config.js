@@ -75,15 +75,27 @@ export default [
           patterns: [
             {
               group: ['@/services/api/AdminApiClient'],
-              message: '❌ 禁止直接使用API客户端！请使用Facade: import { ... } from "@/services/api/facade"',
+              message:
+                '❌ 禁止直接使用API客户端！请使用Facade: import { ... } from "@/services/api/facade"',
             },
             {
               group: ['@/services/api/_sdk'],
-              message: '❌ 禁止直接使用SDK！请使用Facade: import { ... } from "@/services/api/facade"',
+              message:
+                '❌ 禁止直接使用SDK！请使用Facade: import { ... } from "@/services/api/facade"',
             },
             {
-              group: ['@/services/api/users', '@/services/api/orders', '@/services/api/assets', '@/services/api/kyc', '@/services/api/config*', '@/services/api/risk', '@/services/api/ops', '@/services/api/settings'],
-              message: '❌ 禁止直接使用旧API服务！请使用Facade: import { ... } from "@/services/api/facade"',
+              group: [
+                '@/services/api/users',
+                '@/services/api/orders',
+                '@/services/api/assets',
+                '@/services/api/kyc',
+                '@/services/api/config*',
+                '@/services/api/risk',
+                '@/services/api/ops',
+                '@/services/api/settings',
+              ],
+              message:
+                '❌ 禁止直接使用旧API服务！请使用Facade: import { ... } from "@/services/api/facade"',
             },
           ],
         },
@@ -92,7 +104,7 @@ export default [
   },
   {
     files: [
-      'scripts/**/*.{js,ts,mjs}',
+      'scripts/**/*.{js,ts,mjs,cjs}',
       '*.config.{js,ts}',
       'test*.{js,mjs}',
       'vite.config.ts',

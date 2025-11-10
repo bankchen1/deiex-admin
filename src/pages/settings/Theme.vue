@@ -30,7 +30,7 @@ import { message } from 'ant-design-vue'
 import { useSettingsStore } from '@/stores/settings'
 import ThemeForm from '@/forms/settings/ThemeForm.vue'
 import ThemePreview from '@/widgets/preview/ThemePreview.vue'
-import type { ThemeSettings } from '@/services/api/settings'
+import type { ThemeSettings } from '@/services/api/facade'
 
 const settingsStore = useSettingsStore()
 

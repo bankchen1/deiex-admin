@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import RoleForm from '@/forms/security/RoleForm.vue'
-import type { Role, CreateRolePayload, UpdateRolePayload } from '@/services/api/config.security'
+import type { Role, CreateRolePayload, UpdateRolePayload } from '@/services/api/facade'
 
 interface Props {
   open: boolean

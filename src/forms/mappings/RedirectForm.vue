@@ -62,7 +62,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import type { Rule } from 'ant-design-vue/es/form'
-import type { RouteRedirect } from '@/services/api/config.mappings'
+import type { RouteRedirect } from '@/services/api/facade'
 import dayjs, { type Dayjs } from 'dayjs'
 
 interface Props {

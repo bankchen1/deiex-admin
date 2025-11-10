@@ -8,12 +8,7 @@ import {
   updateAlertStatus,
   type DateRangeParams,
 } from '@/services/api/facade'
-import type {
-  DashboardStats,
-  DashboardCharts,
-  Alert,
-  AlertDetail,
-} from '@/contracts/dashboard'
+import type { DashboardStats, DashboardCharts, Alert, AlertDetail } from '@/contracts/dashboard'
 
 export const useDashboardStore = defineStore('dashboard', () => {
   // State

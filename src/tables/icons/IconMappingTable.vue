@@ -83,7 +83,7 @@ import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons-vu
 import ServerTable from '@/shared/ServerTable.vue'
 import RBACGuard from '@/shared/RBACGuard.vue'
 import { useIconsStore } from '@/stores/icons'
-import type { IconMapping, IconMappingQueryParams } from '@/services/api/config.icons'
+import type { IconMapping, IconMappingQueryParams } from '@/services/api/facade'
 import type { TableParams } from '@/types/components'
 import { formatDate } from '@/utils/date'
 

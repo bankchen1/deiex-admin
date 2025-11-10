@@ -11,17 +11,17 @@ import type { FacadeResponse, PaginationParams } from '../_types'
 import { isMockMode, createSuccessResponse, createErrorResponse } from '../_types'
 import { mockService } from '@/services/mock'
 import { safeGet, safePost } from '../_client'
-import type { 
-  UserListResponse, 
-  UserDetailResponse, 
-  UserStats, 
-  UserQueryParams, 
-  UserVipUpdatePayload, 
-  UserTagUpdatePayload, 
-  User2FAResetPayload, 
-  UserDisablePayload, 
+import type {
+  UserListResponse,
+  UserDetailResponse,
+  UserStats,
+  UserQueryParams,
+  UserVipUpdatePayload,
+  UserTagUpdatePayload,
+  User2FAResetPayload,
+  UserDisablePayload,
   UserEnablePayload,
-  UserExportResponse
+  UserExportResponse,
 } from '@/contracts/users'
 
 /**
@@ -214,7 +214,9 @@ export const enableUser = async (
 /**
  * 导出用户数据
  */
-export const exportUsers = async (params: UserQueryParamsExtended = {}): Promise<FacadeResponse<UserExportResponse>> => {
+export const exportUsers = async (
+  params: UserQueryParamsExtended = {}
+): Promise<FacadeResponse<UserExportResponse>> => {
   try {
     if (isMockMode()) {
       // Mock模式

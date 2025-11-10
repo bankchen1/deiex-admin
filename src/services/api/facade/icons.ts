@@ -1,6 +1,6 @@
 /**
  * Icons Facade - 图标管理统一出入口
- * 
+ *
  * 职责：
  * 1. 根据环境切换Mock/Real数据源
  * 2. 统一返回格式（FacadeResponse）
@@ -11,7 +11,7 @@ import type { FacadeResponse, PaginationParams } from '../_types'
 import { isMockMode, createSuccessResponse, createErrorResponse } from '../_types'
 import { mockService } from '@/services/mock'
 import { safeGet, safePost, safePut, safeDelete } from '../_client'
-import type { 
+import type {
   IconAsset,
   IconMapping,
   Version,
@@ -25,7 +25,7 @@ import type {
   ValidateIconPayload,
   PublishIconPayload,
   ValidationResult,
-  BulkUploadResult
+  BulkUploadResult,
 } from '@/contracts/icons'
 
 /**
@@ -33,7 +33,9 @@ import type {
  */
 export const listIconAssets = async (
   params: IconAssetQueryParams = {}
-): Promise<FacadeResponse<{ data: IconAsset[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: IconAsset[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -136,7 +138,9 @@ export const deleteIconAsset = async (id: string): Promise<FacadeResponse<boolea
  */
 export const listIconMappings = async (
   params: IconMappingQueryParams = {}
-): Promise<FacadeResponse<{ data: IconMapping[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: IconMapping[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -247,16 +251,16 @@ export const bulkUploadIcons = async (
         success: payload.files.length,
         failed: 0,
         errors: [],
-        createdAssets: []
-      };
-      
+        createdAssets: [],
+      }
+
       // Create mock data for uploaded icons
       for (let i = 0; i < payload.files.length; i++) {
         result.createdAssets.push({
           id: `icon_${Date.now()}_${i}`,
           name: payload.files[i].name,
           category: payload.category,
-          type: payload.files[i].name.split('.').pop() as any || 'svg',
+          type: (payload.files[i].name.split('.').pop() as any) || 'svg',
           size: `${payload.files[i].size} bytes`,
           width: 24,
           height: 24,
@@ -270,7 +274,7 @@ export const bulkUploadIcons = async (
           thumbnailUrl: `/assets/icons/thumb/${payload.files[i].name}`,
         })
       }
-      
+
       return createSuccessResponse(result)
     } else {
       // Real模式
@@ -284,7 +288,9 @@ export const bulkUploadIcons = async (
 /**
  * 验证图标文件
  */
-export const validateIcon = async (payload: ValidateIconPayload): Promise<FacadeResponse<ValidationResult>> => {
+export const validateIcon = async (
+  payload: ValidateIconPayload
+): Promise<FacadeResponse<ValidationResult>> => {
   try {
     if (isMockMode()) {
       // Mock validation response
@@ -298,17 +304,21 @@ export const validateIcon = async (payload: ValidateIconPayload): Promise<Facade
           dimensions: { width: 24, height: 24 },
           accessibility: {
             hasAltText: true,
-            hasTitle: true
-          }
-        }
+            hasTitle: true,
+          },
+        },
       }
-      
+
       // Simple validation rules
-      if (!['image/svg+xml', 'image/png', 'image/jpeg', 'image/gif', 'image/webp'].includes(payload.file.type)) {
+      if (
+        !['image/svg+xml', 'image/png', 'image/jpeg', 'image/gif', 'image/webp'].includes(
+          payload.file.type
+        )
+      ) {
         result.valid = false
         result.errors.push('Unsupported file type')
       }
-      
+
       return createSuccessResponse(result)
     } else {
       // Real模式
@@ -328,7 +338,10 @@ export const publishIconAsset = async (
 ): Promise<FacadeResponse<IconAsset>> => {
   try {
     if (isMockMode()) {
-      const response = await safePost<IconAsset>(`/admin/config/icons/assets/${id}/publish`, payload)
+      const response = await safePost<IconAsset>(
+        `/admin/config/icons/assets/${id}/publish`,
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -346,9 +359,10 @@ export const exportIcons = async (params: any): Promise<FacadeResponse<Blob>> =>
   try {
     if (isMockMode()) {
       // Mock export response
-      const csvContent = "id,name,category,type,size,tags,status,createdAt\n" +
-        "icon_001,home-icon,navigation,svg,2.3KB,\"house,home\",published,2024-01-01T00:00:00Z\n" +
-        "icon_002,user-profile,user,png,4.5KB,\"profile,user\",published,2024-01-02T00:00:00Z"
+      const csvContent =
+        'id,name,category,type,size,tags,status,createdAt\n' +
+        'icon_001,home-icon,navigation,svg,2.3KB,"house,home",published,2024-01-01T00:00:00Z\n' +
+        'icon_002,user-profile,user,png,4.5KB,"profile,user",published,2024-01-02T00:00:00Z'
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
       return createSuccessResponse(blob)
     } else {
@@ -369,7 +383,10 @@ export const replaceIconAsset = async (
 ): Promise<FacadeResponse<IconAsset>> => {
   try {
     if (isMockMode()) {
-      const response = await safePost<IconAsset>(`/admin/config/icons/assets/${id}/replace`, payload)
+      const response = await safePost<IconAsset>(
+        `/admin/config/icons/assets/${id}/replace`,
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式

@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { ScheduledTask } from '@/services/api/ops'
+import type { ScheduledTask } from '@/services/api/facade'
 import { formatDateTime } from '@/utils/date'
 
 interface Props {

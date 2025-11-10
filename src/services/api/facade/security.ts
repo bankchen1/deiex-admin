@@ -6,7 +6,7 @@ import type { FacadeResponse, PaginationParams } from '../_types'
 import { isMockMode, createSuccessResponse, createErrorResponse } from '../_types'
 import { mockService } from '@/services/mock'
 import { safeGet, safePost, safePut, safePatch, safeDelete } from '../_client'
-import type { 
+import type {
   Role,
   AdminUser,
   IpWhitelistEntry,
@@ -98,7 +98,10 @@ export const createRole = async (payload: CreateRolePayload): Promise<FacadeResp
 /**
  * 更新角色
  */
-export const updateRole = async (id: string, payload: UpdateRolePayload): Promise<FacadeResponse<Role>> => {
+export const updateRole = async (
+  id: string,
+  payload: UpdateRolePayload
+): Promise<FacadeResponse<Role>> => {
   try {
     if (isMockMode()) {
       const response = await safePut<Role>(`/admin/security/roles/${id}`, payload)
@@ -168,7 +171,9 @@ export const getAllPermissions = async (): Promise<FacadeResponse<string[]>> => 
  */
 export const listAdminUsers = async (
   params: AdminUserQueryParams = {}
-): Promise<FacadeResponse<{ data: AdminUser[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: AdminUser[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -213,7 +218,9 @@ export const getAdminUserById = async (id: string): Promise<FacadeResponse<Admin
 /**
  * 创建管理员用户
  */
-export const createAdminUser = async (payload: CreateAdminUserPayload): Promise<FacadeResponse<AdminUser>> => {
+export const createAdminUser = async (
+  payload: CreateAdminUserPayload
+): Promise<FacadeResponse<AdminUser>> => {
   try {
     if (isMockMode()) {
       const response = await safePost<AdminUser>('/admin/security/admin-users', payload)
@@ -230,7 +237,10 @@ export const createAdminUser = async (payload: CreateAdminUserPayload): Promise<
 /**
  * 更新管理员用户
  */
-export const updateAdminUser = async (id: string, payload: UpdateAdminUserPayload): Promise<FacadeResponse<AdminUser>> => {
+export const updateAdminUser = async (
+  id: string,
+  payload: UpdateAdminUserPayload
+): Promise<FacadeResponse<AdminUser>> => {
   try {
     if (isMockMode()) {
       const response = await safePut<AdminUser>(`/admin/security/admin-users/${id}`, payload)
@@ -253,7 +263,9 @@ export const disableAdminUser = async (
 ): Promise<FacadeResponse<AdminUser>> => {
   try {
     if (isMockMode()) {
-      const response = await safePost<AdminUser>(`/admin/security/admin-users/${id}/disable`, { reason })
+      const response = await safePost<AdminUser>(`/admin/security/admin-users/${id}/disable`, {
+        reason,
+      })
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -309,7 +321,9 @@ export const resetAdminPassword = async (
  */
 export const listIpWhitelist = async (
   params: IpWhitelistQueryParams = {}
-): Promise<FacadeResponse<{ data: IpWhitelistEntry[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: IpWhitelistEntry[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -337,7 +351,7 @@ export const listIpWhitelist = async (
 /**
  * 添加IP到白名单
  */
-export const addIpWhitelist = async (
+export const addIpWhitelistEntry = async (
   payload: CreateIpWhitelistPayload
 ): Promise<FacadeResponse<IpWhitelistEntry>> => {
   try {
@@ -356,7 +370,7 @@ export const addIpWhitelist = async (
 /**
  * 从白名单移除IP
  */
-export const removeIpWhitelist = async (id: string): Promise<FacadeResponse<boolean>> => {
+export const removeIpWhitelistEntry = async (id: string): Promise<FacadeResponse<boolean>> => {
   try {
     if (isMockMode()) {
       const response = await safeDelete<boolean>(`/admin/security/ip-whitelist/${id}`)
@@ -378,7 +392,10 @@ export const getApiKeys = async (
 ): Promise<FacadeResponse<{ data: { items: ApiKey[]; total: number } }>> => {
   try {
     if (isMockMode()) {
-      const response = await safeGet<{ items: ApiKey[]; total: number }>('/admin/security/api-keys', { params })
+      const response = await safeGet<{ items: ApiKey[]; total: number }>(
+        '/admin/security/api-keys',
+        { params }
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -392,7 +409,9 @@ export const getApiKeys = async (
 /**
  * 创建API密钥
  */
-export const createApiKey = async (payload: CreateApiKeyPayload): Promise<FacadeResponse<ApiKey>> => {
+export const createApiKey = async (
+  payload: CreateApiKeyPayload
+): Promise<FacadeResponse<ApiKey>> => {
   try {
     if (isMockMode()) {
       const response = await safePost<ApiKey>('/admin/security/api-keys', payload)
@@ -490,13 +509,16 @@ export const getAuditLogById = async (id: string): Promise<FacadeResponse<AuditL
 /**
  * 导出审计日志
  */
-export const exportAuditLogs = async (params: AuditLogQueryParams = {}): Promise<FacadeResponse<Blob>> => {
+export const exportAuditLogs = async (
+  params: AuditLogQueryParams = {}
+): Promise<FacadeResponse<Blob>> => {
   try {
     if (isMockMode()) {
       // Mock export response - return a CSV blob with sample data
-      const csvContent = "id,timestamp,action,userId,ip,message\n" +
-        "log_001,2024-11-01T10:30:00Z,login_success,user_001,192.168.1.100,Successful login from IP\n" +
-        "log_002,2024-11-01T11:45:00Z,deposit_completed,user_002,203.0.113.50,Deposit of 1.0 BTC completed"
+      const csvContent =
+        'id,timestamp,action,userId,ip,message\n' +
+        'log_001,2024-11-01T10:30:00Z,login_success,user_001,192.168.1.100,Successful login from IP\n' +
+        'log_002,2024-11-01T11:45:00Z,deposit_completed,user_002,203.0.113.50,Deposit of 1.0 BTC completed'
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
       return createSuccessResponse(blob)
     } else {

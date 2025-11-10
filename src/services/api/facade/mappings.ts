@@ -1,6 +1,6 @@
 /**
  * Mappings Facade - 映射配置统一出入口
- * 
+ *
  * 职责：
  * 1. 根据环境切换Mock/Real数据源
  * 2. 统一返回格式（FacadeResponse）
@@ -11,15 +11,15 @@ import type { FacadeResponse, PaginationParams } from '../_types'
 import { isMockMode, createSuccessResponse, createErrorResponse } from '../_types'
 import { mockService } from '@/services/mock'
 import { safeGet, safePost, safePut, safeDelete } from '../_client'
-import type { 
+import type {
   NavToApiMapping,
-  RouteRedirect, 
+  RouteRedirect,
   PageApiRelation,
   MappingValidationResult,
   BulkSyncPayload,
   NavMappingQueryParams,
   RedirectQueryParams,
-  PageApiRelationQueryParams
+  PageApiRelationQueryParams,
 } from '@/contracts/mappings'
 
 /**
@@ -52,7 +52,9 @@ export interface PageApiRelationQueryParams extends PaginationParams {
  */
 export const listNavMappings = async (
   params: NavMappingQueryParams = {}
-): Promise<FacadeResponse<{ data: NavToApiMapping[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: NavToApiMapping[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -194,7 +196,9 @@ export const bulkSyncNavMappings = async (
  */
 export const listRouteRedirects = async (
   params: RedirectQueryParams = {}
-): Promise<FacadeResponse<{ data: RouteRedirect[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: RouteRedirect[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -239,7 +243,9 @@ export const getRedirectById = async (id: string): Promise<FacadeResponse<RouteR
 /**
  * 创建重定向
  */
-export const createRedirect = async (payload: Omit<RouteRedirect, 'id' | 'hitCount' | 'createdAt'>): Promise<FacadeResponse<RouteRedirect>> => {
+export const createRedirect = async (
+  payload: Omit<RouteRedirect, 'id' | 'hitCount' | 'createdAt'>
+): Promise<FacadeResponse<RouteRedirect>> => {
   try {
     if (isMockMode()) {
       const response = await safePost<RouteRedirect>('/admin/config/redirects', payload)
@@ -327,9 +333,10 @@ export const validateRedirects = async (): Promise<FacadeResponse<MappingValidat
 /**
  * 获取页面API关系
  */
-export const getPageApiRelations = async (
-  params?: { status?: string; search?: string }
-): Promise<FacadeResponse<{ data: PageApiRelation[]; total: number }>> => {
+export const getPageApiRelations = async (params?: {
+  status?: string
+  search?: string
+}): Promise<FacadeResponse<{ data: PageApiRelation[]; total: number }>> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{ data: PageApiRelation[]; total: number }>(
@@ -349,7 +356,9 @@ export const getPageApiRelations = async (
 /**
  * 获取指定页面的API关系
  */
-export const getPageApiRelation = async (pageKey: string): Promise<FacadeResponse<PageApiRelation>> => {
+export const getPageApiRelation = async (
+  pageKey: string
+): Promise<FacadeResponse<PageApiRelation>> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<PageApiRelation>(`/admin/config/page-api-relations/${pageKey}`)
@@ -406,10 +415,14 @@ export const scanPageApiRelations = async (): Promise<FacadeResponse<any>> => {
 /**
  * 验证页面API关系
  */
-export const validatePageApiRelations = async (): Promise<FacadeResponse<MappingValidationResult>> => {
+export const validatePageApiRelations = async (): Promise<
+  FacadeResponse<MappingValidationResult>
+> => {
   try {
     if (isMockMode()) {
-      const response = await safeGet<MappingValidationResult>('/admin/config/page-api-relations/validate')
+      const response = await safeGet<MappingValidationResult>(
+        '/admin/config/page-api-relations/validate'
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -423,13 +436,18 @@ export const validatePageApiRelations = async (): Promise<FacadeResponse<Mapping
 /**
  * 导出映射配置
  */
-export const exportMappings = async (type: 'nav-to-api' | 'redirects' | 'page-to-api'): Promise<FacadeResponse<Blob>> => {
+export const exportMappings = async (
+  type: 'nav-to-api' | 'redirects' | 'page-to-api'
+): Promise<FacadeResponse<Blob>> => {
   try {
     if (isMockMode()) {
       // In mock mode, return an empty blob
-      const blob = new Blob([JSON.stringify({ exported: type, timestamp: new Date().toISOString() })], { 
-        type: 'application/json' 
-      })
+      const blob = new Blob(
+        [JSON.stringify({ exported: type, timestamp: new Date().toISOString() })],
+        {
+          type: 'application/json',
+        }
+      )
       return createSuccessResponse(blob)
     } else {
       // Real模式
@@ -443,7 +461,10 @@ export const exportMappings = async (type: 'nav-to-api' | 'redirects' | 'page-to
 /**
  * 导入映射配置
  */
-export const importMappings = async (type: 'nav-to-api' | 'redirects' | 'page-to-api', file: File): Promise<FacadeResponse<any>> => {
+export const importMappings = async (
+  type: 'nav-to-api' | 'redirects' | 'page-to-api',
+  file: File
+): Promise<FacadeResponse<any>> => {
   try {
     if (isMockMode()) {
       // In mock mode, simulate import

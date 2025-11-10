@@ -26,9 +26,7 @@ interface RefreshTokenPayload {
 /**
  * 用户登录
  */
-export const login = async (
-  payload: LoginPayload
-): Promise<FacadeResponse<LoginResponse>> => {
+export const login = async (payload: LoginPayload): Promise<FacadeResponse<LoginResponse>> => {
   try {
     if (isMockMode()) {
       const response = await safePost<LoginResponse>('/auth/login', payload)
@@ -67,7 +65,10 @@ export const refreshToken = async (
 ): Promise<FacadeResponse<{ accessToken: string; refreshToken: string }>> => {
   try {
     if (isMockMode()) {
-      const response = await safePost<{ accessToken: string; refreshToken: string }>('/auth/refresh', payload)
+      const response = await safePost<{ accessToken: string; refreshToken: string }>(
+        '/auth/refresh',
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式：使用SDK
@@ -104,7 +105,9 @@ export const updateUserPermissions = async (
 ): Promise<FacadeResponse<AdminUser>> => {
   try {
     if (isMockMode()) {
-      const response = await safePost<AdminUser>(`/admin/users/${userId}/permissions`, { permissions })
+      const response = await safePost<AdminUser>(`/admin/users/${userId}/permissions`, {
+        permissions,
+      })
       return createSuccessResponse(response.data)
     } else {
       // Real模式：使用SDK
@@ -124,7 +127,9 @@ export const resetUserPassword = async (
 ): Promise<FacadeResponse<boolean>> => {
   try {
     if (isMockMode()) {
-      const response = await safePost<boolean>(`/admin/users/${userId}/reset-password`, { newPassword })
+      const response = await safePost<boolean>(`/admin/users/${userId}/reset-password`, {
+        newPassword,
+      })
       return createSuccessResponse(response.data)
     } else {
       // Real模式：使用SDK

@@ -1,6 +1,6 @@
 /**
  * Calendar Facade - 日历配置统一出入口
- * 
+ *
  * 职责：
  * 1. 根据环境切换Mock/Real数据源
  * 2. 统一返回格式（FacadeResponse）
@@ -11,7 +11,7 @@ import type { FacadeResponse, PaginationParams } from '../_types'
 import { isMockMode, createSuccessResponse, createErrorResponse } from '../_types'
 import { mockService } from '@/services/mock'
 import { safeGet, safePost, safePut, safeDelete } from '../_client'
-import type { 
+import type {
   FundingRule,
   MaintenanceWindow,
   Announcement,
@@ -28,7 +28,7 @@ import type {
   UpdateAnnouncementPayload,
   PublishPayload,
   ImportPayload,
-  ExportParams
+  ExportParams,
 } from '@/contracts/calendar'
 
 /**
@@ -36,7 +36,9 @@ import type {
  */
 export const listFundingRules = async (
   params: FundingRuleQueryParams = {}
-): Promise<FacadeResponse<{ data: FundingRule[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: FundingRule[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -106,7 +108,10 @@ export const updateFundingRule = async (
 ): Promise<FacadeResponse<FundingRule>> => {
   try {
     if (isMockMode()) {
-      const response = await safePut<FundingRule>(`/admin/config/calendar/funding-rules/${id}`, payload)
+      const response = await safePut<FundingRule>(
+        `/admin/config/calendar/funding-rules/${id}`,
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -139,7 +144,9 @@ export const deleteFundingRule = async (id: string): Promise<FacadeResponse<bool
  */
 export const listMaintenanceWindows = async (
   params: MaintenanceWindowQueryParams = {}
-): Promise<FacadeResponse<{ data: MaintenanceWindow[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: MaintenanceWindow[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -167,10 +174,14 @@ export const listMaintenanceWindows = async (
 /**
  * 根据ID获取维护窗口
  */
-export const getMaintenanceWindowById = async (id: string): Promise<FacadeResponse<MaintenanceWindow>> => {
+export const getMaintenanceWindowById = async (
+  id: string
+): Promise<FacadeResponse<MaintenanceWindow>> => {
   try {
     if (isMockMode()) {
-      const response = await safeGet<MaintenanceWindow>(`/admin/config/calendar/maintenance-windows/${id}`)
+      const response = await safeGet<MaintenanceWindow>(
+        `/admin/config/calendar/maintenance-windows/${id}`
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -189,7 +200,10 @@ export const createMaintenanceWindow = async (
 ): Promise<FacadeResponse<MaintenanceWindow>> => {
   try {
     if (isMockMode()) {
-      const response = await safePost<MaintenanceWindow>('/admin/config/calendar/maintenance-windows', payload)
+      const response = await safePost<MaintenanceWindow>(
+        '/admin/config/calendar/maintenance-windows',
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -209,7 +223,10 @@ export const updateMaintenanceWindow = async (
 ): Promise<FacadeResponse<MaintenanceWindow>> => {
   try {
     if (isMockMode()) {
-      const response = await safePut<MaintenanceWindow>(`/admin/config/calendar/maintenance-windows/${id}`, payload)
+      const response = await safePut<MaintenanceWindow>(
+        `/admin/config/calendar/maintenance-windows/${id}`,
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -242,7 +259,9 @@ export const deleteMaintenanceWindow = async (id: string): Promise<FacadeRespons
  */
 export const listAnnouncements = async (
   params: AnnouncementQueryParams = {}
-): Promise<FacadeResponse<{ data: Announcement[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: Announcement[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -270,7 +289,9 @@ export const listAnnouncements = async (
 /**
  * 根据ID获取公告（仅获取已发布的）
  */
-export const getPublishedAnnouncementById = async (id: string): Promise<FacadeResponse<Announcement>> => {
+export const getPublishedAnnouncementById = async (
+  id: string
+): Promise<FacadeResponse<Announcement>> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<Announcement>(`/admin/config/calendar/announcements/${id}`)
@@ -312,7 +333,10 @@ export const updateAnnouncement = async (
 ): Promise<FacadeResponse<Announcement>> => {
   try {
     if (isMockMode()) {
-      const response = await safePut<Announcement>(`/admin/config/calendar/announcements/${id}`, payload)
+      const response = await safePut<Announcement>(
+        `/admin/config/calendar/announcements/${id}`,
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -332,7 +356,10 @@ export const publishAnnouncement = async (
 ): Promise<FacadeResponse<Announcement>> => {
   try {
     if (isMockMode()) {
-      const response = await safePost<Announcement>(`/admin/config/calendar/announcements/${id}/publish`, payload)
+      const response = await safePost<Announcement>(
+        `/admin/config/calendar/announcements/${id}/publish`,
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -365,7 +392,9 @@ export const deleteAnnouncement = async (id: string): Promise<FacadeResponse<boo
  */
 export const getPublishedFunding = async (
   params: FundingRuleQueryParams = {}
-): Promise<FacadeResponse<{ data: FundingRule[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: FundingRule[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -395,7 +424,9 @@ export const getPublishedFunding = async (
  */
 export const getDraftFunding = async (
   params: FundingRuleQueryParams = {}
-): Promise<FacadeResponse<{ data: FundingRule[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: FundingRule[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -429,7 +460,7 @@ export const getFundingById = async (
 ): Promise<FacadeResponse<FundingRule>> => {
   try {
     if (isMockMode()) {
-      const endpoint = isDraft 
+      const endpoint = isDraft
         ? `/admin/config/calendar/funding-rules/draft/${id}`
         : `/admin/config/calendar/funding-rules/${id}`
       const response = await safeGet<FundingRule>(endpoint)
@@ -451,7 +482,10 @@ export const createDraftFunding = async (
 ): Promise<FacadeResponse<FundingRule>> => {
   try {
     if (isMockMode()) {
-      const response = await safePost<FundingRule>('/admin/config/calendar/funding-rules/draft', payload)
+      const response = await safePost<FundingRule>(
+        '/admin/config/calendar/funding-rules/draft',
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -471,7 +505,10 @@ export const updateDraftFunding = async (
 ): Promise<FacadeResponse<FundingRule>> => {
   try {
     if (isMockMode()) {
-      const response = await safePut<FundingRule>(`/admin/config/calendar/funding-rules/draft/${id}`, payload)
+      const response = await safePut<FundingRule>(
+        `/admin/config/calendar/funding-rules/draft/${id}`,
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -504,7 +541,9 @@ export const deleteDraftFunding = async (id: string): Promise<FacadeResponse<boo
  */
 export const getPublishedMaintenance = async (
   params: MaintenanceWindowQueryParams = {}
-): Promise<FacadeResponse<{ data: MaintenanceWindow[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: MaintenanceWindow[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -534,7 +573,9 @@ export const getPublishedMaintenance = async (
  */
 export const getDraftMaintenance = async (
   params: MaintenanceWindowQueryParams = {}
-): Promise<FacadeResponse<{ data: MaintenanceWindow[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: MaintenanceWindow[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -568,7 +609,7 @@ export const getMaintenanceById = async (
 ): Promise<FacadeResponse<MaintenanceWindow>> => {
   try {
     if (isMockMode()) {
-      const endpoint = isDraft 
+      const endpoint = isDraft
         ? `/admin/config/calendar/maintenance/draft/${id}`
         : `/admin/config/calendar/maintenance/${id}`
       const response = await safeGet<MaintenanceWindow>(endpoint)
@@ -590,7 +631,10 @@ export const createDraftMaintenance = async (
 ): Promise<FacadeResponse<MaintenanceWindow>> => {
   try {
     if (isMockMode()) {
-      const response = await safePost<MaintenanceWindow>('/admin/config/calendar/maintenance/draft', payload)
+      const response = await safePost<MaintenanceWindow>(
+        '/admin/config/calendar/maintenance/draft',
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -610,7 +654,10 @@ export const updateDraftMaintenance = async (
 ): Promise<FacadeResponse<MaintenanceWindow>> => {
   try {
     if (isMockMode()) {
-      const response = await safePut<MaintenanceWindow>(`/admin/config/calendar/maintenance/draft/${id}`, payload)
+      const response = await safePut<MaintenanceWindow>(
+        `/admin/config/calendar/maintenance/draft/${id}`,
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -643,7 +690,9 @@ export const deleteDraftMaintenance = async (id: string): Promise<FacadeResponse
  */
 export const getPublishedAnnouncements = async (
   params: AnnouncementQueryParams = {}
-): Promise<FacadeResponse<{ data: Announcement[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: Announcement[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -673,7 +722,9 @@ export const getPublishedAnnouncements = async (
  */
 export const getDraftAnnouncements = async (
   params: AnnouncementQueryParams = {}
-): Promise<FacadeResponse<{ data: Announcement[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: Announcement[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -707,7 +758,7 @@ export const getAnnouncementByIdWithDraftOption = async (
 ): Promise<FacadeResponse<Announcement>> => {
   try {
     if (isMockMode()) {
-      const endpoint = isDraft 
+      const endpoint = isDraft
         ? `/admin/config/calendar/announcements/draft/${id}`
         : `/admin/config/calendar/announcements/${id}`
       const response = await safeGet<Announcement>(endpoint)
@@ -729,7 +780,10 @@ export const createDraftAnnouncement = async (
 ): Promise<FacadeResponse<Announcement>> => {
   try {
     if (isMockMode()) {
-      const response = await safePost<Announcement>('/admin/config/calendar/announcements/draft', payload)
+      const response = await safePost<Announcement>(
+        '/admin/config/calendar/announcements/draft',
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -749,7 +803,10 @@ export const updateDraftAnnouncement = async (
 ): Promise<FacadeResponse<Announcement>> => {
   try {
     if (isMockMode()) {
-      const response = await safePut<Announcement>(`/admin/config/calendar/announcements/draft/${id}`, payload)
+      const response = await safePut<Announcement>(
+        `/admin/config/calendar/announcements/draft/${id}`,
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -831,10 +888,16 @@ export const publish = async (payload: PublishPayload): Promise<FacadeResponse<V
 /**
  * 版本回滚
  */
-export const rollback = async (versionId: string, notes?: string): Promise<FacadeResponse<Version>> => {
+export const rollback = async (
+  versionId: string,
+  notes?: string
+): Promise<FacadeResponse<Version>> => {
   try {
     if (isMockMode()) {
-      const response = await safePost<Version>(`/admin/config/calendar/versions/${versionId}/rollback`, { notes })
+      const response = await safePost<Version>(
+        `/admin/config/calendar/versions/${versionId}/rollback`,
+        { notes }
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -869,7 +932,7 @@ export const exportData = async (params: any): Promise<FacadeResponse<Blob>> => 
   try {
     if (isMockMode()) {
       // In mock mode return a sample blob
-      const csvContent = "id,title,description,startTime,endTime,effectiveScope\n"
+      const csvContent = 'id,title,description,startTime,endTime,effectiveScope\n'
       const blob = new Blob([csvContent], { type: 'text/csv' })
       return createSuccessResponse(blob)
     } else {
@@ -892,7 +955,7 @@ export const importData = async (payload: any): Promise<FacadeResponse<any>> => 
         success: true,
         imported: 5,
         skipped: 0,
-        errors: []
+        errors: [],
       })
     } else {
       // Real模式
@@ -936,13 +999,12 @@ export const getVersionHistory = async (
 /**
  * 导出日历配置数据
  */
-export const exportCalendarConfig = async (
-  params: ExportParams
-): Promise<FacadeResponse<Blob>> => {
+export const exportCalendarConfig = async (params: ExportParams): Promise<FacadeResponse<Blob>> => {
   try {
     if (isMockMode()) {
       // In mock mode, return a simulated CSV blob response
-      const dataStr = 'id,symbol,period,nextFundingTime,calculationRule,enabled,status,version,createdAt,updatedAt\n'
+      const dataStr =
+        'id,symbol,period,nextFundingTime,calculationRule,enabled,status,version,createdAt,updatedAt\n'
       const blob = new Blob([dataStr], { type: 'text/csv;charset=utf-8;' })
       return createSuccessResponse(blob)
     } else {
@@ -965,11 +1027,11 @@ export const importCalendarConfig = async (
       // In mock mode, simulate import
       const newVersion: Version = {
         id: `version_${Date.now()}`,
-        version: `v${Math.floor(Date.now()/100000)}.${Math.floor(Math.random()*10)},.${Math.floor(Math.random()*10)}`,
+        version: `v${Math.floor(Date.now() / 100000)}.${Math.floor(Math.random() * 10)},.${Math.floor(Math.random() * 10)}`,
         createdAt: new Date().toISOString(),
         createdBy: 'mock_admin',
         notes: 'Imported via mock upload',
-        tags: ['import']
+        tags: ['import'],
       }
       return createSuccessResponse(newVersion)
     } else {

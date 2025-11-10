@@ -61,7 +61,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import type { Rule } from 'ant-design-vue/es/form'
-import type { NavToApiMapping } from '@/services/api/config.mappings'
+import type { NavToApiMapping } from '@/services/api/facade'
 
 interface Props {
   initialData?: Partial<NavToApiMapping>

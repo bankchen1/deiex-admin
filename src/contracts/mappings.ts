@@ -1,6 +1,6 @@
 /**
  * Mappings Module Contracts
- * 
+ *
  * Field contracts based on actual page usage (from field-map.json and pages analysis)
  * All fields must match exactly what pages expect to render
  */

@@ -1,12 +1,23 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import {
-  opsApi,
+  getTasks,
+  getTaskById,
+  createTask as createTaskApi,
+  updateTask as updateTaskApi,
+  deleteTask as deleteTaskApi,
+  runTaskNow as runTaskNowApi,
+  enableTask as enableTaskApi,
+  disableTask as disableTaskApi,
+  getRetryQueue,
+  retryQueueItem as retryQueueItemApi,
+  deleteQueueItem as deleteQueueItemApi,
+  clearFailedQueue as clearFailedQueueApi,
   type ScheduledTask,
   type RetryQueueItem,
   type TaskQueryParams,
   type TaskSchedulePayload,
-} from '@/services/api/ops'
+} from '@/services/api/facade'
 
 export const useTasksStore = defineStore('tasks', () => {
   // State
@@ -32,7 +43,8 @@ export const useTasksStore = defineStore('tasks', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await opsApi.getTasks(params)
+      const response = await getTasks(params)
+      if (response.error) throw response.error
       tasks.value = response.data.items
       tasksTotal.value = response.data.total
       return response
@@ -48,7 +60,8 @@ export const useTasksStore = defineStore('tasks', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await opsApi.getTaskById(id)
+      const response = await getTaskById(id)
+      if (response.error) throw response.error
       currentTask.value = response.data
       return response
     } catch (e: any) {
@@ -63,7 +76,8 @@ export const useTasksStore = defineStore('tasks', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await opsApi.createTask(payload)
+      const response = await createTaskApi(payload)
+      if (response.error) throw response.error
       tasks.value.unshift(response.data)
       tasksTotal.value += 1
       return response
@@ -79,7 +93,8 @@ export const useTasksStore = defineStore('tasks', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await opsApi.updateTask(id, payload)
+      const response = await updateTaskApi(id, payload)
+      if (response.error) throw response.error
       const index = tasks.value.findIndex((t) => t.id === id)
       if (index !== -1) {
         tasks.value[index] = response.data
@@ -100,7 +115,7 @@ export const useTasksStore = defineStore('tasks', () => {
     loading.value = true
     error.value = null
     try {
-      await opsApi.deleteTask(id)
+      await deleteTaskApi(id)
       const index = tasks.value.findIndex((t) => t.id === id)
       if (index !== -1) {
         tasks.value.splice(index, 1)
@@ -121,7 +136,7 @@ export const useTasksStore = defineStore('tasks', () => {
     loading.value = true
     error.value = null
     try {
-      await opsApi.runTaskNow(id)
+      await runTaskNowApi(id)
       // Refresh task to get updated status
       await fetchTaskById(id)
     } catch (e: any) {
@@ -136,7 +151,8 @@ export const useTasksStore = defineStore('tasks', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await opsApi.enableTask(id)
+      const response = await enableTaskApi(id)
+      if (response.error) throw response.error
       const index = tasks.value.findIndex((t) => t.id === id)
       if (index !== -1) {
         tasks.value[index] = response.data
@@ -157,7 +173,8 @@ export const useTasksStore = defineStore('tasks', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await opsApi.disableTask(id)
+      const response = await disableTaskApi(id)
+      if (response.error) throw response.error
       const index = tasks.value.findIndex((t) => t.id === id)
       if (index !== -1) {
         tasks.value[index] = response.data
@@ -178,7 +195,8 @@ export const useTasksStore = defineStore('tasks', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await opsApi.getRetryQueue(params)
+      const response = await getRetryQueue(params)
+      if (response.error) throw response.error
       retryQueue.value = response.data.items
       retryQueueTotal.value = response.data.total
       return response
@@ -194,7 +212,7 @@ export const useTasksStore = defineStore('tasks', () => {
     loading.value = true
     error.value = null
     try {
-      await opsApi.retryQueueItem(id)
+      await retryQueueItemApi(id)
       // Refresh queue
       const index = retryQueue.value.findIndex((q) => q.id === id)
       if (index !== -1) {
@@ -212,7 +230,7 @@ export const useTasksStore = defineStore('tasks', () => {
     loading.value = true
     error.value = null
     try {
-      await opsApi.deleteQueueItem(id)
+      await deleteQueueItemApi(id)
       const index = retryQueue.value.findIndex((q) => q.id === id)
       if (index !== -1) {
         retryQueue.value.splice(index, 1)
@@ -230,7 +248,7 @@ export const useTasksStore = defineStore('tasks', () => {
     loading.value = true
     error.value = null
     try {
-      await opsApi.clearFailedQueue()
+      await clearFailedQueueApi()
       // Remove all failed items from local state
       retryQueue.value = retryQueue.value.filter((q) => q.status !== 'failed')
       retryQueueTotal.value = retryQueue.value.length

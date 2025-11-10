@@ -154,11 +154,7 @@ import RedirectGraph from '@/widgets/graph/RedirectGraph.vue'
 import PageApiMatrix from '@/widgets/graph/PageApiMatrix.vue'
 import EditMappingModal from '@/modals/mappings/EditMappingModal.vue'
 import BulkSyncModal from '@/modals/mappings/BulkSyncModal.vue'
-import type {
-  NavToApiMapping,
-  RouteRedirect,
-  PageApiRelation,
-} from '@/services/api/config.mappings'
+import type { NavToApiMapping, RouteRedirect, PageApiRelation } from '@/services/api/facade'
 
 const mappingsStore = useMappingsStore()
 

@@ -149,7 +149,7 @@ import BulkUploadForm from '@/forms/icons/BulkUploadForm.vue'
 import PreviewModal from '@/modals/icons/PreviewModal.vue'
 import ReplaceModal from '@/modals/icons/ReplaceModal.vue'
 import { useIconsStore } from '@/stores/icons'
-import type { IconAsset, IconMapping, BulkUploadResult } from '@/services/api/config.icons'
+import type { IconAsset, IconMapping, BulkUploadResult } from '@/services/api/facade'
 
 const iconsStore = useIconsStore()
 

@@ -351,13 +351,7 @@ import AssignPermModal from '@/modals/security/AssignPermModal.vue'
 import DisableAdminModal from '@/modals/security/DisableAdminModal.vue'
 import IpWhitelistForm from '@/forms/security/IpWhitelistForm.vue'
 import ApiKeyForm from '@/forms/security/ApiKeyForm.vue'
-import type {
-  Role,
-  AdminUser,
-  IpWhitelistEntry,
-  ApiKey,
-  AuditLog,
-} from '@/services/api/config.security'
+import type { Role, AdminUser, IpWhitelistEntry, ApiKey, AuditLog } from '@/services/api/facade'
 
 const securityStore = useSecurityStore()
 

@@ -119,7 +119,7 @@ import { message } from 'ant-design-vue'
 import ImageUploader from '@/shared/ImageUploader.vue'
 import TagPicker from '@/shared/TagPicker.vue'
 import { useIconsStore } from '@/stores/icons'
-import type { IconAsset, ValidationResult } from '@/services/api/config.icons'
+import type { IconAsset, ValidationResult } from '@/services/api/facade'
 
 interface Props {
   mode?: 'create' | 'edit'

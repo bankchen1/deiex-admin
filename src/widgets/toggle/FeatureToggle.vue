@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import type { FeatureFlag } from '@/services/api/settings'
+import type { FeatureFlag } from '@/services/api/facade'
 
 interface Props {
   features: FeatureFlag[]

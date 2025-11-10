@@ -98,7 +98,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { SyncOutlined, CheckCircleOutlined } from '@ant-design/icons-vue'
-import type { PageApiRelation } from '@/services/api/config.mappings'
+import type { PageApiRelation } from '@/services/api/facade'
 import RBACGuard from '@/shared/RBACGuard.vue'
 
 interface Props {

@@ -108,7 +108,7 @@ import {
 } from '@ant-design/icons-vue'
 import ServerTable from '@/shared/ServerTable.vue'
 import { formatDate } from '@/utils/date'
-import type { I18nEntry } from '@/services/api/settings'
+import type { I18nEntry } from '@/services/api/facade'
 import type { TableColumn } from '@/types/components'
 
 interface Props {

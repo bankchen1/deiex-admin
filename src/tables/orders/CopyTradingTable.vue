@@ -13,15 +13,52 @@
     <template #toolbar>
       <slot name="toolbar" />
     </template>
+    <template #bodyCell="{ column, text, record }">
+      <template v-if="column.key === 'status'">
+        <a-tag
+          :color="
+            record.status === 'active' ? 'green' : record.status === 'paused' ? 'orange' : 'default'
+          "
+        >
+          {{ record.status }}
+        </a-tag>
+      </template>
+      <template v-else-if="column.key === 'totalProfit'">
+        <span
+          :style="{
+            color: parseFloat(text) >= 0 ? '#52c41a' : '#ff4d4f',
+            fontWeight: 'bold',
+          }"
+        >
+          {{ parseFloat(text) >= 0 ? '+' : '' }}{{ formatNumber(text, 2) }}
+        </span>
+      </template>
+      <template v-else-if="column.key === 'totalLoss'">
+        <span v-if="parseFloat(text) !== 0" :style="{ color: '#ff4d4f', fontWeight: 'bold' }">
+          -{{ formatNumber(text, 2) }}
+        </span>
+        <span v-else>-</span>
+      </template>
+      <template v-else-if="column.key === 'actions'">
+        <a-space size="small">
+          <a @click="handleViewDetail(record)">View</a>
+          <a v-if="record.status === 'active'" @click="handlePause(record)">Pause</a>
+          <a v-if="record.status === 'paused'" @click="handleResume(record)">Resume</a>
+          <a v-if="record.status !== 'stopped'" style="color: #ff4d4f" @click="handleStop(record)">
+            Stop
+          </a>
+        </a-space>
+      </template>
+    </template>
   </ServerTable>
 </template>
 
-<script setup lang="tsx">
+<script setup lang="ts">
 import { ref, computed } from 'vue'
 import { Tag, Space, Button } from 'ant-design-vue'
 import ServerTable from '@/shared/ServerTable.vue'
 import type { TableColumn } from '@/types/components'
-import type { CopyTradingRelation, CopyTradingQueryParams } from '@/services/api/orders'
+import type { CopyTradingRelation, CopyTradingQueryParams } from '@/services/api/facade'
 import { useOrdersStore } from '@/stores/orders'
 import { formatDate } from '@/utils/date'
 import { formatNumber } from '@/utils/format'
@@ -86,15 +123,6 @@ const columns = ref<TableColumn[]>([
       { label: 'Paused', value: 'paused' },
       { label: 'Stopped', value: 'stopped' },
     ],
-    render: (value: string) => {
-      const statusConfig: Record<string, { color: string; text: string }> = {
-        active: { color: 'green', text: 'Active' },
-        paused: { color: 'orange', text: 'Paused' },
-        stopped: { color: 'default', text: 'Stopped' },
-      }
-      const config = statusConfig[value] || { color: 'default', text: value }
-      return <Tag color={config.color}>{config.text}</Tag>
-    },
   },
   {
     key: 'copyRatio',
@@ -143,17 +171,6 @@ const columns = ref<TableColumn[]>([
     width: 130,
     align: 'right',
     sortable: true,
-    render: (value: string) => {
-      const num = parseFloat(value)
-      const color = num >= 0 ? '#52c41a' : '#ff4d4f'
-      const sign = num >= 0 ? '+' : ''
-      return (
-        <span style={{ color, fontWeight: 'bold' }}>
-          {sign}
-          {formatNumber(value, 2)}
-        </span>
-      )
-    },
   },
   {
     key: 'totalLoss',
@@ -162,11 +179,6 @@ const columns = ref<TableColumn[]>([
     width: 130,
     align: 'right',
     sortable: true,
-    render: (value: string) => {
-      const num = parseFloat(value)
-      if (num === 0) return '-'
-      return <span style={{ color: '#ff4d4f', fontWeight: 'bold' }}>-{formatNumber(value, 2)}</span>
-    },
   },
   {
     key: 'createdAt',
@@ -182,18 +194,6 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'actions',
     width: 200,
     fixed: 'right',
-    render: (_: unknown, record: CopyTradingRelation) => (
-      <Space size="small">
-        <a onClick={() => handleViewDetail(record)}>View</a>
-        {record.status === 'active' && <a onClick={() => handlePause(record)}>Pause</a>}
-        {record.status === 'paused' && <a onClick={() => handleResume(record)}>Resume</a>}
-        {record.status !== 'stopped' && (
-          <a style={{ color: '#ff4d4f' }} onClick={() => handleStop(record)}>
-            Stop
-          </a>
-        )}
-      </Space>
-    ),
   },
 ])
 

@@ -26,13 +26,13 @@ import {
   type CreateBlacklistEntryPayload,
   type UpdateBlacklistEntryPayload,
 } from '@/services/api/facade'
-import type { 
-  RiskRule, 
-  RiskLimit, 
+import type {
+  RiskRule,
+  RiskLimit,
   BlacklistEntry,
   RiskRuleDetailResponse,
   RiskLimitDetailResponse,
-  BlacklistEntryDetailResponse 
+  BlacklistEntryDetailResponse,
 } from '@/contracts/risk'
 
 export const useRiskStore = defineStore('risk', () => {
@@ -503,7 +503,7 @@ export const useRiskStore = defineStore('risk', () => {
     actionLoading.value = true
     error.value = null
     try {
-      const { data, error: err } = await deleteBlacklistEntry(id)
+      const { data, error: err } = await deleteBlacklistEntry(id, '')
 
       if (err) {
         error.value = err.message

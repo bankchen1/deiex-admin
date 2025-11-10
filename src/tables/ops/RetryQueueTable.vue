@@ -75,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import type { RetryQueueItem } from '@/services/api/ops'
+import type { RetryQueueItem } from '@/services/api/facade'
 import { formatDateTime } from '@/utils/date'
 import RBACGuard from '@/shared/RBACGuard.vue'
 

@@ -1,22 +1,22 @@
 /**
  * Users API Service
- * 
+ *
  * Facade functions for Users module covering all read/write operations
  * Internal switching between Mock/Real based on environment
  */
 
-import type { 
-  UserListResponse, 
-  UserDetailResponse, 
-  UserStats, 
-  UserQueryParams, 
-  UserVipUpdatePayload, 
-  UserTagUpdatePayload, 
-  User2FAResetPayload, 
-  UserDisablePayload, 
+import type {
+  UserListResponse,
+  UserDetailResponse,
+  UserStats,
+  UserQueryParams,
+  UserVipUpdatePayload,
+  UserTagUpdatePayload,
+  User2FAResetPayload,
+  UserDisablePayload,
   UserEnablePayload,
   UserExportResponse,
-  ApiResponse
+  ApiResponse,
 } from '@/contracts/users'
 
 // Real API client (to be replaced with actual SDK)
@@ -27,62 +27,65 @@ const realApiClient = {
     // return response
     throw new Error('Real API implementation not available yet')
   },
-  
+
   async getUserById(id: string): Promise<ApiResponse<UserDetailResponse>> {
     // Placeholder for real API call
     // const response = await sdk.users.getUserById(id)
     // return response
     throw new Error('Real API implementation not available yet')
   },
-  
-  async getUserStats(params?: { startDate?: string; endDate?: string }): Promise<ApiResponse<UserStats>> {
+
+  async getUserStats(params?: {
+    startDate?: string
+    endDate?: string
+  }): Promise<ApiResponse<UserStats>> {
     // Placeholder for real API call
     // const response = await sdk.users.getUserStats(params)
     // return response
     throw new Error('Real API implementation not available yet')
   },
-  
+
   async updateUserVip(id: string, payload: UserVipUpdatePayload): Promise<ApiResponse<any>> {
     // Placeholder for real API call
     // const response = await sdk.users.updateUserVip(id, payload)
     // return response
     throw new Error('Real API implementation not available yet')
   },
-  
+
   async updateUserTags(id: string, payload: UserTagUpdatePayload): Promise<ApiResponse<any>> {
     // Placeholder for real API call
     // const response = await sdk.users.updateUserTags(id, payload)
     // return response
     throw new Error('Real API implementation not available yet')
   },
-  
+
   async resetUser2FA(id: string, payload: User2FAResetPayload): Promise<ApiResponse<any>> {
     // Placeholder for real API call
     // const response = await sdk.users.resetUser2FA(id, payload)
     // return response
     throw new Error('Real API implementation not available yet')
   },
-  
+
   async disableUser(id: string, payload: UserDisablePayload): Promise<ApiResponse<any>> {
     // Placeholder for real API call
     // const response = await sdk.users.disableUser(id, payload)
     // return response
     throw new Error('Real API implementation not available yet')
   },
-  
+
   async enableUser(id: string, payload: UserEnablePayload): Promise<ApiResponse<any>> {
     // Placeholder for real API call
     // const response = await sdk.users.enableUser(id, payload)
     // return response
     throw new Error('Real API implementation not available yet')
   },
-  
+
   async exportUsers(params: UserQueryParams): Promise<ApiResponse<UserExportResponse>> {
     // Placeholder for real API call
     // const response = await sdk.users.exportUsers(params)
     // return response
     throw new Error('Real API implementation not available yet')
-  }
+  },
 }
 
 // Mock API client
@@ -90,7 +93,9 @@ const mockApiClient = {
   async listUsers(params: UserQueryParams): Promise<ApiResponse<UserListResponse>> {
     try {
       // In mock mode, call the mock handler
-      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleListUsers(params))
+      const mockResponse = await import('@/mock/handlers/users').then((mod) =>
+        mod.handleListUsers(params)
+      )
       return {
         success: true,
         data: mockResponse,
@@ -98,9 +103,9 @@ const mockApiClient = {
           pagination: {
             page: params.page || 1,
             pageSize: params.pageSize || 20,
-            total: mockResponse.total || 0
-          }
-        }
+            total: mockResponse.total || 0,
+          },
+        },
       }
     } catch (error) {
       return {
@@ -108,19 +113,21 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
+
   async getUserById(id: string): Promise<ApiResponse<UserDetailResponse>> {
     try {
       // In mock mode, call the mock handler
-      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleGetUserById(id))
+      const mockResponse = await import('@/mock/handlers/users').then((mod) =>
+        mod.handleGetUserById(id)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -128,19 +135,24 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
-  async getUserStats(params?: { startDate?: string; endDate?: string }): Promise<ApiResponse<UserStats>> {
+
+  async getUserStats(params?: {
+    startDate?: string
+    endDate?: string
+  }): Promise<ApiResponse<UserStats>> {
     try {
       // In mock mode, call the mock handler
-      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleGetUserStats(params))
+      const mockResponse = await import('@/mock/handlers/users').then((mod) =>
+        mod.handleGetUserStats(params)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -148,19 +160,21 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
+
   async updateUserVip(id: string, payload: UserVipUpdatePayload): Promise<ApiResponse<any>> {
     try {
       // In mock mode, call the mock handler
-      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleUpdateUserVip(id, payload))
+      const mockResponse = await import('@/mock/handlers/users').then((mod) =>
+        mod.handleUpdateUserVip(id, payload)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -168,19 +182,21 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
+
   async updateUserTags(id: string, payload: UserTagUpdatePayload): Promise<ApiResponse<any>> {
     try {
       // In mock mode, call the mock handler
-      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleUpdateUserTags(id, payload))
+      const mockResponse = await import('@/mock/handlers/users').then((mod) =>
+        mod.handleUpdateUserTags(id, payload)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -188,19 +204,21 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
+
   async resetUser2FA(id: string, payload: User2FAResetPayload): Promise<ApiResponse<any>> {
     try {
       // In mock mode, call the mock handler
-      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleResetUser2FA(id, payload))
+      const mockResponse = await import('@/mock/handlers/users').then((mod) =>
+        mod.handleResetUser2FA(id, payload)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -208,19 +226,21 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
+
   async disableUser(id: string, payload: UserDisablePayload): Promise<ApiResponse<any>> {
     try {
       // In mock mode, call the mock handler
-      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleDisableUser(id, payload))
+      const mockResponse = await import('@/mock/handlers/users').then((mod) =>
+        mod.handleDisableUser(id, payload)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -228,19 +248,21 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
+
   async enableUser(id: string, payload: UserEnablePayload): Promise<ApiResponse<any>> {
     try {
       // In mock mode, call the mock handler
-      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleEnableUser(id, payload))
+      const mockResponse = await import('@/mock/handlers/users').then((mod) =>
+        mod.handleEnableUser(id, payload)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -248,19 +270,21 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
+
   async exportUsers(params: UserQueryParams): Promise<ApiResponse<UserExportResponse>> {
     try {
       // In mock mode, call the mock handler
-      const mockResponse = await import('@/mock/handlers/users').then(mod => mod.handleExportUsers(params))
+      const mockResponse = await import('@/mock/handlers/users').then((mod) =>
+        mod.handleExportUsers(params)
+      )
       return {
         success: true,
-        data: mockResponse as UserExportResponse
+        data: mockResponse as UserExportResponse,
       }
     } catch (error) {
       return {
@@ -268,11 +292,11 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
-  }
+  },
 }
 
 // Determine which client to use based on environment
@@ -307,7 +331,10 @@ export const usersApi = {
   /**
    * Get user statistics
    */
-  async getStats(params?: { startDate?: string; endDate?: string }): Promise<ApiResponse<UserStats>> {
+  async getStats(params?: {
+    startDate?: string
+    endDate?: string
+  }): Promise<ApiResponse<UserStats>> {
     if (isMockMode()) {
       return mockApiClient.getUserStats(params)
     } else {
@@ -379,7 +406,7 @@ export const usersApi = {
     } else {
       return realApiClient.exportUsers(params)
     }
-  }
+  },
 }
 
 // Export individual functions for specific use cases
@@ -392,7 +419,7 @@ export {
   resetUser2FA,
   disableUser,
   enableUser,
-  exportUsers
+  exportUsers,
 } from './facade/users'
 
 // Default export for backward compatibility

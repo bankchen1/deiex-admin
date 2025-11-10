@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import type { PermissionNode, Role } from '@/services/api/config.security'
+import type { PermissionNode, Role } from '@/services/api/facade'
 
 interface Props {
   open: boolean

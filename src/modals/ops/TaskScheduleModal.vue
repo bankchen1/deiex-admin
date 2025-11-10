@@ -56,7 +56,7 @@ import { ref, computed, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import type { FormInstance } from 'ant-design-vue'
 import { useTasksStore } from '@/stores/tasks'
-import type { ScheduledTask, TaskSchedulePayload } from '@/services/api/ops'
+import type { ScheduledTask, TaskSchedulePayload } from '@/services/api/facade'
 import JsonEditor from '@/shared/JsonEditor.vue'
 
 interface Props {

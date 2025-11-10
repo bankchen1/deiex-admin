@@ -34,7 +34,7 @@ import { message } from 'ant-design-vue'
 import { useSettingsStore } from '@/stores/settings'
 import GeneralSettingForm from '@/forms/settings/GeneralSettingForm.vue'
 import CacheStatus from '@/widgets/status/CacheStatus.vue'
-import type { GeneralSettings } from '@/services/api/settings'
+import type { GeneralSettings } from '@/services/api/facade'
 
 const settingsStore = useSettingsStore()
 

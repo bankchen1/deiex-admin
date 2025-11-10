@@ -50,18 +50,18 @@ export const useInstrumentsStore = defineStore('instruments', () => {
     error.value = null
     try {
       const { data, error: err } = await listInstruments({ ...params, status: 'published' })
-      
+
       if (err) {
         error.value = err.message
         throw new Error(err.message)
       }
-      
+
       if (!data) {
         published.value = []
         publishedTotal.value = 0
         return
       }
-      
+
       published.value = data.data
       publishedTotal.value = data.total
       if (data.data.length > 0 && data.data[0]) {

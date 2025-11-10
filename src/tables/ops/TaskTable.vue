@@ -99,7 +99,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ScheduledTask } from '@/services/api/ops'
+import type { ScheduledTask } from '@/services/api/facade'
 import { formatDateTime } from '@/utils/date'
 import RBACGuard from '@/shared/RBACGuard.vue'
 

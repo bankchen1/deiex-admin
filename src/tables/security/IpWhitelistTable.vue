@@ -51,7 +51,7 @@ import ServerTable from '@/shared/ServerTable.vue'
 import RBACGuard from '@/shared/RBACGuard.vue'
 import ConfirmButton from '@/shared/ConfirmButton.vue'
 import { formatDate } from '@/utils/date'
-import type { IpWhitelistEntry } from '@/services/api/config.security'
+import type { IpWhitelistEntry } from '@/services/api/facade'
 import type { TableColumn } from '@/types/components'
 
 interface Props {

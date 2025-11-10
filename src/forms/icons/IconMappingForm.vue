@@ -63,7 +63,7 @@ import { ref, reactive, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import IconPicker from '@/shared/IconPicker.vue'
 import { useIconsStore } from '@/stores/icons'
-import type { IconMapping, IconAsset } from '@/services/api/config.icons'
+import type { IconMapping, IconAsset } from '@/services/api/facade'
 
 interface Props {
   mode?: 'create' | 'edit'

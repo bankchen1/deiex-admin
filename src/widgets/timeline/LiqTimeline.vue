@@ -50,7 +50,7 @@ import {
   CloseCircleOutlined,
   InfoCircleOutlined,
 } from '@ant-design/icons-vue'
-import type { LiquidationEvent } from '@/services/api/orders'
+import type { LiquidationEvent } from '@/services/api/facade'
 import { formatDate } from '@/utils/date'
 import { formatNumber } from '@/utils/format'
 

@@ -129,7 +129,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Order, FuturesOrder } from '@/services/api/orders'
+import type { Order, FuturesOrder } from '@/services/api/facade'
 import { formatDate } from '@/utils/date'
 import { formatNumber } from '@/utils/format'
 

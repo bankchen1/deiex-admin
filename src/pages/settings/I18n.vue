@@ -105,7 +105,7 @@ import { useSettingsStore } from '@/stores/settings'
 import I18nKeyTable from '@/tables/settings/I18nKeyTable.vue'
 import I18nEntryForm from '@/forms/settings/I18nEntryForm.vue'
 import BulkI18nImportModal from '@/modals/settings/BulkI18nImportModal.vue'
-import type { I18nEntry } from '@/services/api/settings'
+import type { I18nEntry } from '@/services/api/facade'
 
 const settingsStore = useSettingsStore()
 

@@ -25,7 +25,7 @@ import {
   type PageApiRelationQueryParams,
 } from '@/services/api/facade'
 import { message } from 'ant-design-vue'
-import type { 
+import type {
   NavToApiMapping,
   RouteRedirect,
   PageApiRelation,
@@ -65,7 +65,7 @@ export const useMappingsStore = defineStore('mappings', () => {
       const { data, error: err } = await listNavMappings({
         page: navMappingsCurrentPage.value,
         pageSize: navMappingsPageSize.value,
-        ...params
+        ...params,
       })
 
       if (err) {
@@ -101,7 +101,7 @@ export const useMappingsStore = defineStore('mappings', () => {
       const { data, error: err } = await listRouteRedirects({
         page: redirectsCurrentPage.value,
         pageSize: redirectsPageSize.value,
-        ...params
+        ...params,
       })
 
       if (err) {
@@ -184,7 +184,7 @@ export const useMappingsStore = defineStore('mappings', () => {
     loading.value = false
     actionLoading.value = false
     error.value = null
-    
+
     // Reset nav mappings state
     navMappings.value = []
     navMappingsTotal.value = 0

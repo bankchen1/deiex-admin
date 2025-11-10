@@ -226,7 +226,7 @@ import RBACGuard from '@/shared/RBACGuard.vue'
 import KycTable from '@/tables/kyc/KycTable.vue'
 import ReviewDrawer from '@/modals/kyc/ReviewDrawer.vue'
 import type { KycApplication } from '@/types/models'
-import type { ReviewPayload, BatchReviewPayload } from '@/services/api/kyc'
+import type { ReviewPayload, BatchReviewPayload } from '@/services/api/facade'
 import type { Dayjs } from 'dayjs'
 
 const router = useRouter()

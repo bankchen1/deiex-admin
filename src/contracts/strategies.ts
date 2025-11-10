@@ -1,6 +1,6 @@
 /**
  * Strategies Module Contracts
- * 
+ *
  * Field contracts based on actual page usage
  * All fields must match exactly what pages expect to render
  */

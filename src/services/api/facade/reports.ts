@@ -1,6 +1,6 @@
 /**
  * Reports Facade - 报表管理统一出入口
- * 
+ *
  * 职责：
  * 1. 根据环境切换Mock/Real数据源
  * 2. 统一返回格式（FacadeResponse）
@@ -11,9 +11,9 @@ import type { FacadeResponse, PaginationParams } from '../_types'
 import { isMockMode, createSuccessResponse, createErrorResponse } from '../_types'
 import { mockService } from '@/services/mock'
 import { safeGet, safePost } from '../_client'
-import type { 
+import type {
   TradeReport,
-  FinanceReport, 
+  FinanceReport,
   RetentionReport,
   TradeDailyData,
   SymbolVolumeData,
@@ -25,7 +25,7 @@ import type {
   FinanceReportQueryParams,
   RetentionReportQueryParams,
   GenerateReportPayload,
-  ExportReportParams
+  ExportReportParams,
 } from '@/contracts/reports'
 
 /**
@@ -33,7 +33,9 @@ import type {
  */
 export const listTradeReports = async (
   params: TradeReportQueryParams = {}
-): Promise<FacadeResponse<{ data: TradeReport[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: TradeReport[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -63,7 +65,9 @@ export const listTradeReports = async (
  */
 export const listFinanceReports = async (
   params: FinanceReportQueryParams = {}
-): Promise<FacadeResponse<{ data: FinanceReport[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: FinanceReport[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -93,7 +97,9 @@ export const listFinanceReports = async (
  */
 export const listRetentionReports = async (
   params: RetentionReportQueryParams = {}
-): Promise<FacadeResponse<{ data: RetentionReport[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: RetentionReport[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -121,9 +127,11 @@ export const listRetentionReports = async (
 /**
  * 获取交易日报数据
  */
-export const getTradeDailyData = async (
-  params: { startDate?: string; endDate?: string; symbol?: string }
-): Promise<FacadeResponse<TradeDailyData[]>> => {
+export const getTradeDailyData = async (params: {
+  startDate?: string
+  endDate?: string
+  symbol?: string
+}): Promise<FacadeResponse<TradeDailyData[]>> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<TradeDailyData[]>('/admin/reports/trades/daily', { params })
@@ -140,12 +148,16 @@ export const getTradeDailyData = async (
 /**
  * 获取品种成交量数据
  */
-export const getSymbolVolumeData = async (
-  params: { startDate?: string; endDate?: string; currency?: string }
-): Promise<FacadeResponse<SymbolVolumeData[]>> => {
+export const getSymbolVolumeData = async (params: {
+  startDate?: string
+  endDate?: string
+  currency?: string
+}): Promise<FacadeResponse<SymbolVolumeData[]>> => {
   try {
     if (isMockMode()) {
-      const response = await safeGet<SymbolVolumeData[]>('/admin/reports/trades/symbol-volume', { params })
+      const response = await safeGet<SymbolVolumeData[]>('/admin/reports/trades/symbol-volume', {
+        params,
+      })
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -159,9 +171,11 @@ export const getSymbolVolumeData = async (
 /**
  * 获取财务日报数据
  */
- export const getFinanceDailyData = async (
-  params: { startDate?: string; endDate?: string; currency?: string }
-): Promise<FacadeResponse<FinanceDailyData[]>> => {
+export const getFinanceDailyData = async (params: {
+  startDate?: string
+  endDate?: string
+  currency?: string
+}): Promise<FacadeResponse<FinanceDailyData[]>> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<FinanceDailyData[]>('/admin/reports/finance/daily', { params })
@@ -178,12 +192,17 @@ export const getSymbolVolumeData = async (
 /**
  * 获取手续费收入数据
  */
-export const getFeeIncomeData = async (
-  params: { startDate?: string; endDate?: string; feeType?: string; currency?: string }
-): Promise<FacadeResponse<FeeIncomeData[]>> => {
+export const getFeeIncomeData = async (params: {
+  startDate?: string
+  endDate?: string
+  feeType?: string
+  currency?: string
+}): Promise<FacadeResponse<FeeIncomeData[]>> => {
   try {
     if (isMockMode()) {
-      const response = await safeGet<FeeIncomeData[]>('/admin/reports/finance/fee-income', { params })
+      const response = await safeGet<FeeIncomeData[]>('/admin/reports/finance/fee-income', {
+        params,
+      })
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -197,9 +216,11 @@ export const getFeeIncomeData = async (
 /**
  * 获取留存率数据
  */
-export const getRetentionData = async (
-  params: { startDate?: string; endDate?: string; period?: string }
-): Promise<FacadeResponse<RetentionData[]>> => {
+export const getRetentionData = async (params: {
+  startDate?: string
+  endDate?: string
+  period?: string
+}): Promise<FacadeResponse<RetentionData[]>> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<RetentionData[]>('/admin/reports/retention/data', { params })
@@ -216,9 +237,11 @@ export const getRetentionData = async (
 /**
  * 获取转化漏斗数据
  */
-export const getFunnelData = async (
-  params: { startDate?: string; endDate?: string; step?: string }
-): Promise<FacadeResponse<FunnelData[]>> => {
+export const getFunnelData = async (params: {
+  startDate?: string
+  endDate?: string
+  step?: string
+}): Promise<FacadeResponse<FunnelData[]>> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<FunnelData[]>('/admin/reports/retention/funnel', { params })

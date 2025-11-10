@@ -63,7 +63,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import type { AdminUser } from '@/services/api/config.security'
+import type { AdminUser } from '@/services/api/facade'
 
 interface Props {
   open: boolean

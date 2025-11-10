@@ -69,7 +69,7 @@
 import { ref, watch } from 'vue'
 import { SaveOutlined } from '@ant-design/icons-vue'
 import type { Rule } from 'ant-design-vue/es/form'
-import type { I18nEntry } from '@/services/api/settings'
+import type { I18nEntry } from '@/services/api/facade'
 
 interface Props {
   initialValues?: Partial<I18nEntry>

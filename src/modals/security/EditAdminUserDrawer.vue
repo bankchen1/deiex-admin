@@ -32,7 +32,7 @@ import type {
   AdminUser,
   CreateAdminUserPayload,
   UpdateAdminUserPayload,
-} from '@/services/api/config.security'
+} from '@/services/api/facade'
 
 interface Props {
   open: boolean

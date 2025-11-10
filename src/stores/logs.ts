@@ -1,13 +1,17 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import {
-  opsApi,
+  getSystemLogs,
+  getAuditLogs,
+  getErrorLogs,
+  getLogDetail,
+  exportLogs as exportLogsApi,
   type SystemLog,
   type AuditLog,
   type ErrorLog,
   type LogDetail,
   type LogQueryParams,
-} from '@/services/api/ops'
+} from '@/services/api/facade'
 
 export const useLogsStore = defineStore('logs', () => {
   // State
@@ -34,7 +38,8 @@ export const useLogsStore = defineStore('logs', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await opsApi.getSystemLogs(params)
+      const response = await getSystemLogs(params)
+      if (response.error) throw response.error
       systemLogs.value = response.data.items
       systemLogsTotal.value = response.data.total
       return response
@@ -50,7 +55,8 @@ export const useLogsStore = defineStore('logs', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await opsApi.getAuditLogs(params)
+      const response = await getAuditLogs(params)
+      if (response.error) throw response.error
       auditLogs.value = response.data.items
       auditLogsTotal.value = response.data.total
       return response
@@ -66,7 +72,8 @@ export const useLogsStore = defineStore('logs', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await opsApi.getErrorLogs(params)
+      const response = await getErrorLogs(params)
+      if (response.error) throw response.error
       errorLogs.value = response.data.items
       errorLogsTotal.value = response.data.total
       return response
@@ -82,7 +89,8 @@ export const useLogsStore = defineStore('logs', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await opsApi.getLogDetail(id)
+      const response = await getLogDetail(id)
+      if (response.error) throw response.error
       currentLog.value = response.data
       return response
     } catch (e: any) {
@@ -97,7 +105,9 @@ export const useLogsStore = defineStore('logs', () => {
     loading.value = true
     error.value = null
     try {
-      const blob = await opsApi.exportLogs(type, params)
+      const response = await exportLogsApi(type, params)
+      if (response.error) throw response.error
+      const blob = response.data
 
       // Create download link
       const url = window.URL.createObjectURL(blob)

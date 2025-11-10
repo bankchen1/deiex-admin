@@ -1,6 +1,6 @@
 /**
  * Users Module Contracts
- * 
+ *
  * Field contracts based on actual page usage (from field-map.json and pages analysis)
  * All fields must match exactly what pages expect to render
  */
@@ -178,4 +178,4 @@ export const VIP_LEVEL_OPTIONS = [
 ] as const
 
 export const DEVICE_TYPES = ['mobile', 'desktop', 'tablet'] as const
-export type DeviceType = typeof DEVICE_TYPES[number]
+export type DeviceType = (typeof DEVICE_TYPES)[number]

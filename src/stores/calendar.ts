@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { 
+import {
   listFundingRules,
   getFundingRuleById,
   createFundingRule,
@@ -35,12 +35,7 @@ import {
   type ExportParams,
 } from '@/services/api/facade'
 import { message } from 'ant-design-vue'
-import type { 
-  FundingRule, 
-  MaintenanceWindow, 
-  Announcement, 
-  Version 
-} from '@/contracts/calendar'
+import type { FundingRule, MaintenanceWindow, Announcement, Version } from '@/contracts/calendar'
 
 export const useCalendarStore = defineStore('calendar', () => {
   // State

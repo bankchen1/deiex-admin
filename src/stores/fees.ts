@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { 
+import {
   listTradingFeeTemplates,
   getTradingFeeTemplateById,
   createTradingFeeTemplateDraft,
@@ -29,13 +29,13 @@ import {
   type ExportParams,
 } from '@/services/api/facade'
 import { message } from 'ant-design-vue'
-import type { 
+import type {
   TradingFeeTemplate,
   WithdrawalFeeTemplate,
   Version,
   FeeCalculationParams,
   FeeCalculationResult,
-  ValidateConsistencyResult
+  ValidateConsistencyResult,
 } from '@/contracts/fees'
 
 export const useFeesStore = defineStore('fees', () => {

@@ -34,12 +34,12 @@ import {
   type RunBacktestPayload,
   type UpdateStrategyMonitoringPayload,
 } from '@/services/api/facade'
-import type { 
-  StrategyTemplate, 
-  StrategyInstance, 
-  BacktestResult, 
-  StrategyPerformance, 
-  StrategyMonitoring 
+import type {
+  StrategyTemplate,
+  StrategyInstance,
+  BacktestResult,
+  StrategyPerformance,
+  StrategyMonitoring,
 } from '@/contracts/strategies'
 
 export const useStrategiesStore = defineStore('strategies', () => {
@@ -200,7 +200,7 @@ export const useStrategiesStore = defineStore('strategies', () => {
       }
 
       // Update the template in the list
-      const index = strategyTemplates.value.findIndex(template => template.id === id)
+      const index = strategyTemplates.value.findIndex((template) => template.id === id)
       if (index !== -1) {
         strategyTemplates.value[index] = data
       }
@@ -235,7 +235,7 @@ export const useStrategiesStore = defineStore('strategies', () => {
       }
 
       // Remove from the list
-      const index = strategyTemplates.value.findIndex(template => template.id === id)
+      const index = strategyTemplates.value.findIndex((template) => template.id === id)
       if (index !== -1) {
         strategyTemplates.value.splice(index, 1)
         strategyTemplatesTotal.value -= 1
@@ -359,7 +359,7 @@ export const useStrategiesStore = defineStore('strategies', () => {
       }
 
       // Update the instance in the list
-      const index = strategyInstances.value.findIndex(instance => instance.id === id)
+      const index = strategyInstances.value.findIndex((instance) => instance.id === id)
       if (index !== -1) {
         strategyInstances.value[index] = data
       }
@@ -394,7 +394,7 @@ export const useStrategiesStore = defineStore('strategies', () => {
       }
 
       // Update the instance in the list
-      const index = strategyInstances.value.findIndex(instance => instance.id === id)
+      const index = strategyInstances.value.findIndex((instance) => instance.id === id)
       if (index !== -1) {
         strategyInstances.value[index] = data
       }
@@ -429,7 +429,7 @@ export const useStrategiesStore = defineStore('strategies', () => {
       }
 
       // Update the instance in the list
-      const index = strategyInstances.value.findIndex(instance => instance.id === id)
+      const index = strategyInstances.value.findIndex((instance) => instance.id === id)
       if (index !== -1) {
         strategyInstances.value[index] = data
       }
@@ -464,7 +464,7 @@ export const useStrategiesStore = defineStore('strategies', () => {
       }
 
       // Remove from the list
-      const index = strategyInstances.value.findIndex(instance => instance.id === id)
+      const index = strategyInstances.value.findIndex((instance) => instance.id === id)
       if (index !== -1) {
         strategyInstances.value.splice(index, 1)
         strategyInstancesTotal.value -= 1
@@ -584,7 +584,7 @@ export const useStrategiesStore = defineStore('strategies', () => {
       }
 
       // Remove from the list
-      const index = backtestResults.value.findIndex(result => result.id === id)
+      const index = backtestResults.value.findIndex((result) => result.id === id)
       if (index !== -1) {
         backtestResults.value.splice(index, 1)
         backtestResultsTotal.value -= 1
@@ -724,7 +724,10 @@ export const useStrategiesStore = defineStore('strategies', () => {
     }
   }
 
-  async function updateStrategyMonitoringAction(id: string, payload: UpdateStrategyMonitoringPayload) {
+  async function updateStrategyMonitoringAction(
+    id: string,
+    payload: UpdateStrategyMonitoringPayload
+  ) {
     actionLoading.value = true
     error.value = null
     try {
@@ -740,7 +743,7 @@ export const useStrategiesStore = defineStore('strategies', () => {
       }
 
       // Update the monitoring in the list
-      const index = strategyMonitoring.value.findIndex(monitor => monitor.id === id)
+      const index = strategyMonitoring.value.findIndex((monitor) => monitor.id === id)
       if (index !== -1) {
         strategyMonitoring.value[index] = data
       }

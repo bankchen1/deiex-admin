@@ -13,15 +13,34 @@
     <template #toolbar>
       <slot name="toolbar" />
     </template>
+    <template #bodyCell="{ column, text, record }">
+      <template v-if="column.key === 'side'">
+        <a-tag :color="text === 'long' ? 'green' : 'red'">
+          {{ text === 'long' ? 'Long' : 'Short' }}
+        </a-tag>
+      </template>
+      <template v-else-if="column.key === 'loss'">
+        <div>
+          <div style="color: #ff4d4f; font-weight: bold">-{{ formatNumber(text, 8) }}</div>
+          <div style="color: #ff4d4f; font-size: 12px">(-{{ record.lossPercent.toFixed(2) }}%)</div>
+        </div>
+      </template>
+      <template v-else-if="column.key === 'reason'">
+        <a-tag color="red">{{ text }}</a-tag>
+      </template>
+      <template v-else-if="column.key === 'actions'">
+        <a @click="handleViewDetail(record)">View Timeline</a>
+      </template>
+    </template>
   </ServerTable>
 </template>
 
-<script setup lang="tsx">
+<script setup lang="ts">
 import { ref, computed } from 'vue'
 import { Tag } from 'ant-design-vue'
 import ServerTable from '@/shared/ServerTable.vue'
 import type { TableColumn } from '@/types/components'
-import type { Liquidation, LiquidationQueryParams } from '@/services/api/orders'
+import type { Liquidation, LiquidationQueryParams } from '@/services/api/facade'
 import { useOrdersStore } from '@/stores/orders'
 import { formatDate } from '@/utils/date'
 import { formatNumber } from '@/utils/format'
@@ -72,11 +91,6 @@ const columns = ref<TableColumn[]>([
     title: 'Side',
     dataIndex: 'side',
     width: 100,
-    render: (value: string) => {
-      const color = value === 'long' ? 'green' : 'red'
-      const text = value === 'long' ? 'Long' : 'Short'
-      return <Tag color={color}>{text}</Tag>
-    },
   },
   {
     key: 'leverage',
@@ -117,23 +131,12 @@ const columns = ref<TableColumn[]>([
     width: 150,
     align: 'right',
     sortable: true,
-    render: (value: string, record: Liquidation) => {
-      return (
-        <div>
-          <div style={{ color: '#ff4d4f', fontWeight: 'bold' }}>-{formatNumber(value, 8)}</div>
-          <div style={{ color: '#ff4d4f', fontSize: '12px' }}>
-            (-{record.lossPercent.toFixed(2)}%)
-          </div>
-        </div>
-      )
-    },
   },
   {
     key: 'reason',
     title: 'Reason',
     dataIndex: 'reason',
     width: 200,
-    render: (value: string) => <Tag color="red">{value}</Tag>,
   },
   {
     key: 'liquidatedAt',
@@ -149,9 +152,6 @@ const columns = ref<TableColumn[]>([
     dataIndex: 'actions',
     width: 120,
     fixed: 'right',
-    render: (_: unknown, record: Liquidation) => (
-      <a onClick={() => handleViewDetail(record)}>View Timeline</a>
-    ),
   },
 ])
 

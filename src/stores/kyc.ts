@@ -8,11 +8,7 @@ import {
   rejectKycApplication,
   type KycQueryParams,
 } from '@/services/api/facade'
-import type { 
-  KycApplication, 
-  KycApplicationDetailResponse,
-  KycStats 
-} from '@/contracts/kyc'
+import type { KycApplication, KycApplicationDetailResponse, KycStats } from '@/contracts/kyc'
 
 export const useKycStore = defineStore('kyc', () => {
   // State
@@ -119,7 +115,10 @@ export const useKycStore = defineStore('kyc', () => {
     }
   }
 
-  async function approveApplicationAction(id: string, payload: { reason?: string; notes?: string }) {
+  async function approveApplicationAction(
+    id: string,
+    payload: { reason?: string; notes?: string }
+  ) {
     actionLoading.value = true
     error.value = null
     try {

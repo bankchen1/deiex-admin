@@ -120,6 +120,23 @@ export const updateRiskRule = async (
 }
 
 /**
+ * 删除风险规则
+ */
+export const deleteRiskRule = async (id: string): Promise<FacadeResponse<boolean>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safeDelete<boolean>(`/admin/risk/rules/${id}`)
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
  * 获取风险限制列表
  */
 export const listRiskLimits = async (
@@ -152,9 +169,82 @@ export const listRiskLimits = async (
 }
 
 /**
+ * 根据ID获取风险限制
+ */
+export const getRiskLimitById = async (id: string): Promise<FacadeResponse<RiskLimit>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safeGet<RiskLimit>(`/admin/risk/limits/${id}`)
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 创建风险限制
+ */
+export const createRiskLimit = async (
+  payload: Partial<RiskLimit>
+): Promise<FacadeResponse<RiskLimit>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safePost<RiskLimit>('/admin/risk/limits', payload)
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 更新风险限制
+ */
+export const updateRiskLimit = async (
+  id: string,
+  payload: Partial<RiskLimit>
+): Promise<FacadeResponse<RiskLimit>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safePut<RiskLimit>(`/admin/risk/limits/${id}`, payload)
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 删除风险限制
+ */
+export const deleteRiskLimit = async (id: string): Promise<FacadeResponse<boolean>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safeDelete<boolean>(`/admin/risk/limits/${id}`)
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
  * 获取黑名单列表
  */
-export const listBlacklist = async (
+export const listBlacklistEntries = async (
   params: BlacklistQueryParams = {}
 ): Promise<
   FacadeResponse<{ data: BlacklistEntry[]; total: number; page: number; pageSize: number }>
@@ -184,9 +274,28 @@ export const listBlacklist = async (
 }
 
 /**
+ * 根据ID获取黑名单条目
+ */
+export const getBlacklistEntryById = async (
+  id: string
+): Promise<FacadeResponse<BlacklistEntry>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safeGet<BlacklistEntry>(`/admin/risk/blacklist/${id}`)
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
  * 添加黑名单条目
  */
-export const addBlacklistEntry = async (
+export const createBlacklistEntry = async (
   payload: Partial<BlacklistEntry>
 ): Promise<FacadeResponse<BlacklistEntry>> => {
   try {
@@ -203,9 +312,29 @@ export const addBlacklistEntry = async (
 }
 
 /**
+ * 更新黑名单条目
+ */
+export const updateBlacklistEntry = async (
+  id: string,
+  payload: Partial<BlacklistEntry>
+): Promise<FacadeResponse<BlacklistEntry>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safePut<BlacklistEntry>(`/admin/risk/blacklist/${id}`, payload)
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
  * 移除黑名单条目
  */
-export const removeBlacklistEntry = async (
+export const deleteBlacklistEntry = async (
   id: string,
   reason: string
 ): Promise<FacadeResponse<boolean>> => {

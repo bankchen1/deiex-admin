@@ -1,6 +1,6 @@
 /**
  * Fees Module Contracts
- * 
+ *
  * Field contracts based on actual page usage (from field-map.json and pages analysis)
  * All fields must match exactly what pages expect to render
  */
@@ -129,7 +129,8 @@ export interface CreateWithdrawalFeeTemplatePayload {
   description?: string
 }
 
-export interface UpdateWithdrawalFeeTemplatePayload extends Partial<CreateWithdrawalFeeTemplatePayload> {
+export interface UpdateWithdrawalFeeTemplatePayload
+  extends Partial<CreateWithdrawalFeeTemplatePayload> {
   status?: 'draft' | 'published'
 }
 

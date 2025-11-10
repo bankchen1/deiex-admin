@@ -76,7 +76,7 @@ import {
   ReloadOutlined,
 } from '@ant-design/icons-vue'
 import type { Rule } from 'ant-design-vue/es/form'
-import type { GeneralSettings } from '@/services/api/settings'
+import type { GeneralSettings } from '@/services/api/facade'
 
 interface Props {
   initialValues?: Partial<GeneralSettings>

@@ -247,7 +247,9 @@ export interface UpdateWalletAddressPayload {
  */
 export const listWalletAddresses = async (
   params: WalletAddressQueryParams = {}
-): Promise<FacadeResponse<{ data: WalletAddress[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: WalletAddress[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{

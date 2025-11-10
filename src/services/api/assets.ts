@@ -1,13 +1,13 @@
 /**
  * Assets API Service
- * 
+ *
  * Facade functions for Assets module covering all read/write operations
  * Internal switching between Mock/Real based on environment
  */
 
-import type { 
-  DepositListResponse, 
-  WithdrawalListResponse, 
+import type {
+  DepositListResponse,
+  WithdrawalListResponse,
   WalletAddressListResponse,
   DepositDetailResponse,
   WithdrawalDetailResponse,
@@ -18,7 +18,7 @@ import type {
   ApproveWithdrawalPayload,
   RejectWithdrawalPayload,
   CreateWalletAddressPayload,
-  ApiResponse
+  ApiResponse,
 } from '@/contracts/assets'
 
 // Real API client (to be replaced with actual SDK)
@@ -26,45 +26,57 @@ const realApiClient = {
   async listDeposits(params: DepositQueryParams): Promise<ApiResponse<DepositListResponse>> {
     throw new Error('Real API implementation not available yet')
   },
-  
-  async listWithdrawals(params: WithdrawalQueryParams): Promise<ApiResponse<WithdrawalListResponse>> {
+
+  async listWithdrawals(
+    params: WithdrawalQueryParams
+  ): Promise<ApiResponse<WithdrawalListResponse>> {
     throw new Error('Real API implementation not available yet')
   },
-  
-  async listWalletAddresses(params: WalletAddressQueryParams): Promise<ApiResponse<WalletAddressListResponse>> {
+
+  async listWalletAddresses(
+    params: WalletAddressQueryParams
+  ): Promise<ApiResponse<WalletAddressListResponse>> {
     throw new Error('Real API implementation not available yet')
   },
-  
+
   async getDepositById(id: string): Promise<ApiResponse<DepositDetailResponse>> {
     throw new Error('Real API implementation not available yet')
   },
-  
+
   async getWithdrawalById(id: string): Promise<ApiResponse<WithdrawalDetailResponse>> {
     throw new Error('Real API implementation not available yet')
   },
-  
-  async updateDepositNotes(id: string, payload: UpdateDepositNotesPayload): Promise<ApiResponse<any>> {
+
+  async updateDepositNotes(
+    id: string,
+    payload: UpdateDepositNotesPayload
+  ): Promise<ApiResponse<any>> {
     throw new Error('Real API implementation not available yet')
   },
-  
-  async approveWithdrawal(id: string, payload: ApproveWithdrawalPayload): Promise<ApiResponse<any>> {
+
+  async approveWithdrawal(
+    id: string,
+    payload: ApproveWithdrawalPayload
+  ): Promise<ApiResponse<any>> {
     throw new Error('Real API implementation not available yet')
   },
-  
+
   async rejectWithdrawal(id: string, payload: RejectWithdrawalPayload): Promise<ApiResponse<any>> {
     throw new Error('Real API implementation not available yet')
   },
-  
+
   async createWalletAddress(payload: CreateWalletAddressPayload): Promise<ApiResponse<any>> {
     throw new Error('Real API implementation not available yet')
-  }
+  },
 }
 
 // Mock API client
 const mockApiClient = {
   async listDeposits(params: DepositQueryParams): Promise<ApiResponse<DepositListResponse>> {
     try {
-      const mockResponse = await import('@/mock/handlers/assets').then(mod => mod.handleListDeposits(params))
+      const mockResponse = await import('@/mock/handlers/assets').then((mod) =>
+        mod.handleListDeposits(params)
+      )
       return {
         success: true,
         data: mockResponse,
@@ -72,9 +84,9 @@ const mockApiClient = {
           pagination: {
             page: params.page || 1,
             pageSize: params.pageSize || 20,
-            total: mockResponse.total || 0
-          }
-        }
+            total: mockResponse.total || 0,
+          },
+        },
       }
     } catch (error) {
       return {
@@ -82,15 +94,19 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
-  async listWithdrawals(params: WithdrawalQueryParams): Promise<ApiResponse<WithdrawalListResponse>> {
+
+  async listWithdrawals(
+    params: WithdrawalQueryParams
+  ): Promise<ApiResponse<WithdrawalListResponse>> {
     try {
-      const mockResponse = await import('@/mock/handlers/assets').then(mod => mod.handleListWithdrawals(params))
+      const mockResponse = await import('@/mock/handlers/assets').then((mod) =>
+        mod.handleListWithdrawals(params)
+      )
       return {
         success: true,
         data: mockResponse,
@@ -98,9 +114,9 @@ const mockApiClient = {
           pagination: {
             page: params.page || 1,
             pageSize: params.pageSize || 20,
-            total: mockResponse.total || 0
-          }
-        }
+            total: mockResponse.total || 0,
+          },
+        },
       }
     } catch (error) {
       return {
@@ -108,15 +124,19 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
-  async listWalletAddresses(params: WalletAddressQueryParams): Promise<ApiResponse<WalletAddressListResponse>> {
+
+  async listWalletAddresses(
+    params: WalletAddressQueryParams
+  ): Promise<ApiResponse<WalletAddressListResponse>> {
     try {
-      const mockResponse = await import('@/mock/handlers/assets').then(mod => mod.handleListWalletAddresses(params))
+      const mockResponse = await import('@/mock/handlers/assets').then((mod) =>
+        mod.handleListWalletAddresses(params)
+      )
       return {
         success: true,
         data: mockResponse,
@@ -124,9 +144,9 @@ const mockApiClient = {
           pagination: {
             page: params.page || 1,
             pageSize: params.pageSize || 20,
-            total: mockResponse.total || 0
-          }
-        }
+            total: mockResponse.total || 0,
+          },
+        },
       }
     } catch (error) {
       return {
@@ -134,18 +154,20 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
+
   async getDepositById(id: string): Promise<ApiResponse<DepositDetailResponse>> {
     try {
-      const mockResponse = await import('@/mock/handlers/assets').then(mod => mod.handleGetDepositById(id))
+      const mockResponse = await import('@/mock/handlers/assets').then((mod) =>
+        mod.handleGetDepositById(id)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -153,18 +175,20 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
+
   async getWithdrawalById(id: string): Promise<ApiResponse<WithdrawalDetailResponse>> {
     try {
-      const mockResponse = await import('@/mock/handlers/assets').then(mod => mod.handleGetWithdrawalById(id))
+      const mockResponse = await import('@/mock/handlers/assets').then((mod) =>
+        mod.handleGetWithdrawalById(id)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -172,18 +196,23 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
-  async updateDepositNotes(id: string, payload: UpdateDepositNotesPayload): Promise<ApiResponse<any>> {
+
+  async updateDepositNotes(
+    id: string,
+    payload: UpdateDepositNotesPayload
+  ): Promise<ApiResponse<any>> {
     try {
-      const mockResponse = await import('@/mock/handlers/assets').then(mod => mod.handleUpdateDepositNotes(id, payload))
+      const mockResponse = await import('@/mock/handlers/assets').then((mod) =>
+        mod.handleUpdateDepositNotes(id, payload)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -191,18 +220,23 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
-  async approveWithdrawal(id: string, payload: ApproveWithdrawalPayload): Promise<ApiResponse<any>> {
+
+  async approveWithdrawal(
+    id: string,
+    payload: ApproveWithdrawalPayload
+  ): Promise<ApiResponse<any>> {
     try {
-      const mockResponse = await import('@/mock/handlers/assets').then(mod => mod.handleApproveWithdrawal(id, payload))
+      const mockResponse = await import('@/mock/handlers/assets').then((mod) =>
+        mod.handleApproveWithdrawal(id, payload)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -210,18 +244,20 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
+
   async rejectWithdrawal(id: string, payload: RejectWithdrawalPayload): Promise<ApiResponse<any>> {
     try {
-      const mockResponse = await import('@/mock/handlers/assets').then(mod => mod.handleRejectWithdrawal(id, payload))
+      const mockResponse = await import('@/mock/handlers/assets').then((mod) =>
+        mod.handleRejectWithdrawal(id, payload)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -229,18 +265,20 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
+
   async createWalletAddress(payload: CreateWalletAddressPayload): Promise<ApiResponse<any>> {
     try {
-      const mockResponse = await import('@/mock/handlers/assets').then(mod => mod.handleCreateWalletAddress(payload))
+      const mockResponse = await import('@/mock/handlers/assets').then((mod) =>
+        mod.handleCreateWalletAddress(payload)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -248,11 +286,11 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
-  }
+  },
 }
 
 // Determine which client to use based on environment
@@ -276,7 +314,9 @@ export const assetsApi = {
   /**
    * List withdrawals with pagination and filtering
    */
-  async listWithdrawals(params: WithdrawalQueryParams = {}): Promise<ApiResponse<WithdrawalListResponse>> {
+  async listWithdrawals(
+    params: WithdrawalQueryParams = {}
+  ): Promise<ApiResponse<WithdrawalListResponse>> {
     if (isMockMode()) {
       return mockApiClient.listWithdrawals(params)
     } else {
@@ -287,7 +327,9 @@ export const assetsApi = {
   /**
    * List wallet addresses with pagination and filtering
    */
-  async listWalletAddresses(params: WalletAddressQueryParams = {}): Promise<ApiResponse<WalletAddressListResponse>> {
+  async listWalletAddresses(
+    params: WalletAddressQueryParams = {}
+  ): Promise<ApiResponse<WalletAddressListResponse>> {
     if (isMockMode()) {
       return mockApiClient.listWalletAddresses(params)
     } else {
@@ -320,7 +362,10 @@ export const assetsApi = {
   /**
    * Update deposit notes
    */
-  async updateDepositNotes(id: string, payload: UpdateDepositNotesPayload): Promise<ApiResponse<any>> {
+  async updateDepositNotes(
+    id: string,
+    payload: UpdateDepositNotesPayload
+  ): Promise<ApiResponse<any>> {
     if (isMockMode()) {
       return mockApiClient.updateDepositNotes(id, payload)
     } else {
@@ -331,7 +376,10 @@ export const assetsApi = {
   /**
    * Approve withdrawal
    */
-  async approveWithdrawal(id: string, payload: ApproveWithdrawalPayload): Promise<ApiResponse<any>> {
+  async approveWithdrawal(
+    id: string,
+    payload: ApproveWithdrawalPayload
+  ): Promise<ApiResponse<any>> {
     if (isMockMode()) {
       return mockApiClient.approveWithdrawal(id, payload)
     } else {
@@ -359,7 +407,7 @@ export const assetsApi = {
     } else {
       return realApiClient.createWalletAddress(payload)
     }
-  }
+  },
 }
 
 // Export individual functions for specific use cases
@@ -372,7 +420,7 @@ export {
   updateDepositNotes,
   approveWithdrawal,
   rejectWithdrawal,
-  createWalletAddress
+  createWalletAddress,
 } from './facade/assets'
 
 // Default export for backward compatibility

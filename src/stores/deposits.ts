@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { 
-  listDeposits, 
-  getDepositById, 
+import {
+  listDeposits,
+  getDepositById,
   updateDepositNotes as updateDepositNotesApi,
   exportDeposits,
   type DepositQueryParams,
@@ -30,17 +30,17 @@ export const useDepositsStore = defineStore('deposits', () => {
         pageSize: pageSize.value,
         ...params,
       })
-      
+
       if (err) {
         throw new Error(err.message)
       }
-      
+
       if (!data) {
         deposits.value = []
         total.value = 0
         return
       }
-      
+
       deposits.value = data.data
       total.value = data.total
       currentPage.value = data.page
@@ -60,15 +60,15 @@ export const useDepositsStore = defineStore('deposits', () => {
     error.value = null
     try {
       const { data, error: err } = await getDepositById(id)
-      
+
       if (err) {
         throw new Error(err.message)
       }
-      
+
       if (!data) {
         throw new Error('Deposit not found')
       }
-      
+
       currentDeposit.value = data
       return data
     } catch (e: any) {

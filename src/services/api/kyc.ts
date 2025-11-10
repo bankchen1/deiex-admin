@@ -1,48 +1,63 @@
 /**
  * KYC API Service
- * 
+ *
  * Facade functions for KYC module covering all read/write operations
  * Internal switching between Mock/Real based on environment
  */
 
-import type { 
-  KycApplicationListResponse, 
-  KycApplicationDetailResponse, 
+import type {
+  KycApplicationListResponse,
+  KycApplicationDetailResponse,
   KycStats,
   KycApplicationQueryParams,
   ApproveKycApplicationPayload,
   RejectKycApplicationPayload,
-  ApiResponse
+  ApiResponse,
 } from '@/contracts/kyc'
 
 // Real API client (to be replaced with actual SDK)
 const realApiClient = {
-  async listApplications(params: KycApplicationQueryParams): Promise<ApiResponse<KycApplicationListResponse>> {
+  async listApplications(
+    params: KycApplicationQueryParams
+  ): Promise<ApiResponse<KycApplicationListResponse>> {
     throw new Error('Real API implementation not available yet')
   },
-  
+
   async getApplicationById(id: string): Promise<ApiResponse<KycApplicationDetailResponse>> {
     throw new Error('Real API implementation not available yet')
   },
-  
-  async getStats(params?: { startDate?: string; endDate?: string }): Promise<ApiResponse<KycStats>> {
+
+  async getStats(params?: {
+    startDate?: string
+    endDate?: string
+  }): Promise<ApiResponse<KycStats>> {
     throw new Error('Real API implementation not available yet')
   },
-  
-  async approveApplication(id: string, payload: ApproveKycApplicationPayload): Promise<ApiResponse<any>> {
+
+  async approveApplication(
+    id: string,
+    payload: ApproveKycApplicationPayload
+  ): Promise<ApiResponse<any>> {
     throw new Error('Real API implementation not available yet')
   },
-  
-  async rejectApplication(id: string, payload: RejectKycApplicationPayload): Promise<ApiResponse<any>> {
+
+  async rejectApplication(
+    id: string,
+    payload: RejectKycApplicationPayload
+  ): Promise<ApiResponse<any>> {
     throw new Error('Real API implementation not available yet')
-  }
+  },
 }
 
 // Mock API client
 const mockApiClient = {
-  async listApplications(params: KycApplicationQueryParams): Promise<ApiResponse<KycApplicationListResponse>> {
+  async listApplications(
+    params: KycApplicationQueryParams
+  ): Promise<ApiResponse<KycApplicationListResponse>> {
     try {
-      const mockResponse = await import('@/mock/handlers/kyc').then(mod => mod.handleListApplications(params))
+      const mockResponse = await import('@/mock/handlers/kyc').then((mod) =>
+        mod.handleListApplications(params)
+      )
       return {
         success: true,
         data: mockResponse,
@@ -50,9 +65,9 @@ const mockApiClient = {
           pagination: {
             page: params.page || 1,
             pageSize: params.pageSize || 20,
-            total: mockResponse.total || 0
-          }
-        }
+            total: mockResponse.total || 0,
+          },
+        },
       }
     } catch (error) {
       return {
@@ -60,18 +75,20 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
+
   async getApplicationById(id: string): Promise<ApiResponse<KycApplicationDetailResponse>> {
     try {
-      const mockResponse = await import('@/mock/handlers/kyc').then(mod => mod.handleGetApplicationById(id))
+      const mockResponse = await import('@/mock/handlers/kyc').then((mod) =>
+        mod.handleGetApplicationById(id)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -79,18 +96,23 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
-  async getStats(params?: { startDate?: string; endDate?: string }): Promise<ApiResponse<KycStats>> {
+
+  async getStats(params?: {
+    startDate?: string
+    endDate?: string
+  }): Promise<ApiResponse<KycStats>> {
     try {
-      const mockResponse = await import('@/mock/handlers/kyc').then(mod => mod.handleGetStats(params))
+      const mockResponse = await import('@/mock/handlers/kyc').then((mod) =>
+        mod.handleGetStats(params)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -98,18 +120,23 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
-  async approveApplication(id: string, payload: ApproveKycApplicationPayload): Promise<ApiResponse<any>> {
+
+  async approveApplication(
+    id: string,
+    payload: ApproveKycApplicationPayload
+  ): Promise<ApiResponse<any>> {
     try {
-      const mockResponse = await import('@/mock/handlers/kyc').then(mod => mod.handleApproveApplication(id, payload))
+      const mockResponse = await import('@/mock/handlers/kyc').then((mod) =>
+        mod.handleApproveApplication(id, payload)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -117,18 +144,23 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
   },
-  
-  async rejectApplication(id: string, payload: RejectKycApplicationPayload): Promise<ApiResponse<any>> {
+
+  async rejectApplication(
+    id: string,
+    payload: RejectKycApplicationPayload
+  ): Promise<ApiResponse<any>> {
     try {
-      const mockResponse = await import('@/mock/handlers/kyc').then(mod => mod.handleRejectApplication(id, payload))
+      const mockResponse = await import('@/mock/handlers/kyc').then((mod) =>
+        mod.handleRejectApplication(id, payload)
+      )
       return {
         success: true,
-        data: mockResponse
+        data: mockResponse,
       }
     } catch (error) {
       return {
@@ -136,11 +168,11 @@ const mockApiClient = {
         error: {
           code: 'MOCK_ERROR',
           message: error instanceof Error ? error.message : 'Unknown error',
-          details: error
-        }
+          details: error,
+        },
       }
     }
-  }
+  },
 }
 
 // Determine which client to use based on environment
@@ -153,7 +185,9 @@ export const kycApi = {
   /**
    * List KYC applications with pagination and filtering
    */
-  async listApplications(params: KycApplicationQueryParams = {}): Promise<ApiResponse<KycApplicationListResponse>> {
+  async listApplications(
+    params: KycApplicationQueryParams = {}
+  ): Promise<ApiResponse<KycApplicationListResponse>> {
     if (isMockMode()) {
       return mockApiClient.listApplications(params)
     } else {
@@ -175,7 +209,10 @@ export const kycApi = {
   /**
    * Get KYC statistics
    */
-  async getStats(params?: { startDate?: string; endDate?: string }): Promise<ApiResponse<KycStats>> {
+  async getStats(params?: {
+    startDate?: string
+    endDate?: string
+  }): Promise<ApiResponse<KycStats>> {
     if (isMockMode()) {
       return mockApiClient.getStats(params)
     } else {
@@ -186,7 +223,10 @@ export const kycApi = {
   /**
    * Approve KYC application
    */
-  async approveApplication(id: string, payload: ApproveKycApplicationPayload): Promise<ApiResponse<any>> {
+  async approveApplication(
+    id: string,
+    payload: ApproveKycApplicationPayload
+  ): Promise<ApiResponse<any>> {
     if (isMockMode()) {
       return mockApiClient.approveApplication(id, payload)
     } else {
@@ -197,13 +237,16 @@ export const kycApi = {
   /**
    * Reject KYC application
    */
-  async rejectApplication(id: string, payload: RejectKycApplicationPayload): Promise<ApiResponse<any>> {
+  async rejectApplication(
+    id: string,
+    payload: RejectKycApplicationPayload
+  ): Promise<ApiResponse<any>> {
     if (isMockMode()) {
       return mockApiClient.rejectApplication(id, payload)
     } else {
       return realApiClient.rejectApplication(id, payload)
     }
-  }
+  },
 }
 
 // Export individual functions for specific use cases
@@ -212,7 +255,7 @@ export {
   getApplicationById,
   getStats,
   approveApplication,
-  rejectApplication
+  rejectApplication,
 } from './facade/kyc'
 
 // Default export for backward compatibility

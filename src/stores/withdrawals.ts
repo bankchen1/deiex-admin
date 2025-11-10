@@ -1,19 +1,19 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { 
-  listWithdrawals, 
-  getWithdrawalById, 
-  approveWithdrawal, 
+import {
+  listWithdrawals,
+  getWithdrawalById,
+  approveWithdrawal,
   rejectWithdrawal,
-  exportWithdrawals
+  exportWithdrawals,
 } from '@/services/api/facade'
-import type { 
+import type {
   WithdrawalQueryParams,
   ApproveWithdrawalPayload,
   RejectWithdrawalPayload,
   BatchApprovePayload,
   BatchRejectPayload,
-  Withdrawal
+  Withdrawal,
 } from '@/contracts/assets'
 import { message } from 'ant-design-vue'
 
@@ -37,17 +37,17 @@ export const useWithdrawalsStore = defineStore('withdrawals', () => {
         pageSize: pageSize.value,
         ...params,
       })
-      
+
       if (err) {
         throw new Error(err.message)
       }
-      
+
       if (!data) {
         withdrawals.value = []
         total.value = 0
         return
       }
-      
+
       withdrawals.value = data.data
       total.value = data.total
       currentPage.value = data.page
@@ -67,15 +67,15 @@ export const useWithdrawalsStore = defineStore('withdrawals', () => {
     error.value = null
     try {
       const { data, error: err } = await getWithdrawalById(id)
-      
+
       if (err) {
         throw new Error(err.message)
       }
-      
+
       if (!data) {
         throw new Error('Withdrawal not found')
       }
-      
+
       currentWithdrawal.value = data
       return data
     } catch (e: any) {
@@ -92,11 +92,11 @@ export const useWithdrawalsStore = defineStore('withdrawals', () => {
     error.value = null
     try {
       const { data, error: err } = await approveWithdrawal(id, payload)
-      
+
       if (err) {
         throw new Error(err.message)
       }
-      
+
       // Update in list if present
       const index = withdrawals.value.findIndex((w) => w.id === id)
       if (index !== -1) {
@@ -122,11 +122,11 @@ export const useWithdrawalsStore = defineStore('withdrawals', () => {
     error.value = null
     try {
       const { data, error: err } = await rejectWithdrawal(id, payload)
-      
+
       if (err) {
         throw new Error(err.message)
       }
-      
+
       // Update in list if present
       const index = withdrawals.value.findIndex((w) => w.id === id)
       if (index !== -1) {

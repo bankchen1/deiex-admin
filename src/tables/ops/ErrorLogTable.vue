@@ -69,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ErrorLog } from '@/services/api/ops'
+import type { ErrorLog } from '@/services/api/facade'
 import { formatDateTime } from '@/utils/date'
 
 interface Props {

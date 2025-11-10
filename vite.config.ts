@@ -51,7 +51,7 @@ export default defineConfig({
         '/Volumes/BankChen',
         '/Volumes/BankChen/deiex1',
         '/Volumes/BankChen/deiex1/deiex-admin',
-      ]
-    }
+      ],
+    },
   },
 })

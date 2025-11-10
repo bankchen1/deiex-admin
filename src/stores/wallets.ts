@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { 
-  listWalletAddresses, 
-  getWalletAddressById, 
+import {
+  listWalletAddresses,
+  getWalletAddressById,
   createWalletAddress,
-  type WalletAddressQueryParams 
+  type WalletAddressQueryParams,
 } from '@/services/api/facade'
 import type { WalletAddress, ChainHealth, RetryTask } from '@/contracts/assets'
 import { message } from 'ant-design-vue'
@@ -23,16 +23,16 @@ export const useWalletsStore = defineStore('wallets', () => {
     error.value = null
     try {
       const { data, error: err } = await listWalletAddresses(params)
-      
+
       if (err) {
         throw new Error(err.message)
       }
-      
+
       if (!data) {
         addresses.value = []
         return
       }
-      
+
       addresses.value = data.data
       return data
     } catch (e: any) {

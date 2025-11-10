@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import type { PermissionNode } from '@/services/api/config.security'
+import type { PermissionNode } from '@/services/api/facade'
 
 interface Props {
   treeData: PermissionNode[]

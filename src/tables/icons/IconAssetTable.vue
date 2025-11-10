@@ -151,7 +151,7 @@ import ServerTable from '@/shared/ServerTable.vue'
 import RBACGuard from '@/shared/RBACGuard.vue'
 import TagPicker from '@/shared/TagPicker.vue'
 import { useIconsStore } from '@/stores/icons'
-import type { IconAsset, IconAssetQueryParams } from '@/services/api/config.icons'
+import type { IconAsset, IconAssetQueryParams } from '@/services/api/facade'
 import type { TableParams } from '@/types/components'
 import { formatDate } from '@/utils/date'
 

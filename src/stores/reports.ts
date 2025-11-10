@@ -101,7 +101,9 @@ export const useReportsStore = defineStore('reports', () => {
     }
   }
 
-  async function fetchTradeDailyData(params: { startDate?: string; endDate?: string; symbol?: string } = {}) {
+  async function fetchTradeDailyData(
+    params: { startDate?: string; endDate?: string; symbol?: string } = {}
+  ) {
     loading.value = true
     error.value = null
     try {
@@ -128,7 +130,9 @@ export const useReportsStore = defineStore('reports', () => {
     }
   }
 
-  async function fetchSymbolVolumeData(params: { startDate?: string; endDate?: string; currency?: string } = {}) {
+  async function fetchSymbolVolumeData(
+    params: { startDate?: string; endDate?: string; currency?: string } = {}
+  ) {
     loading.value = true
     error.value = null
     try {
@@ -191,7 +195,9 @@ export const useReportsStore = defineStore('reports', () => {
     }
   }
 
-  async function fetchFinanceDailyData(params: { startDate?: string; endDate?: string; currency?: string } = {}) {
+  async function fetchFinanceDailyData(
+    params: { startDate?: string; endDate?: string; currency?: string } = {}
+  ) {
     loading.value = true
     error.value = null
     try {
@@ -218,7 +224,9 @@ export const useReportsStore = defineStore('reports', () => {
     }
   }
 
-  async function fetchFeeIncomeData(params: { startDate?: string; endDate?: string; feeType?: string; currency?: string } = {}) {
+  async function fetchFeeIncomeData(
+    params: { startDate?: string; endDate?: string; feeType?: string; currency?: string } = {}
+  ) {
     loading.value = true
     error.value = null
     try {
@@ -281,7 +289,9 @@ export const useReportsStore = defineStore('reports', () => {
     }
   }
 
-  async function fetchRetentionData(params: { startDate?: string; endDate?: string; period?: string } = {}) {
+  async function fetchRetentionData(
+    params: { startDate?: string; endDate?: string; period?: string } = {}
+  ) {
     loading.value = true
     error.value = null
     try {
@@ -308,7 +318,9 @@ export const useReportsStore = defineStore('reports', () => {
     }
   }
 
-  async function fetchFunnelData(params: { startDate?: string; endDate?: string; step?: string } = {}) {
+  async function fetchFunnelData(
+    params: { startDate?: string; endDate?: string; step?: string } = {}
+  ) {
     loading.value = true
     error.value = null
     try {
@@ -476,7 +488,7 @@ export const useReportsStore = defineStore('reports', () => {
   function reset() {
     loading.value = false
     error.value = null
-    
+
     // Reset trade reports state
     tradeReports.value = []
     tradeReportsTotal.value = 0

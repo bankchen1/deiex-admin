@@ -6,7 +6,7 @@
 import { ref, computed, watch } from 'vue'
 import SchemaForm from '@/shared/SchemaForm.vue'
 import type { FormSchema } from '@/types/components'
-import type { CreateAdminUserPayload, UpdateAdminUserPayload } from '@/services/api/config.security'
+import type { CreateAdminUserPayload, UpdateAdminUserPayload } from '@/services/api/facade'
 
 interface Props {
   initialData?: Partial<CreateAdminUserPayload>

@@ -1,7 +1,7 @@
 // Authentication Store
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { 
+import {
   login as loginFacade,
   logout as logoutFacade,
   refreshToken as refreshTokenFacade,

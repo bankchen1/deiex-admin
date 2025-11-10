@@ -101,7 +101,7 @@ import {
   EyeOutlined,
 } from '@ant-design/icons-vue'
 import type { Rule } from 'ant-design-vue/es/form'
-import type { ThemeSettings } from '@/services/api/settings'
+import type { ThemeSettings } from '@/services/api/facade'
 
 interface Props {
   initialValues?: Partial<ThemeSettings>

@@ -52,18 +52,18 @@ export const useUsersStore = defineStore('users', () => {
         pageSize: pageSize.value,
         ...params,
       })
-      
+
       if (err) {
         error.value = err.message
         throw new Error(err.message)
       }
-      
+
       if (!data) {
         list.value = []
         total.value = 0
         return
       }
-      
+
       list.value = data.data
       total.value = data.total
       currentPage.value = data.page
@@ -82,16 +82,16 @@ export const useUsersStore = defineStore('users', () => {
     error.value = null
     try {
       const { data, error: err } = await getUserById(id)
-      
+
       if (err) {
         error.value = err.message
         throw new Error(err.message)
       }
-      
+
       if (!data) {
         throw new Error('User not found')
       }
-      
+
       currentUser.value = data.user
       currentUserDetail.value = data
       return data
@@ -132,12 +132,12 @@ export const useUsersStore = defineStore('users', () => {
     error.value = null
     try {
       const { data, error: err } = await getUserStats(params)
-      
+
       if (err) {
         error.value = err.message
         throw new Error(err.message)
       }
-      
+
       stats.value = data
       return data
     } catch (e: any) {
@@ -148,17 +148,20 @@ export const useUsersStore = defineStore('users', () => {
     }
   }
 
-  async function updateVip(id: string, payload: { vipLevel: number; reason: string; notes?: string }) {
+  async function updateVip(
+    id: string,
+    payload: { vipLevel: number; reason: string; notes?: string }
+  ) {
     actionLoading.value = true
     error.value = null
     try {
       const { data, error: err } = await updateUserVip(id, payload)
-      
+
       if (err) {
         error.value = err.message
         throw new Error(err.message)
       }
-      
+
       if (!data) {
         throw new Error('Failed to update VIP level')
       }
@@ -191,12 +194,12 @@ export const useUsersStore = defineStore('users', () => {
     error.value = null
     try {
       const { data, error: err } = await updateUserTags(id, payload)
-      
+
       if (err) {
         error.value = err.message
         throw new Error(err.message)
       }
-      
+
       if (!data) {
         throw new Error('Failed to update risk tags')
       }
@@ -229,12 +232,12 @@ export const useUsersStore = defineStore('users', () => {
     error.value = null
     try {
       const { data, error: err } = await resetUser2FA(id, payload)
-      
+
       if (err) {
         error.value = err.message
         throw new Error(err.message)
       }
-      
+
       if (!data) {
         throw new Error('Failed to reset 2FA')
       }
@@ -267,12 +270,12 @@ export const useUsersStore = defineStore('users', () => {
     error.value = null
     try {
       const { data, error: err } = await disableUser(id, payload)
-      
+
       if (err) {
         error.value = err.message
         throw new Error(err.message)
       }
-      
+
       if (!data) {
         throw new Error('Failed to disable user')
       }
@@ -305,12 +308,12 @@ export const useUsersStore = defineStore('users', () => {
     error.value = null
     try {
       const { data, error: err } = await enableUser(id, payload)
-      
+
       if (err) {
         error.value = err.message
         throw new Error(err.message)
       }
-      
+
       if (!data) {
         throw new Error('Failed to enable user')
       }
@@ -343,12 +346,12 @@ export const useUsersStore = defineStore('users', () => {
     error.value = null
     try {
       const { data: blob, error: err } = await exportUsers(params)
-      
+
       if (err) {
         error.value = err.message
         throw new Error(err.message)
       }
-      
+
       if (!blob) {
         throw new Error('Failed to export users data')
       }

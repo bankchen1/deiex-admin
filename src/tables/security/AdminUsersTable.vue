@@ -66,7 +66,7 @@ import { computed } from 'vue'
 import ServerTable from '@/shared/ServerTable.vue'
 import RBACGuard from '@/shared/RBACGuard.vue'
 import { formatDate } from '@/utils/date'
-import type { AdminUser } from '@/services/api/config.security'
+import type { AdminUser } from '@/services/api/facade'
 import type { TableColumn } from '@/types/components'
 
 interface Props {

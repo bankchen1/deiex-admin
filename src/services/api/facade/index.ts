@@ -23,7 +23,9 @@ export * as feesFacade from './fees'
 export * as iconsFacade from './icons'
 export * as authFacade from './auth'
 export * as dashboardFacade from './dashboard'
+export * as opsFacade from './ops'
 export * as securityFacade from './security'
+export * as settingsFacade from './settings'
 
 // 便捷导出（可选）
 export {
@@ -136,10 +138,17 @@ export {
   getRiskRuleById,
   createRiskRule,
   updateRiskRule,
+  deleteRiskRule,
   listRiskLimits,
-  listBlacklist,
-  addBlacklistEntry,
-  removeBlacklistEntry,
+  getRiskLimitById,
+  createRiskLimit,
+  updateRiskLimit,
+  deleteRiskLimit,
+  listBlacklistEntries,
+  getBlacklistEntryById,
+  createBlacklistEntry,
+  updateBlacklistEntry,
+  deleteBlacklistEntry,
 } from './risk'
 
 export {
@@ -183,8 +192,6 @@ export {
   exportRetentionReport,
 } from './reports'
 
-
-
 // 导出类型
 export type { UserQueryParams, UserStats, UserDetailResponse } from './users'
 export type { OrderQueryParams, PositionQueryParams } from './orders'
@@ -195,12 +202,12 @@ export type {
   FinanceReportQueryParams,
   RetentionReportQueryParams,
   GenerateReportPayload,
-  ExportReportParams
+  ExportReportParams,
 } from './reports'
-export type { 
-  InstrumentQueryParams, 
-  MarginTemplateQueryParams, 
-  TradingFeeQueryParams 
+export type {
+  InstrumentQueryParams,
+  MarginTemplateQueryParams,
+  TradingFeeQueryParams,
 } from './config'
 export type {
   FundingRuleQueryParams,
@@ -215,7 +222,7 @@ export type {
   UpdateAnnouncementPayload,
   PublishPayload,
   ImportPayload,
-  ExportParams
+  ExportParams,
 } from './calendar'
 
 export {
@@ -324,15 +331,15 @@ export type { UserQueryParams, UserStats, UserDetailResponse } from './users'
 export type { OrderQueryParams, PositionQueryParams } from './orders'
 export type { KycQueryParams, KycStats } from './kyc'
 export type { DashboardStats, DashboardCharts, DateRangeParams } from './dashboard'
-export type { 
-  NavMappingQueryParams, 
-  RedirectQueryParams, 
+export type {
+  NavMappingQueryParams,
+  RedirectQueryParams,
   PageApiRelationQueryParams,
   NavToApiMapping,
   RouteRedirect,
   PageApiRelation,
   MappingValidationResult,
-  BulkSyncPayload
+  BulkSyncPayload,
 } from './mappings'
 
 export type {
@@ -349,7 +356,7 @@ export type {
   ValidateImportPayload,
   CalculateFeeParams,
   FeeCalculationResult,
-  ValidateConsistencyResult
+  ValidateConsistencyResult,
 } from './fees'
 
 export type {
@@ -365,5 +372,8 @@ export type {
   ValidationResult,
   BulkUploadResult,
   IconAsset,
-  IconMapping
+  IconMapping,
 } from './icons'
+
+export * from './ops'
+export * from './settings'

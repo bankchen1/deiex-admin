@@ -1,25 +1,48 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { securityApi } from '@/services/api/config.security'
-import type {
-  Role,
-  AdminUser,
-  IpWhitelistEntry,
-  ApiKey,
-  AuditLog,
-  PermissionNode,
-  RoleQueryParams,
-  AdminUserQueryParams,
-  IpWhitelistQueryParams,
-  ApiKeyQueryParams,
-  AuditLogQueryParams,
-  CreateRolePayload,
-  UpdateRolePayload,
-  CreateAdminUserPayload,
-  UpdateAdminUserPayload,
-  CreateIpWhitelistPayload,
-  CreateApiKeyPayload,
-} from '@/services/api/config.security'
+import {
+  listRoles,
+  getRoleById,
+  createRole as createRoleApi,
+  updateRole as updateRoleApi,
+  deleteRole as deleteRoleApi,
+  getPermissionTree,
+  getAllPermissions,
+  listAdminUsers,
+  getAdminUserById,
+  createAdminUser as createAdminUserApi,
+  updateAdminUser as updateAdminUserApi,
+  disableAdminUser as disableAdminUserApi,
+  enableAdminUser as enableAdminUserApi,
+  resetAdminPassword as resetAdminPasswordApi,
+  listIpWhitelist,
+  addIpWhitelistEntry,
+  removeIpWhitelistEntry,
+  getApiKeys,
+  createApiKey as createApiKeyApi,
+  revokeApiKey as revokeApiKeyApi,
+  regenerateApiKey as regenerateApiKeyApi,
+  getAuditLogs,
+  getAuditLogById,
+  exportAuditLogs as exportAuditLogsApi,
+  type Role,
+  type AdminUser,
+  type IpWhitelistEntry,
+  type ApiKey,
+  type AuditLog,
+  type PermissionNode,
+  type RoleQueryParams,
+  type AdminUserQueryParams,
+  type IpWhitelistQueryParams,
+  type ApiKeyQueryParams,
+  type AuditLogQueryParams,
+  type CreateRolePayload,
+  type UpdateRolePayload,
+  type CreateAdminUserPayload,
+  type UpdateAdminUserPayload,
+  type CreateIpWhitelistPayload,
+  type CreateApiKeyPayload,
+} from '@/services/api/facade'
 
 export const useSecurityStore = defineStore('security', () => {
   // State - Roles
@@ -72,8 +95,9 @@ export const useSecurityStore = defineStore('security', () => {
     rolesLoading.value = true
     rolesError.value = null
     try {
-      const response = await securityApi.getRoles(params)
-      roles.value = response.data.items
+      const response = await listRoles(params)
+      if (response.error) throw response.error
+      roles.value = response.data.data
       rolesTotal.value = response.data.total
       return response
     } catch (error: any) {
@@ -88,7 +112,8 @@ export const useSecurityStore = defineStore('security', () => {
     rolesLoading.value = true
     rolesError.value = null
     try {
-      const response = await securityApi.getRoleById(id)
+      const response = await getRoleById(id)
+      if (response.error) throw response.error
       currentRole.value = response.data
       return response
     } catch (error: any) {
@@ -103,7 +128,8 @@ export const useSecurityStore = defineStore('security', () => {
     rolesLoading.value = true
     rolesError.value = null
     try {
-      const response = await securityApi.createRole(payload)
+      const response = await createRoleApi(payload)
+      if (response.error) throw response.error
       roles.value.unshift(response.data)
       rolesTotal.value++
       return response
@@ -119,7 +145,8 @@ export const useSecurityStore = defineStore('security', () => {
     rolesLoading.value = true
     rolesError.value = null
     try {
-      const response = await securityApi.updateRole(id, payload)
+      const response = await updateRoleApi(id, payload)
+      if (response.error) throw response.error
       const index = roles.value.findIndex((r) => r.id === id)
       if (index !== -1) {
         roles.value[index] = response.data
@@ -140,7 +167,8 @@ export const useSecurityStore = defineStore('security', () => {
     rolesLoading.value = true
     rolesError.value = null
     try {
-      const response = await securityApi.deleteRole(id)
+      const response = await deleteRoleApi(id)
+      if (response.error) throw response.error
       const index = roles.value.findIndex((r) => r.id === id)
       if (index !== -1) {
         roles.value.splice(index, 1)
@@ -159,7 +187,8 @@ export const useSecurityStore = defineStore('security', () => {
   async function fetchPermissionTree() {
     permissionsLoading.value = true
     try {
-      const response = await securityApi.getPermissionTree()
+      const response = await getPermissionTree()
+      if (response.error) throw response.error
       permissionTree.value = response.data
       return response
     } catch (error: any) {
@@ -172,7 +201,8 @@ export const useSecurityStore = defineStore('security', () => {
   async function fetchAllPermissions() {
     permissionsLoading.value = true
     try {
-      const response = await securityApi.getAllPermissions()
+      const response = await getAllPermissions()
+      if (response.error) throw response.error
       allPermissions.value = response.data
       return response
     } catch (error: any) {
@@ -187,8 +217,9 @@ export const useSecurityStore = defineStore('security', () => {
     adminUsersLoading.value = true
     adminUsersError.value = null
     try {
-      const response = await securityApi.getAdminUsers(params)
-      adminUsers.value = response.data.items
+      const response = await listAdminUsers(params)
+      if (response.error) throw response.error
+      adminUsers.value = response.data.data
       adminUsersTotal.value = response.data.total
       return response
     } catch (error: any) {
@@ -203,7 +234,8 @@ export const useSecurityStore = defineStore('security', () => {
     adminUsersLoading.value = true
     adminUsersError.value = null
     try {
-      const response = await securityApi.getAdminUserById(id)
+      const response = await getAdminUserById(id)
+      if (response.error) throw response.error
       currentAdminUser.value = response.data
       return response
     } catch (error: any) {
@@ -218,7 +250,8 @@ export const useSecurityStore = defineStore('security', () => {
     adminUsersLoading.value = true
     adminUsersError.value = null
     try {
-      const response = await securityApi.createAdminUser(payload)
+      const response = await createAdminUserApi(payload)
+      if (response.error) throw response.error
       adminUsers.value.unshift(response.data)
       adminUsersTotal.value++
       return response
@@ -234,7 +267,8 @@ export const useSecurityStore = defineStore('security', () => {
     adminUsersLoading.value = true
     adminUsersError.value = null
     try {
-      const response = await securityApi.updateAdminUser(id, payload)
+      const response = await updateAdminUserApi(id, payload)
+      if (response.error) throw response.error
       const index = adminUsers.value.findIndex((u) => u.id === id)
       if (index !== -1) {
         adminUsers.value[index] = response.data
@@ -255,7 +289,8 @@ export const useSecurityStore = defineStore('security', () => {
     adminUsersLoading.value = true
     adminUsersError.value = null
     try {
-      const response = await securityApi.disableAdminUser(id, reason)
+      const response = await disableAdminUserApi(id, reason)
+      if (response.error) throw response.error
       const index = adminUsers.value.findIndex((u) => u.id === id)
       if (index !== -1) {
         adminUsers.value[index].status = 'disabled'
@@ -273,7 +308,8 @@ export const useSecurityStore = defineStore('security', () => {
     adminUsersLoading.value = true
     adminUsersError.value = null
     try {
-      const response = await securityApi.enableAdminUser(id)
+      const response = await enableAdminUserApi(id)
+      if (response.error) throw response.error
       const index = adminUsers.value.findIndex((u) => u.id === id)
       if (index !== -1) {
         adminUsers.value[index].status = 'active'
@@ -291,7 +327,8 @@ export const useSecurityStore = defineStore('security', () => {
     adminUsersLoading.value = true
     adminUsersError.value = null
     try {
-      const response = await securityApi.resetAdminPassword(id, newPassword)
+      const response = await resetAdminPasswordApi(id, newPassword)
+      if (response.error) throw response.error
       return response
     } catch (error: any) {
       adminUsersError.value = error.message || 'Failed to reset password'
@@ -306,8 +343,9 @@ export const useSecurityStore = defineStore('security', () => {
     ipWhitelistLoading.value = true
     ipWhitelistError.value = null
     try {
-      const response = await securityApi.getIpWhitelist(params)
-      ipWhitelist.value = response.data.items
+      const response = await listIpWhitelist(params)
+      if (response.error) throw response.error
+      ipWhitelist.value = response.data.data
       ipWhitelistTotal.value = response.data.total
       return response
     } catch (error: any) {
@@ -322,7 +360,8 @@ export const useSecurityStore = defineStore('security', () => {
     ipWhitelistLoading.value = true
     ipWhitelistError.value = null
     try {
-      const response = await securityApi.addIpWhitelist(payload)
+      const response = await addIpWhitelistEntry(payload)
+      if (response.error) throw response.error
       ipWhitelist.value.unshift(response.data)
       ipWhitelistTotal.value++
       return response
@@ -338,7 +377,8 @@ export const useSecurityStore = defineStore('security', () => {
     ipWhitelistLoading.value = true
     ipWhitelistError.value = null
     try {
-      const response = await securityApi.removeIpWhitelist(id)
+      const response = await removeIpWhitelistEntry(id)
+      if (response.error) throw response.error
       const index = ipWhitelist.value.findIndex((ip) => ip.id === id)
       if (index !== -1) {
         ipWhitelist.value.splice(index, 1)
@@ -358,7 +398,8 @@ export const useSecurityStore = defineStore('security', () => {
     apiKeysLoading.value = true
     apiKeysError.value = null
     try {
-      const response = await securityApi.getApiKeys(params)
+      const response = await getApiKeys(params)
+      if (response.error) throw response.error
       apiKeys.value = response.data.items
       apiKeysTotal.value = response.data.total
       return response
@@ -374,7 +415,8 @@ export const useSecurityStore = defineStore('security', () => {
     apiKeysLoading.value = true
     apiKeysError.value = null
     try {
-      const response = await securityApi.createApiKey(payload)
+      const response = await createApiKeyApi(payload)
+      if (response.error) throw response.error
       apiKeys.value.unshift(response.data)
       apiKeysTotal.value++
       return response
@@ -390,7 +432,8 @@ export const useSecurityStore = defineStore('security', () => {
     apiKeysLoading.value = true
     apiKeysError.value = null
     try {
-      const response = await securityApi.revokeApiKey(id)
+      const response = await revokeApiKeyApi(id)
+      if (response.error) throw response.error
       const index = apiKeys.value.findIndex((k) => k.id === id)
       if (index !== -1) {
         apiKeys.value[index].status = 'disabled'
@@ -408,7 +451,8 @@ export const useSecurityStore = defineStore('security', () => {
     apiKeysLoading.value = true
     apiKeysError.value = null
     try {
-      const response = await securityApi.regenerateApiKey(id)
+      const response = await regenerateApiKeyApi(id)
+      if (response.error) throw response.error
       const index = apiKeys.value.findIndex((k) => k.id === id)
       if (index !== -1) {
         apiKeys.value[index] = response.data
@@ -427,8 +471,9 @@ export const useSecurityStore = defineStore('security', () => {
     auditLogsLoading.value = true
     auditLogsError.value = null
     try {
-      const response = await securityApi.getAuditLogs(params)
-      auditLogs.value = response.data.items
+      const response = await getAuditLogs(params)
+      if (response.error) throw response.error
+      auditLogs.value = response.data.data
       auditLogsTotal.value = response.data.total
       return response
     } catch (error: any) {
@@ -443,7 +488,8 @@ export const useSecurityStore = defineStore('security', () => {
     auditLogsLoading.value = true
     auditLogsError.value = null
     try {
-      const response = await securityApi.getAuditLogById(id)
+      const response = await getAuditLogById(id)
+      if (response.error) throw response.error
       currentAuditLog.value = response.data
       return response
     } catch (error: any) {
@@ -458,7 +504,9 @@ export const useSecurityStore = defineStore('security', () => {
     auditLogsLoading.value = true
     auditLogsError.value = null
     try {
-      const blob = await securityApi.exportAuditLogs(params)
+      const response = await exportAuditLogsApi(params)
+      if (response.error) throw response.error
+      const blob = response.data
       const url = window.URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url

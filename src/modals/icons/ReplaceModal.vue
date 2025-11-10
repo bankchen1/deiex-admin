@@ -122,7 +122,7 @@ import { ref, computed, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import ImageUploader from '@/shared/ImageUploader.vue'
 import { useIconsStore } from '@/stores/icons'
-import type { IconAsset, ValidationResult } from '@/services/api/config.icons'
+import type { IconAsset, ValidationResult } from '@/services/api/facade'
 
 interface Props {
   open: boolean

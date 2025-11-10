@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import type { AuditLog } from '@/services/api/ops'
+import type { AuditLog } from '@/services/api/facade'
 import { formatDateTime } from '@/utils/date'
 
 interface Props {

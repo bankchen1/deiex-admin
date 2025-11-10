@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, onUnmounted } from 'vue'
 import * as echarts from 'echarts'
-import type { Position } from '@/services/api/orders'
+import type { Position } from '@/services/api/facade'
 
 interface Props {
   positions: Position[]

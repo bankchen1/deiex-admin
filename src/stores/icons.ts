@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { 
+import {
   listIconAssets,
   getIconAssetById,
   createIconAsset,
@@ -27,12 +27,7 @@ import {
   type PublishIconPayload,
 } from '@/services/api/facade'
 import { message } from 'ant-design-vue'
-import type {
-  IconAsset,
-  IconMapping,
-  ValidationResult,
-  BulkUploadResult,
-} from '@/contracts/icons'
+import type { IconAsset, IconMapping, ValidationResult, BulkUploadResult } from '@/contracts/icons'
 
 export const useIconsStore = defineStore('icons', () => {
   // State - Assets

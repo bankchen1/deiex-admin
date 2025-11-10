@@ -1,12 +1,28 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import {
-  settingsApi,
+  getGeneralSettings,
+  updateGeneralSettings as updateGeneralSettingsApi,
+  getThemeSettings,
+  updateThemeSettings as updateThemeSettingsApi,
+  getI18nEntries,
+  getI18nEntry,
+  updateI18nEntry as updateI18nEntryApi,
+  createI18nEntry as createI18nEntryApi,
+  deleteI18nEntry as deleteI18nEntryApi,
+  bulkImportI18n as bulkImportI18nApi,
+  exportI18n as exportI18nApi,
+  scanMissingKeys as scanMissingKeysApi,
+  getFeatureFlags,
+  updateFeatureFlag as updateFeatureFlagApi,
+  getCacheStatus,
+  refreshCache as refreshCacheApi,
+  clearCache as clearCacheApi,
   type GeneralSettings,
   type ThemeSettings,
   type I18nEntry,
   type FeatureFlag,
-} from '@/services/api/settings'
+} from '@/services/api/facade'
 
 export const useSettingsStore = defineStore('settings', () => {
   // State
@@ -53,7 +69,8 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await settingsApi.getGeneralSettings()
+      const response = await getGeneralSettings()
+      if (response.error) throw response.error
       generalSettings.value = response.data
       return response
     } catch (e: any) {
@@ -68,7 +85,8 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await settingsApi.updateGeneralSettings(payload)
+      const response = await updateGeneralSettingsApi(payload)
+      if (response.error) throw response.error
       generalSettings.value = response.data
       return response
     } catch (e: any) {
@@ -84,7 +102,8 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await settingsApi.getThemeSettings()
+      const response = await getThemeSettings()
+      if (response.error) throw response.error
       themeSettings.value = response.data
       return response
     } catch (e: any) {
@@ -99,7 +118,8 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await settingsApi.updateThemeSettings(payload)
+      const response = await updateThemeSettingsApi(payload)
+      if (response.error) throw response.error
       themeSettings.value = response.data
       return response
     } catch (e: any) {
@@ -115,7 +135,8 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await settingsApi.getI18nEntries(params)
+      const response = await getI18nEntries(params)
+      if (response.error) throw response.error
       i18nEntries.value = response.data
       return response
     } catch (e: any) {
@@ -130,7 +151,8 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await settingsApi.getI18nEntry(key)
+      const response = await getI18nEntry(key)
+      if (response.error) throw response.error
       currentI18nEntry.value = response.data
       return response
     } catch (e: any) {
@@ -145,7 +167,8 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await settingsApi.updateI18nEntry(key, payload)
+      const response = await updateI18nEntryApi(key, payload)
+      if (response.error) throw response.error
       const index = i18nEntries.value.findIndex((entry) => entry.key === key)
       if (index !== -1) {
         i18nEntries.value[index] = response.data
@@ -166,7 +189,8 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await settingsApi.createI18nEntry(payload)
+      const response = await createI18nEntryApi(payload)
+      if (response.error) throw response.error
       i18nEntries.value.unshift(response.data)
       return response
     } catch (e: any) {
@@ -181,7 +205,8 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await settingsApi.deleteI18nEntry(key)
+      const response = await deleteI18nEntryApi(key)
+      if (response.error) throw response.error
       i18nEntries.value = i18nEntries.value.filter((entry) => entry.key !== key)
       if (currentI18nEntry.value?.key === key) {
         currentI18nEntry.value = null
@@ -202,7 +227,8 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await settingsApi.bulkImportI18n(payload)
+      const response = await bulkImportI18nApi(payload)
+      if (response.error) throw response.error
       // Refresh the list after import
       await fetchI18nEntries()
       return response
@@ -218,7 +244,9 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const blob = await settingsApi.exportI18n(params)
+      const response = await exportI18nApi(params)
+      if (response.error) throw response.error
+      const blob = response.data
       const url = window.URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
@@ -239,7 +267,8 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await settingsApi.scanMissingKeys()
+      const response = await scanMissingKeysApi()
+      if (response.error) throw response.error
       missingKeys.value = response.data.missingKeys
       return response
     } catch (e: any) {
@@ -255,7 +284,8 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await settingsApi.getFeatureFlags()
+      const response = await getFeatureFlags()
+      if (response.error) throw response.error
       featureFlags.value = response.data
       return response
     } catch (e: any) {
@@ -270,7 +300,8 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await settingsApi.updateFeatureFlag(key, enabled)
+      const response = await updateFeatureFlagApi(key, enabled)
+      if (response.error) throw response.error
       const index = featureFlags.value.findIndex((flag) => flag.key === key)
       if (index !== -1) {
         featureFlags.value[index] = response.data
@@ -289,7 +320,8 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await settingsApi.getCacheStatus()
+      const response = await getCacheStatus()
+      if (response.error) throw response.error
       cacheStatus.value = response.data
       return response
     } catch (e: any) {
@@ -304,7 +336,8 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await settingsApi.refreshCache({ targets })
+      const response = await refreshCacheApi(targets)
+      if (response.error) throw response.error
       // Refresh cache status after refresh
       await fetchCacheStatus()
       return response
@@ -320,7 +353,8 @@ export const useSettingsStore = defineStore('settings', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await settingsApi.clearCache(targets)
+      const response = await clearCacheApi(targets)
+      if (response.error) throw response.error
       // Refresh cache status after clear
       await fetchCacheStatus()
       return response

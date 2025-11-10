@@ -1,6 +1,6 @@
 /**
  * Fees Facade - 费率管理统一出入口
- * 
+ *
  * 职责：
  * 1. 根据环境切换Mock/Real数据源
  * 2. 统一返回格式（FacadeResponse）
@@ -11,7 +11,7 @@ import type { FacadeResponse, PaginationParams } from '../_types'
 import { isMockMode, createSuccessResponse, createErrorResponse } from '../_types'
 import { mockService } from '@/services/mock'
 import { safeGet, safePost, safePut, safeDelete } from '../_client'
-import type { 
+import type {
   TradingFeeTemplate,
   WithdrawalFeeTemplate,
   Version,
@@ -28,7 +28,7 @@ import type {
   ValidateImportPayload,
   CalculateFeeParams,
   FeeCalculationResult,
-  ValidateConsistencyResult
+  ValidateConsistencyResult,
 } from '@/contracts/fees'
 
 /**
@@ -36,7 +36,9 @@ import type {
  */
 export const listTradingFeeTemplates = async (
   params: TradingFeeQueryParams = {}
-): Promise<FacadeResponse<{ data: TradingFeeTemplate[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: TradingFeeTemplate[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -70,7 +72,7 @@ export const getTradingFeeTemplateById = async (
 ): Promise<FacadeResponse<TradingFeeTemplate>> => {
   try {
     if (isMockMode()) {
-      const endpoint = isDraft 
+      const endpoint = isDraft
         ? `/admin/config/fees/trading/draft/${id}`
         : `/admin/config/fees/trading/${id}`
       const response = await safeGet<TradingFeeTemplate>(endpoint)
@@ -92,7 +94,10 @@ export const createTradingFeeTemplateDraft = async (
 ): Promise<FacadeResponse<TradingFeeTemplate>> => {
   try {
     if (isMockMode()) {
-      const response = await safePost<TradingFeeTemplate>('/admin/config/fees/trading/draft', payload)
+      const response = await safePost<TradingFeeTemplate>(
+        '/admin/config/fees/trading/draft',
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -112,7 +117,10 @@ export const updateTradingFeeTemplateDraft = async (
 ): Promise<FacadeResponse<TradingFeeTemplate>> => {
   try {
     if (isMockMode()) {
-      const response = await safePut<TradingFeeTemplate>(`/admin/config/fees/trading/draft/${id}`, payload)
+      const response = await safePut<TradingFeeTemplate>(
+        `/admin/config/fees/trading/draft/${id}`,
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -126,7 +134,9 @@ export const updateTradingFeeTemplateDraft = async (
 /**
  * 删除交易费模板草稿
  */
-export const deleteTradingFeeTemplateDraft = async (id: string): Promise<FacadeResponse<boolean>> => {
+export const deleteTradingFeeTemplateDraft = async (
+  id: string
+): Promise<FacadeResponse<boolean>> => {
   try {
     if (isMockMode()) {
       const response = await safeDelete<boolean>(`/admin/config/fees/trading/draft/${id}`)
@@ -145,7 +155,9 @@ export const deleteTradingFeeTemplateDraft = async (id: string): Promise<FacadeR
  */
 export const listWithdrawalFeeTemplates = async (
   params: WithdrawalFeeQueryParams = {}
-): Promise<FacadeResponse<{ data: WithdrawalFeeTemplate[]; total: number; page: number; pageSize: number }>> => {
+): Promise<
+  FacadeResponse<{ data: WithdrawalFeeTemplate[]; total: number; page: number; pageSize: number }>
+> => {
   try {
     if (isMockMode()) {
       const response = await safeGet<{
@@ -179,7 +191,7 @@ export const getWithdrawalFeeTemplateById = async (
 ): Promise<FacadeResponse<WithdrawalFeeTemplate>> => {
   try {
     if (isMockMode()) {
-      const endpoint = isDraft 
+      const endpoint = isDraft
         ? `/admin/config/fees/withdrawal/draft/${id}`
         : `/admin/config/fees/withdrawal/${id}`
       const response = await safeGet<WithdrawalFeeTemplate>(endpoint)
@@ -201,7 +213,10 @@ export const createWithdrawalFeeTemplateDraft = async (
 ): Promise<FacadeResponse<WithdrawalFeeTemplate>> => {
   try {
     if (isMockMode()) {
-      const response = await safePost<WithdrawalFeeTemplate>('/admin/config/fees/withdrawal/draft', payload)
+      const response = await safePost<WithdrawalFeeTemplate>(
+        '/admin/config/fees/withdrawal/draft',
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -221,7 +236,10 @@ export const updateWithdrawalFeeTemplateDraft = async (
 ): Promise<FacadeResponse<WithdrawalFeeTemplate>> => {
   try {
     if (isMockMode()) {
-      const response = await safePut<WithdrawalFeeTemplate>(`/admin/config/fees/withdrawal/draft/${id}`, payload)
+      const response = await safePut<WithdrawalFeeTemplate>(
+        `/admin/config/fees/withdrawal/draft/${id}`,
+        payload
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -235,7 +253,9 @@ export const updateWithdrawalFeeTemplateDraft = async (
 /**
  * 删除提现费模板草稿
  */
-export const deleteWithdrawalFeeTemplateDraft = async (id: string): Promise<FacadeResponse<boolean>> => {
+export const deleteWithdrawalFeeTemplateDraft = async (
+  id: string
+): Promise<FacadeResponse<boolean>> => {
   try {
     if (isMockMode()) {
       const response = await safeDelete<boolean>(`/admin/config/fees/withdrawal/draft/${id}`)
@@ -274,10 +294,12 @@ export const getFeeVersions = async (
 ): Promise<FacadeResponse<{ data: Version[]; total: number; page: number; pageSize: number }>> => {
   try {
     if (isMockMode()) {
-      const response = await safeGet<{ data: Version[]; total: number; page: number; pageSize: number }>(
-        '/admin/config/fees/versions',
-        { params }
-      )
+      const response = await safeGet<{
+        data: Version[]
+        total: number
+        page: number
+        pageSize: number
+      }>('/admin/config/fees/versions', { params })
       return createSuccessResponse(response.data, {
         pagination: {
           page: response.data.page,
@@ -320,7 +342,10 @@ export const rollbackFeeVersion = async (
 ): Promise<FacadeResponse<Version>> => {
   try {
     if (isMockMode()) {
-      const response = await safePost<Version>(`/admin/config/fees/versions/${versionId}/rollback`, { notes })
+      const response = await safePost<Version>(
+        `/admin/config/fees/versions/${versionId}/rollback`,
+        { notes }
+      )
       return createSuccessResponse(response.data)
     } else {
       // Real模式
@@ -355,9 +380,10 @@ export const exportFees = async (params: ExportParams): Promise<FacadeResponse<B
   try {
     if (isMockMode()) {
       // Generate mock CSV data
-      const csvContent = "id,vipLevel,makerRate,takerRate,status,version,createdAt,updatedAt\n" +
-        "1,0,0.001,0.001,draft,v1.0.0,2024-01-01T00:00:00Z,2024-01-01T00:00:00Z\n" +
-        "2,1,0.0008,0.0008,published,v1.0.0,2024-01-01T00:00:00Z,2024-01-01T00:00:00Z"
+      const csvContent =
+        'id,vipLevel,makerRate,takerRate,status,version,createdAt,updatedAt\n' +
+        '1,0,0.001,0.001,draft,v1.0.0,2024-01-01T00:00:00Z,2024-01-01T00:00:00Z\n' +
+        '2,1,0.0008,0.0008,published,v1.0.0,2024-01-01T00:00:00Z,2024-01-01T00:00:00Z'
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
       return createSuccessResponse(blob)
     } else {
@@ -378,11 +404,11 @@ export const importFees = async (payload: ImportPayload): Promise<FacadeResponse
       // Mock import response
       const mockVersion: Version = {
         id: `version_${Date.now()}`,
-        version: `v${Math.floor(Date.now()/100000)}.${Math.floor(Math.random()*10)}.0`,
+        version: `v${Math.floor(Date.now() / 100000)}.${Math.floor(Math.random() * 10)}.0`,
         createdAt: new Date().toISOString(),
         createdBy: 'mock_admin',
         notes: 'Imported via mock upload',
-        tags: ['import']
+        tags: ['import'],
       }
       return createSuccessResponse(mockVersion)
     } else {
@@ -397,7 +423,9 @@ export const importFees = async (payload: ImportPayload): Promise<FacadeResponse
 /**
  * 验证导入文件
  */
-export const validateFeeImport = async (payload: ValidateImportPayload): Promise<FacadeResponse<any>> => {
+export const validateFeeImport = async (
+  payload: ValidateImportPayload
+): Promise<FacadeResponse<any>> => {
   try {
     if (isMockMode()) {
       // Mock validation response
@@ -407,8 +435,8 @@ export const validateFeeImport = async (payload: ValidateImportPayload): Promise
         summary: {
           totalRecords: 10,
           validRecords: 10,
-          invalidRecords: 0
-        }
+          invalidRecords: 0,
+        },
       })
     } else {
       // Real模式
@@ -422,7 +450,9 @@ export const validateFeeImport = async (payload: ValidateImportPayload): Promise
 /**
  * 计算费用
  */
-export const calculateFee = async (params: CalculateFeeParams): Promise<FacadeResponse<FeeCalculationResult>> => {
+export const calculateFee = async (
+  params: CalculateFeeParams
+): Promise<FacadeResponse<FeeCalculationResult>> => {
   try {
     if (isMockMode()) {
       // Mock calculation response
@@ -436,8 +466,8 @@ export const calculateFee = async (params: CalculateFeeParams): Promise<FacadeRe
         breakdown: {
           fixedFee: params.type === 'withdrawal' ? '0.5' : undefined,
           percentageFee: params.type === 'trading' ? '0.1' : undefined,
-          totalFee: '1'
-        }
+          totalFee: '1',
+        },
       }
       return createSuccessResponse(result)
     } else {
@@ -452,13 +482,15 @@ export const calculateFee = async (params: CalculateFeeParams): Promise<FacadeRe
 /**
  * 验证费用配置一致性
  */
-export const validateFeeConsistency = async (): Promise<FacadeResponse<ValidateConsistencyResult>> => {
+export const validateFeeConsistency = async (): Promise<
+  FacadeResponse<ValidateConsistencyResult>
+> => {
   try {
     if (isMockMode()) {
       // Mock validation response
       return createSuccessResponse({
         isValid: true,
-        issues: []
+        issues: [],
       })
     } else {
       // Real模式

@@ -88,7 +88,7 @@ import KycOverviewSection from '@/sections/kyc/KycOverviewSection.vue'
 import KycDocumentsSection from '@/sections/kyc/KycDocumentsSection.vue'
 import KycRiskSection from '@/sections/kyc/KycRiskSection.vue'
 import ReviewDrawer from '@/modals/kyc/ReviewDrawer.vue'
-import type { ReviewPayload } from '@/services/api/kyc'
+import type { ReviewPayload } from '@/services/api/facade'
 
 const route = useRoute()
 const router = useRouter()

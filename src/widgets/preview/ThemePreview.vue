@@ -56,7 +56,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { ThemeSettings } from '@/services/api/settings'
+import type { ThemeSettings } from '@/services/api/facade'
 
 interface Props {
   theme: Partial<ThemeSettings>

@@ -82,7 +82,7 @@
 
 <script setup lang="ts">
 import { reactive, watch } from 'vue'
-import type { CopyTradingRelation } from '@/services/api/orders'
+import type { CopyTradingRelation } from '@/services/api/facade'
 
 interface Props {
   initialData?: Partial<CopyTradingRelation>
