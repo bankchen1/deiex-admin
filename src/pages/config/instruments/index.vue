@@ -186,7 +186,7 @@ import EditInstrumentDrawer from '@/modals/instruments/EditInstrumentDrawer.vue'
 import BulkImportModal from '@/modals/instruments/BulkImportModal.vue'
 import PublishModal from '@/modals/instruments/PublishModal.vue'
 import { useInstrumentsStore } from '@/stores/instruments'
-import type { Instrument } from '@/types/models'
+import type { Instrument } from '@/contracts/config'
 
 // Store
 const instrumentsStore = useInstrumentsStore()

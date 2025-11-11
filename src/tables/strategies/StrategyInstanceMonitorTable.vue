@@ -118,7 +118,7 @@ import {
   PauseCircleOutlined,
   StopOutlined,
 } from '@ant-design/icons-vue'
-import type { StrategyInstance } from '@/types/models'
+import type { StrategyInstance } from '@/contracts/strategies'
 import { formatDate } from '@/utils/date'
 
 const { t } = useI18n()

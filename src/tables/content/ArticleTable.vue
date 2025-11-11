@@ -96,7 +96,7 @@
 import { computed } from 'vue'
 import { EyeOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons-vue'
 import ServerTable from '@/shared/ServerTable.vue'
-import type { Article } from '@/types/models'
+import type { Article } from '@/contracts/content'
 
 interface Props {
   dataSource: Article[]

@@ -12,7 +12,7 @@
 import { ref, computed, watch } from 'vue'
 import SchemaForm from '@/shared/SchemaForm.vue'
 import type { FormSchema } from '@/types/components'
-import type { MaintenanceWindow } from '@/types/models'
+import type { MaintenanceWindow } from '@/contracts/calendar'
 
 interface Props {
   maintenance?: MaintenanceWindow | null

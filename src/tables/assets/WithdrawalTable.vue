@@ -208,7 +208,7 @@ import RBACGuard from '@/shared/RBACGuard.vue'
 import TxDetailDrawer from '@/modals/assets/TxDetailDrawer.vue'
 import ApproveModal from '@/modals/assets/ApproveModal.vue'
 import RejectModal from '@/modals/assets/RejectModal.vue'
-import type { Withdrawal } from '@/types/models'
+import type { Withdrawal } from '@/contracts/assets'
 import type { TableColumn } from '@/types/components'
 import type { Dayjs } from 'dayjs'
 

@@ -73,7 +73,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { formatDate } from '@/utils/date'
-import type { Notification } from '@/types/models'
+import type { Notification } from '@/contracts/content'
 
 // Mock data for demonstration
 const mockNotifications: Notification[] = [

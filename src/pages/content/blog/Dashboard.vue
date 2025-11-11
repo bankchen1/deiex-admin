@@ -81,7 +81,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { formatDate } from '@/utils/date'
-import type { Article, Category } from '@/types/models'
+import type { Article, Category } from '@/contracts/content'
 
 // Mock data for demonstration
 const mockCategories: Category[] = [

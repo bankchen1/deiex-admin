@@ -137,7 +137,7 @@ import { useDepositsStore } from '@/stores/deposits'
 import { storeToRefs } from 'pinia'
 import ServerTable from '@/shared/ServerTable.vue'
 import TxDetailDrawer from '@/modals/assets/TxDetailDrawer.vue'
-import type { Deposit } from '@/types/models'
+import type { Deposit } from '@/contracts/assets'
 import type { TableColumn } from '@/types/components'
 import type { Dayjs } from 'dayjs'
 

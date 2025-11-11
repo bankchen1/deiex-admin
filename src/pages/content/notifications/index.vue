@@ -164,7 +164,7 @@ import { message } from 'ant-design-vue'
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 import NotificationTable from '@/tables/content/NotificationTable.vue'
 import NotificationDrawer from '@/modals/content/NotificationDrawer.vue'
-import type { Notification } from '@/types/models'
+import type { Notification } from '@/contracts/content'
 
 // Mock data for demonstration
 const mockNotifications: Notification[] = [

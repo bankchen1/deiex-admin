@@ -78,7 +78,7 @@ import { ClockCircleOutlined } from '@ant-design/icons-vue'
 import ServerTable from '@/shared/ServerTable.vue'
 import RBACGuard from '@/shared/RBACGuard.vue'
 import { formatDateTime } from '@/utils/date'
-import type { FundingRule } from '@/types/models'
+import type { FundingRule } from '@/contracts/calendar'
 import type { TableParams } from '@/types/components'
 
 interface Props {

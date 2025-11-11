@@ -283,7 +283,7 @@ import EditWithdrawalFeeDrawer from '@/modals/fees/EditWithdrawalFeeDrawer.vue'
 import BulkImportModal from '@/modals/fees/BulkImportModal.vue'
 import PublishModal from '@/modals/fees/PublishModal.vue'
 import DiffModal from '@/modals/fees/DiffModal.vue'
-import type { TradingFeeTemplate, WithdrawalFeeTemplate } from '@/types/models'
+import type { TradingFeeTemplate, WithdrawalFeeTemplate } from '@/contracts/fees'
 import type { TableParams } from '@/types/components'
 
 const feesStore = useFeesStore()

@@ -92,7 +92,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Empty } from 'ant-design-vue'
-import type { AssetSnapshot, ChainAddress } from '@/types/models'
+import type { AssetSnapshot, ChainAddress } from '@/contracts/users'
 import { formatCurrency } from '@/utils/format'
 import { formatDate } from '@/utils/date'
 

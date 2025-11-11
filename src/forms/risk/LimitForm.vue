@@ -114,7 +114,7 @@
 
 <script setup lang="ts">
 import { reactive, watch } from 'vue'
-import type { RiskLimit } from '@/types/models'
+import type { RiskLimit } from '@/contracts/risk'
 import dayjs, { Dayjs } from 'dayjs'
 
 interface Props {

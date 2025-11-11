@@ -149,7 +149,7 @@
 import { ref, reactive, watch } from 'vue'
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import JsonEditor from '@/shared/JsonEditor.vue'
-import type { RiskRule, RiskCondition, RiskAction } from '@/types/models'
+import type { RiskRule, RiskCondition, RiskAction } from '@/contracts/risk'
 
 interface Props {
   initialData?: RiskRule

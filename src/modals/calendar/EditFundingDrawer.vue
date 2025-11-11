@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import FundingRuleForm from '@/forms/calendar/FundingRuleForm.vue'
-import type { FundingRule } from '@/types/models'
+import type { FundingRule } from '@/contracts/calendar'
 
 interface Props {
   open: boolean

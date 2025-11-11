@@ -121,7 +121,9 @@ import { ReloadOutlined } from '@ant-design/icons-vue'
 import KlineChart from '@/widgets/charts/KlineChart.vue'
 import MarketDepth from '@/widgets/market/MarketDepth.vue'
 import MarketTrades from '@/widgets/market/MarketTrades.vue'
-import type { MarketSummary } from '@/types/models'
+import type { Instrument } from '@/contracts/config'
+// Alias Instrument as MarketSummary to satisfy existing usage
+type MarketSummary = Instrument
 
 // Mock data for demonstration
 const mockMarketData: Record<string, MarketSummary> = {

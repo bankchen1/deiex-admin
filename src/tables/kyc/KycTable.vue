@@ -77,7 +77,7 @@
 import { computed } from 'vue'
 import ServerTable from '@/shared/ServerTable.vue'
 import RBACGuard from '@/shared/RBACGuard.vue'
-import type { KycApplication } from '@/types/models'
+import type { KycApplication } from '@/contracts/kyc'
 import { formatDate } from '@/utils/date'
 
 interface Props {

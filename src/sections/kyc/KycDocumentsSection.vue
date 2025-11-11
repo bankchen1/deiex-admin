@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import type { KycDocument } from '@/types/models'
+import type { KycDocument } from '@/contracts/kyc'
 
 interface Props {
   documents: KycDocument[]

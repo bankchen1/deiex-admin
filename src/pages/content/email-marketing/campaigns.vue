@@ -110,7 +110,7 @@ import { ref, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue'
 import EmailCampaignTable from '@/tables/content/EmailCampaignTable.vue'
-import type { EmailCampaign } from '@/types/models'
+import type { EmailCampaign } from '@/contracts/content'
 
 // Mock data for demonstration
 const mockCampaigns: EmailCampaign[] = [

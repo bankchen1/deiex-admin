@@ -70,7 +70,7 @@
 <script setup lang="ts">
 import { ref, reactive, watch } from 'vue'
 import type { FormInstance, Rule } from 'ant-design-vue/es/form'
-import type { TradingFeeTemplate } from '@/types/models'
+import type { TradingFeeTemplate } from '@/contracts/fees'
 
 interface Props {
   tradingFee?: TradingFeeTemplate | null

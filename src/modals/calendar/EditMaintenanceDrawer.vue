@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import MaintenanceForm from '@/forms/calendar/MaintenanceForm.vue'
-import type { MaintenanceWindow } from '@/types/models'
+import type { MaintenanceWindow } from '@/contracts/calendar'
 
 interface Props {
   open: boolean

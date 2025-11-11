@@ -103,7 +103,7 @@
 
 <script setup lang="ts">
 import { Empty } from 'ant-design-vue'
-import type { UserOrder, UserPosition } from '@/types/models'
+import type { User } from '@/contracts/users'
 import { formatDate } from '@/utils/date'
 
 interface Props {

@@ -83,17 +83,29 @@ export const useCalendarStore = defineStore('calendar', () => {
   )
 
   // Funding Rule Actions
-  async function fetchPublishedFunding(params?: any) {
+  async function fetchPublishedFunding(params?: FundingRuleQueryParams) {
     loading.value = true
     error.value = null
     try {
-      const response = await calendarApi.getPublishedFunding(params)
-      publishedFunding.value = response.data.data
-      publishedFundingTotal.value = response.data.total
-      if (response.data.data.length > 0 && response.data.data[0]) {
-        currentVersion.value = response.data.data[0].version
+      const { data, error: err } = await listFundingRules({ ...params, status: 'published' })
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
       }
-      return response
+
+      if (!data) {
+        publishedFunding.value = []
+        publishedFundingTotal.value = 0
+        return
+      }
+
+      publishedFunding.value = data.data
+      publishedFundingTotal.value = data.total
+      if (data.data.length > 0 && data.data[0]) {
+        currentVersion.value = data.data[0].version
+      }
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch published funding rules'
       message.error(error.value)
@@ -124,9 +136,19 @@ export const useCalendarStore = defineStore('calendar', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await calendarApi.getFundingById(id, isDraft)
-      currentFunding.value = response.data
-      return response
+      const { data, error: err } = await getFundingRuleById(id)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('Funding rule not found')
+      }
+
+      currentFunding.value = data
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch funding rule'
       message.error(error.value)

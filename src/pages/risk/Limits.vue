@@ -388,7 +388,7 @@ import { message } from 'ant-design-vue'
 import { useRiskStore } from '@/stores/risk'
 import ServerTable from '@/shared/ServerTable.vue'
 import LimitForm from '@/forms/risk/LimitForm.vue'
-import type { RiskLimit } from '@/types/models'
+import type { RiskLimit } from '@/contracts/risk'
 import type { TableColumn } from '@/types/components'
 
 const riskStore = useRiskStore()

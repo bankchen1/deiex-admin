@@ -101,7 +101,7 @@
 import { ref, computed, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import MultiLanguageInput from '@/shared/MultiLanguageInput.vue'
-import type { EmailTemplate } from '@/types/models'
+import type { EmailTemplate } from '@/contracts/content'
 
 interface Props {
   open?: boolean

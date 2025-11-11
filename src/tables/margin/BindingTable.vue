@@ -56,7 +56,7 @@
 import { ref, computed } from 'vue'
 import ServerTable from '@/shared/ServerTable.vue'
 import RBACGuard from '@/shared/RBACGuard.vue'
-import type { MarginBinding } from '@/types/models'
+import type { MarginBinding } from '@/contracts/config'
 import type { TableParams } from '@/types/components'
 import { formatDate } from '@/utils/date'
 

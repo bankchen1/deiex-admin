@@ -98,7 +98,7 @@
 import { ref, computed } from 'vue'
 import { PlusOutlined, ExportOutlined, ImportOutlined } from '@ant-design/icons-vue'
 import ServerTable from '@/shared/ServerTable.vue'
-import type { RiskRule } from '@/types/models'
+import type { RiskRule } from '@/contracts/risk'
 import type { TableColumn } from '@/types/components'
 
 interface Props {

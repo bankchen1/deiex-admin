@@ -4,6 +4,11 @@ import {
   listWalletAddresses,
   getWalletAddressById,
   createWalletAddress,
+  getChainHealthStatus,
+  getRetryQueue,
+  retryTask as retryTaskFacade,
+  cancelTask as cancelTaskFacade,
+  syncBalance as syncBalanceFacade,
   type WalletAddressQueryParams,
 } from '@/services/api/facade'
 import type { WalletAddress, ChainHealth, RetryTask } from '@/contracts/assets'
@@ -48,11 +53,20 @@ export const useWalletsStore = defineStore('wallets', () => {
     loading.value = true
     error.value = null
     try {
-      // Note: Chain health functions may need to be implemented in the facade
-      // For now, we'll simulate a mock response
-      message.warning('Chain health feature not implemented yet')
-      chainHealth.value = []
-      return { data: [], success: true }
+      const { data, error: err } = await getChainHealthStatus()
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        chainHealth.value = []
+        return { data: [], success: true }
+      }
+
+      chainHealth.value = data
+      return { data, success: true }
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch chain health'
       message.error(error.value)
@@ -66,11 +80,20 @@ export const useWalletsStore = defineStore('wallets', () => {
     loading.value = true
     error.value = null
     try {
-      // Note: Retry queue functions may need to be implemented in the facade
-      // For now, we'll simulate a mock response
-      message.warning('Retry queue feature not implemented yet')
-      retryQueue.value = []
-      return { data: [], success: true }
+      const { data, error: err } = await getRetryQueue()
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        retryQueue.value = []
+        return { data: [], success: true }
+      }
+
+      retryQueue.value = data
+      return { data, success: true }
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch retry queue'
       message.error(error.value)
@@ -84,10 +107,19 @@ export const useWalletsStore = defineStore('wallets', () => {
     loading.value = true
     error.value = null
     try {
-      // Note: Retry task functionality may need to be implemented in the facade
-      // For now, we'll simulate the function
-      message.success('Task retry initiated')
-      return { success: true, data: null }
+      const { data, error: err } = await retryTaskFacade(taskId)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('Failed to retry task')
+      }
+
+      message.success('Task retry initiated successfully')
+      return { success: true, data }
     } catch (e: any) {
       error.value = e.message || 'Failed to retry task'
       message.error(error.value)
@@ -101,10 +133,21 @@ export const useWalletsStore = defineStore('wallets', () => {
     loading.value = true
     error.value = null
     try {
-      // Note: Cancel task functionality may need to be implemented in the facade
-      // For now, we'll simulate the function and remove from local state
+      const { data, error: err } = await cancelTask(taskId)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('Failed to cancel task')
+      }
+
+      // Update local state to remove cancelled task
       retryQueue.value = retryQueue.value.filter((t) => t.id !== taskId)
       message.success('Task cancelled successfully')
+      return { success: true, data }
     } catch (e: any) {
       error.value = e.message || 'Failed to cancel task'
       message.error(error.value)
@@ -118,15 +161,25 @@ export const useWalletsStore = defineStore('wallets', () => {
     loading.value = true
     error.value = null
     try {
-      // Note: Balance sync functionality may need to be implemented in the facade
-      // For now, we'll simulate the function
+      const { data, error: err } = await syncBalance(addressId)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('Failed to sync balance')
+      }
+
+      // Update the address in the local list if it exists
       const index = addresses.value.findIndex((a) => a.id === addressId)
       if (index !== -1) {
-        // Update balance with mock sync
-        addresses.value[index] = { ...addresses.value[index] }
+        addresses.value[index] = data
       }
+
       message.success('Balance synced successfully')
-      return { success: true, data: addresses.value[index] }
+      return { success: true, data }
     } catch (e: any) {
       error.value = e.message || 'Failed to sync balance'
       message.error(error.value)

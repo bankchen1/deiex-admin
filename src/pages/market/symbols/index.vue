@@ -260,7 +260,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted } from 'vue'
 import { PlusOutlined, ReloadOutlined, DownloadOutlined } from '@ant-design/icons-vue'
-import type { Symbol } from '@/types/models'
+import type { Instrument } from '@/contracts/config'
 
 // Mock data
 interface Symbol {

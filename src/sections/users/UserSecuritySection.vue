@@ -149,7 +149,7 @@ import {
   CrownOutlined,
 } from '@ant-design/icons-vue'
 import RBACGuard from '@/shared/RBACGuard.vue'
-import type { User, DeviceInfo } from '@/types/models'
+import type { User } from '@/contracts/users'
 import { formatDate } from '@/utils/date'
 
 interface Props {

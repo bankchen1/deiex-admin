@@ -160,7 +160,7 @@ import { ref, watch, computed } from 'vue'
 import { CheckCircleOutlined, InfoCircleOutlined } from '@ant-design/icons-vue'
 import { useWithdrawalsStore } from '@/stores/withdrawals'
 import { useAuthStore } from '@/stores/auth'
-import type { Withdrawal } from '@/types/models'
+import type { Withdrawal } from '@/contracts/assets'
 import { message } from 'ant-design-vue'
 
 interface Props {

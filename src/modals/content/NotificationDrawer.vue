@@ -67,7 +67,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { formatDate } from '@/utils/date'
-import type { Notification } from '@/types/models'
+import type { Notification } from '@/contracts/content'
 
 interface Props {
   open?: boolean

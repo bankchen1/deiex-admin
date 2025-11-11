@@ -89,7 +89,7 @@
 </template>
 
 <script setup lang="ts">
-import type { KycApplication, KycDocument } from '@/types/models'
+import type { KycApplication, KycDocument } from '@/contracts/kyc'
 
 interface Props {
   application: KycApplication

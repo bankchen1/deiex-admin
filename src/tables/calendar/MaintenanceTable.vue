@@ -87,7 +87,7 @@ import { ClockCircleOutlined, WarningOutlined } from '@ant-design/icons-vue'
 import ServerTable from '@/shared/ServerTable.vue'
 import RBACGuard from '@/shared/RBACGuard.vue'
 import { formatDateTime } from '@/utils/date'
-import type { MaintenanceWindow } from '@/types/models'
+import type { MaintenanceWindow } from '@/contracts/calendar'
 import type { TableParams } from '@/types/components'
 
 interface Props {

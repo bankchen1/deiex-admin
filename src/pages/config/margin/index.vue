@@ -260,7 +260,7 @@ import EditTemplateDrawer from '@/modals/margin/EditTemplateDrawer.vue'
 import BulkBindModal from '@/modals/margin/BulkBindModal.vue'
 import PublishModal from '@/modals/margin/PublishModal.vue'
 import DiffModal from '@/modals/margin/DiffModal.vue'
-import type { MarginTemplate, MarginBinding } from '@/types/models'
+import type { MarginTemplate, MarginBinding } from '@/contracts/config'
 import type { TableParams } from '@/types/components'
 
 const marginStore = useMarginStore()

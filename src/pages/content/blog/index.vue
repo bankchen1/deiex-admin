@@ -133,7 +133,7 @@ import { message } from 'ant-design-vue'
 import { PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue'
 import ArticleTable from '@/tables/content/ArticleTable.vue'
 import ArticleDrawer from '@/modals/content/ArticleDrawer.vue'
-import type { Article, Category } from '@/types/models'
+import type { Article, Category } from '@/contracts/content'
 
 // Mock data for demonstration
 const mockCategories: Category[] = [

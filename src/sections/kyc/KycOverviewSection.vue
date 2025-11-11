@@ -111,7 +111,7 @@
 
 <script setup lang="ts">
 import ScoreGauge from '@/widgets/risk/ScoreGauge.vue'
-import type { KycApplication } from '@/types/models'
+import type { KycApplication } from '@/contracts/kyc'
 import { formatDate } from '@/utils/date'
 
 interface Props {

@@ -67,7 +67,7 @@
 import { ref } from 'vue'
 import ServerTable from '@/shared/ServerTable.vue'
 import RBACGuard from '@/shared/RBACGuard.vue'
-import type { WithdrawalFeeTemplate } from '@/types/models'
+import type { WithdrawalFeeTemplate } from '@/contracts/fees'
 import type { TableParams } from '@/types/components'
 
 interface Props {

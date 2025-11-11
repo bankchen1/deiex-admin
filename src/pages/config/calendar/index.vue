@@ -285,7 +285,7 @@ import EditMaintenanceDrawer from '@/modals/calendar/EditMaintenanceDrawer.vue'
 import EditAnnouncementDrawer from '@/modals/calendar/EditAnnouncementDrawer.vue'
 import PublishModal from '@/modals/calendar/PublishModal.vue'
 import DiffModal from '@/modals/calendar/DiffModal.vue'
-import type { FundingRule, MaintenanceWindow, Announcement } from '@/types/models'
+import type { FundingRule, MaintenanceWindow, Announcement } from '@/contracts/calendar'
 import type { TableParams } from '@/types/components'
 
 const calendarStore = useCalendarStore()

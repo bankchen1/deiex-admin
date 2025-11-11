@@ -88,7 +88,7 @@
 <script setup lang="ts">
 import { ref, reactive, watch } from 'vue'
 import type { FormInstance, Rule } from 'ant-design-vue/es/form'
-import type { WithdrawalFeeTemplate } from '@/types/models'
+import type { WithdrawalFeeTemplate } from '@/contracts/fees'
 
 interface Props {
   withdrawalFee?: WithdrawalFeeTemplate | null

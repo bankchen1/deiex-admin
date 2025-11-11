@@ -129,7 +129,7 @@ import ServerTable from '@/shared/ServerTable.vue'
 import RBACGuard from '@/shared/RBACGuard.vue'
 import { useInstrumentsStore } from '@/stores/instruments'
 import { useAuthStore } from '@/stores/auth'
-import type { Instrument } from '@/types/models'
+import type { Instrument } from '@/contracts/config'
 import type { TableColumn } from '@/types/components'
 
 interface Props {

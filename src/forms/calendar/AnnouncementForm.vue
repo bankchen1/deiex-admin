@@ -12,7 +12,7 @@
 import { ref, computed, watch } from 'vue'
 import SchemaForm from '@/shared/SchemaForm.vue'
 import type { FormSchema } from '@/types/components'
-import type { Announcement } from '@/types/models'
+import type { Announcement } from '@/contracts/calendar'
 
 interface Props {
   announcement?: Announcement | null

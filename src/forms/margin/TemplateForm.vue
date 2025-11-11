@@ -180,7 +180,7 @@
 <script setup lang="ts">
 import { ref, reactive, watch } from 'vue'
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons-vue'
-import type { MarginTemplate, MarginTier } from '@/types/models'
+import type { MarginTemplate, MarginTier } from '@/contracts/config'
 import type { FormInstance } from 'ant-design-vue'
 
 interface Props {

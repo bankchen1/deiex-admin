@@ -201,7 +201,7 @@ import BalanceTable from '@/tables/assets/BalanceTable.vue'
 import RetryQueueTable from '@/tables/assets/RetryQueueTable.vue'
 import ChainHealth from '@/widgets/status/ChainHealth.vue'
 import TxDetailDrawer from '@/modals/assets/TxDetailDrawer.vue'
-import type { WalletAddress, RetryTask } from '@/types/models'
+import type { WalletAddress, RetryTask } from '@/contracts/assets'
 
 const walletsStore = useWalletsStore()
 

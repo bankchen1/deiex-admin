@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ChainHealth as ChainHealthType } from '@/types/models'
+import type { ChainHealth as ChainHealthType } from '@/contracts/assets'
 import { formatDateTime } from '@/utils/date'
 
 interface Props {

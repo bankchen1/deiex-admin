@@ -6,7 +6,7 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import * as echarts from 'echarts'
 import type { EChartsType } from 'echarts'
-import type { MarketDepth } from '@/types/models'
+import type { MarketDepth } from '@/contracts/market'
 
 interface Props {
   symbol: string

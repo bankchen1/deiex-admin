@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import AnnouncementForm from '@/forms/calendar/AnnouncementForm.vue'
-import type { Announcement } from '@/types/models'
+import type { Announcement } from '@/contracts/calendar'
 
 interface Props {
   open: boolean

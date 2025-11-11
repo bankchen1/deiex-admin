@@ -99,7 +99,7 @@ import { message } from 'ant-design-vue'
 import { PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue'
 import EmailTemplateTable from '@/tables/content/EmailTemplateTable.vue'
 import EmailTemplateDrawer from '@/modals/content/EmailTemplateDrawer.vue'
-import type { EmailTemplate } from '@/types/models'
+import type { EmailTemplate } from '@/contracts/content'
 
 // Mock data for demonstration
 const mockTemplates: EmailTemplate[] = [

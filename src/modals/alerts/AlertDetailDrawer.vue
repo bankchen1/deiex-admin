@@ -93,7 +93,7 @@ import { ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { useDashboardStore } from '@/stores/dashboard'
 import { formatDateTime } from '@/utils/date'
-import type { AlertDetail } from '@/services/api/dashboard'
+import type { AlertDetail } from '@/contracts/dashboard'
 
 interface Props {
   alertId?: string

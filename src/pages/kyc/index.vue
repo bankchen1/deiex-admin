@@ -225,7 +225,7 @@ import { useKycStore } from '@/stores/kyc'
 import RBACGuard from '@/shared/RBACGuard.vue'
 import KycTable from '@/tables/kyc/KycTable.vue'
 import ReviewDrawer from '@/modals/kyc/ReviewDrawer.vue'
-import type { KycApplication } from '@/types/models'
+import type { KycApplication } from '@/contracts/kyc'
 import type { ReviewPayload, BatchReviewPayload } from '@/services/api/facade'
 import type { Dayjs } from 'dayjs'
 

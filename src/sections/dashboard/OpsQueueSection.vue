@@ -45,7 +45,7 @@
 import { computed } from 'vue'
 import TodoList from '@/widgets/list/TodoList.vue'
 import type { TodoItem } from '@/widgets/list/TodoList.vue'
-import type { Alert } from '@/services/api/dashboard'
+import type { Alert } from '@/contracts/dashboard'
 
 interface Props {
   alerts: Alert[]

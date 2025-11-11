@@ -60,7 +60,7 @@
 import { ref } from 'vue'
 import ServerTable from '@/shared/ServerTable.vue'
 import RBACGuard from '@/shared/RBACGuard.vue'
-import type { TradingFeeTemplate } from '@/types/models'
+import type { TradingFeeTemplate } from '@/contracts/fees'
 import type { TableParams } from '@/types/components'
 
 interface Props {

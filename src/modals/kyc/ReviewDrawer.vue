@@ -234,7 +234,7 @@ import { message } from 'ant-design-vue'
 import { SearchOutlined } from '@ant-design/icons-vue'
 import ImageUploader from '@/shared/ImageUploader.vue'
 import AuditTrail from '@/shared/AuditTrail.vue'
-import type { KycApplication } from '@/types/models'
+import type { KycApplication } from '@/contracts/kyc'
 import { formatDate } from '@/utils/date'
 
 interface Props {

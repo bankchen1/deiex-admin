@@ -30,7 +30,7 @@
 import { ref, computed } from 'vue'
 import InstrumentForm from '@/forms/instruments/InstrumentForm.vue'
 import { useInstrumentsStore } from '@/stores/instruments'
-import type { Instrument } from '@/types/models'
+import type { Instrument } from '@/contracts/config'
 import type { InstrumentCreatePayload, InstrumentUpdatePayload } from '@/types/api'
 
 interface Props {

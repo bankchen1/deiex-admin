@@ -149,7 +149,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useFeesStore } from '@/stores/fees'
-import type { FeeCalculationResult } from '@/types/models'
+import type { FeeCalculationResult } from '@/contracts/fees'
 
 const feesStore = useFeesStore()
 

@@ -98,7 +98,7 @@
 import { ref } from 'vue'
 import { PlayCircleOutlined, ReloadOutlined, FileTextOutlined } from '@ant-design/icons-vue'
 import JsonEditor from '@/shared/JsonEditor.vue'
-import type { RiskSimulationResult } from '@/types/models'
+import type { RiskSimulationResult } from '@/contracts/risk'
 
 interface Props {
   ruleId?: string

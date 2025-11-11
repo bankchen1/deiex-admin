@@ -90,7 +90,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { message } from 'ant-design-vue'
-import type { Category } from '@/types/models'
+import type { Category } from '@/contracts/content'
 
 interface Props {
   open?: boolean

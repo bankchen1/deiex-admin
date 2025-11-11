@@ -45,7 +45,7 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { ReloadOutlined } from '@ant-design/icons-vue'
 import { formatDate } from '@/utils/date'
-import type { MarketTrade } from '@/types/models'
+import type { MarketTrade } from '@/contracts/market'
 
 interface Props {
   symbol: string

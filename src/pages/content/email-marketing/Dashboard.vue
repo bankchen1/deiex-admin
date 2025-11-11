@@ -124,7 +124,7 @@ import { useRouter } from 'vue-router'
 import * as echarts from 'echarts'
 import { ReloadOutlined } from '@ant-design/icons-vue'
 import EmailCampaignTable from '@/tables/content/EmailCampaignTable.vue'
-import type { EmailCampaign } from '@/types/models'
+import type { EmailCampaign } from '@/contracts/content'
 
 // Mock data for demonstration
 const mockCampaigns: EmailCampaign[] = [

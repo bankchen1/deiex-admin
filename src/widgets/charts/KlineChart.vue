@@ -6,7 +6,7 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import * as echarts from 'echarts'
 import type { EChartsType } from 'echarts'
-import type { KlineData } from '@/types/models'
+import type { KlineData } from '@/contracts/market'
 
 interface Props {
   symbol: string

@@ -388,6 +388,23 @@ export const deleteAnnouncement = async (id: string): Promise<FacadeResponse<boo
 }
 
 /**
+ * 根据ID获取公告
+ */
+export const getAnnouncementById = async (id: string): Promise<FacadeResponse<Announcement>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safeGet<Announcement>(`/admin/config/calendar/announcements/${id}`)
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
  * 获取已发布资金费率规则列表
  */
 export const getPublishedFunding = async (

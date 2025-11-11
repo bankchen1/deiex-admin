@@ -105,7 +105,7 @@
 import { computed } from 'vue'
 import { MailOutlined, PhoneOutlined } from '@ant-design/icons-vue'
 import ServerTable from '@/shared/ServerTable.vue'
-import type { User } from '@/types/models'
+import type { User } from '@/contracts/users'
 import { formatDate } from '@/utils/date'
 import { formatCurrency } from '@/utils/format'
 

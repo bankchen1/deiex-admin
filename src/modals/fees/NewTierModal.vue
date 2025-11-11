@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import TradingTierForm from '@/forms/fees/TradingTierForm.vue'
-import type { TradingFeeTemplate } from '@/types/models'
+import type { TradingFeeTemplate } from '@/contracts/fees'
 
 interface Props {
   open: boolean

@@ -76,7 +76,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import ServerTable from '@/shared/ServerTable.vue'
-import type { Comment } from '@/types/models'
+import type { Comment } from '@/contracts/content'
 
 interface Props {
   dataSource: Comment[]

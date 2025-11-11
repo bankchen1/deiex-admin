@@ -76,7 +76,7 @@
 
 <script setup lang="ts">
 import { reactive, watch } from 'vue'
-import type { BlacklistEntry } from '@/types/models'
+import type { BlacklistEntry } from '@/contracts/risk'
 import dayjs, { Dayjs } from 'dayjs'
 
 interface Props {

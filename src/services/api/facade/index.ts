@@ -26,8 +26,18 @@ export * as dashboardFacade from './dashboard'
 export * as opsFacade from './ops'
 export * as securityFacade from './security'
 export * as settingsFacade from './settings'
+export * as contentFacade from './content'
+export * as analyticsFacade from './analytics'
+export * as marketFacade from './market'
 
 // 便捷导出（可选）
+export {
+  getKlineData,
+  getMarketTrades,
+  getMarketDepth,
+  getMarketSummary,
+  getMarketSummaries,
+} from './market'
 export {
   listUsers,
   getUserById,
@@ -51,6 +61,14 @@ export {
   getLiquidationById,
   exportSpotOrders,
   exportFuturesOrders,
+  exportLiquidations,
+  listCopyTradingRelations,
+  getCopyTradingRelationById,
+  updateCopyTradingRelation,
+  pauseCopyTradingRelation,
+  resumeCopyTradingRelation,
+  stopCopyTradingRelation,
+  exportCopyTradingRelations,
 } from './orders'
 
 export {
@@ -66,6 +84,13 @@ export {
   createWalletAddress,
   updateWalletAddress,
   deleteWalletAddress,
+  exportDeposits,
+  exportWithdrawals,
+  getChainHealthStatus,
+  getRetryQueue,
+  retryTask,
+  cancelTask,
+  syncBalance,
 } from './assets'
 
 export {
@@ -83,6 +108,20 @@ export {
   updateInstrument,
   publishInstrument,
   listMarginTemplates,
+  calculateImpact,
+  listMarginBindings,
+  getMarginBindingById,
+  createMarginBinding,
+  updateMarginBinding,
+  deleteMarginBinding,
+  publishMarginTemplate,
+  importMarginData,
+  exportMarginData,
+  getMarginVersions,
+  getMarginVersion,
+  rollbackMarginVersion,
+  getMarginTemplateDiff,
+  getMarginBindingDiff,
 } from './config'
 
 export {
@@ -99,6 +138,7 @@ export {
   listAnnouncements,
   getPublishedAnnouncementById,
   getAnnouncementByIdWithDraftOption,
+  getAnnouncementById,
   createAnnouncement,
   updateAnnouncement,
   publishAnnouncement,
@@ -149,6 +189,18 @@ export {
   createBlacklistEntry,
   updateBlacklistEntry,
   deleteBlacklistEntry,
+  fetchPublishedRules,
+  fetchDraftRules,
+  fetchRuleVersions,
+  deleteDraftRule,
+  updateDraftRule,
+  createDraftRule,
+  fetchRuleDiff,
+  publishRules,
+  rollbackRules,
+  exportRules,
+  importRules,
+  simulateRule,
 } from './risk'
 
 export {
@@ -175,7 +227,13 @@ export {
   updateStrategyMonitoring,
 } from './strategies'
 
-export { getDashboardStats, getDashboardCharts } from './dashboard'
+export {
+  getDashboardStats,
+  getDashboardCharts,
+  getDashboardAlerts,
+  getDashboardAlertById,
+  updateAlertStatus,
+} from './dashboard'
 
 export {
   listTradeReports,
@@ -196,7 +254,27 @@ export {
 export type { UserQueryParams, UserStats, UserDetailResponse } from './users'
 export type { OrderQueryParams, PositionQueryParams } from './orders'
 export type { KycQueryParams, KycStats } from './kyc'
-export type { DashboardStats, DashboardCharts, DateRangeParams } from './dashboard'
+export type {
+  DashboardStats,
+  DashboardCharts,
+  DateRangeParams,
+  Alert,
+  AlertDetail,
+} from './dashboard'
+export type {
+  DepositQueryParams,
+  WithdrawalQueryParams,
+  WalletAddressQueryParams,
+  UpdateDepositNotesPayload,
+  ApproveWithdrawalPayload,
+  RejectWithdrawalPayload,
+  CreateWalletAddressPayload,
+  Deposit,
+  Withdrawal,
+  WalletAddress,
+  DepositDetailResponse,
+  WithdrawalDetailResponse,
+} from './assets'
 export type {
   TradeReportQueryParams,
   FinanceReportQueryParams,
@@ -209,6 +287,7 @@ export type {
   MarginTemplateQueryParams,
   TradingFeeQueryParams,
 } from './config'
+export type { OrderQueryParams, PositionQueryParams, CopyTradingQueryParams } from './orders'
 export type {
   FundingRuleQueryParams,
   MaintenanceWindowQueryParams,
@@ -224,6 +303,24 @@ export type {
   ImportPayload,
   ExportParams,
 } from './calendar'
+export type {
+  RiskRuleQueryParams,
+  RiskLimitQueryParams,
+  BlacklistEntryQueryParams,
+  CreateRiskRulePayload,
+  UpdateRiskRulePayload,
+  CreateRiskLimitPayload,
+  UpdateRiskLimitPayload,
+  CreateBlacklistEntryPayload,
+  UpdateBlacklistEntryPayload,
+  RiskSimulationPayload,
+  RiskSimulationResult,
+} from './risk'
+export type {
+  MarginBindingQueryParams,
+  CreateMarginBindingPayload,
+  UpdateMarginBindingPayload,
+} from './config'
 
 export {
   listNavMappings,
@@ -326,6 +423,78 @@ export {
   replaceIconAsset,
 } from './icons'
 
+export {
+  // Blog Article Functions
+  listBlogArticles,
+  getBlogArticleById,
+  createBlogArticle,
+  updateBlogArticle,
+  deleteBlogArticle,
+  publishBlogArticle,
+  archiveBlogArticle,
+  // Blog Category Functions
+  listBlogCategories,
+  getBlogCategoryById,
+  createBlogCategory,
+  updateBlogCategory,
+  deleteBlogCategory,
+  // Comment Functions
+  listComments,
+  getCommentById,
+  updateCommentStatus,
+  deleteComment,
+  // Notification Functions
+  listNotifications,
+  getNotificationById,
+  createNotification,
+  updateNotification,
+  deleteNotification,
+  publishNotification,
+  // Email Campaign Functions
+  listEmailCampaigns,
+  getEmailCampaignById,
+  createEmailCampaign,
+  updateEmailCampaign,
+  deleteEmailCampaign,
+  sendEmailCampaign,
+  // Email Template Functions
+  listEmailTemplates,
+  getEmailTemplateById,
+  createEmailTemplate,
+  updateEmailTemplate,
+  deleteEmailTemplate,
+  // Email Segment Functions
+  listEmailSegments,
+  getEmailSegmentById,
+  createEmailSegment,
+  updateEmailSegment,
+  deleteEmailSegment,
+} from './content'
+
+export {
+  // Trading Analytics Functions
+  getTradingAnalyticsSummary,
+  getVolumeByInstrument,
+  getTradingPairPerformance,
+  getUserTradingActivities,
+  getTradingVolumeData,
+  // User Analytics Functions
+  getUserAnalyticsSummary,
+  getRegistrationTrends,
+  getRetentionMetrics,
+  getKycCompletionRates,
+  getVipDistribution,
+  // Revenue Analytics Functions
+  getRevenueAnalyticsSummary,
+  getFeeRevenueByType,
+  getRevenueByInstrument,
+  getRevenueTrend,
+  // Export Functions
+  exportTradingAnalytics,
+  exportUserAnalytics,
+  exportRevenueAnalytics,
+} from './analytics'
+
 // 导出类型
 export type { UserQueryParams, UserStats, UserDetailResponse } from './users'
 export type { OrderQueryParams, PositionQueryParams } from './orders'
@@ -374,6 +543,66 @@ export type {
   IconAsset,
   IconMapping,
 } from './icons'
+
+export type {
+  ArticleQueryParams,
+  CategoryQueryParams,
+  CommentQueryParams,
+  NotificationQueryParams,
+  EmailCampaignQueryParams,
+  EmailTemplateQueryParams,
+  EmailSegmentQueryParams,
+  UpdateDepositNotesPayload,
+  ApproveWithdrawalPayload,
+  RejectWithdrawalPayload,
+  CreateWalletAddressPayload,
+} from './assets'
+
+export type {
+  Article,
+  Category,
+  Comment,
+  Notification,
+  EmailCampaign,
+  EmailTemplate,
+  EmailSegment,
+} from './content'
+
+export type {
+  AnalyticsQueryParams,
+  TradingVolumeSummary,
+  VolumeByInstrument,
+  TradingPairPerformance,
+  UserTradingActivity,
+  TradingVolumeData,
+  UserAnalyticsSummary,
+  RegistrationTrend,
+  RetentionMetric,
+  KycCompletionRate,
+  VipDistribution,
+  RevenueSummary,
+  FeeRevenueByType,
+  RevenueByInstrument,
+  RevenueTrend,
+  AnalyticsExportPayload,
+  AnalyticsListResponse,
+  AnalyticsDetailResponse,
+  TimeSeriesData,
+  DistributionData,
+  ComparisonData,
+} from './analytics'
+
+export type { ChainHealth, RetryTask } from './assets'
+
+export type {
+  KlineData,
+  MarketTrade,
+  MarketDepth,
+  MarketSummary,
+  KlineQueryParams,
+  MarketTradeQueryParams,
+  MarketDepthQueryParams,
+} from './market'
 
 export * from './ops'
 export * from './settings'

@@ -113,7 +113,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { DownOutlined } from '@ant-design/icons-vue'
-import type { StrategyTemplate } from '@/types/models'
+import type { StrategyTemplate } from '@/contracts/strategies'
 import { formatDate } from '@/utils/date'
 
 const { t } = useI18n()

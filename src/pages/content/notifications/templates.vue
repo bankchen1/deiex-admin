@@ -128,7 +128,7 @@ import { message } from 'ant-design-vue'
 import { PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue'
 import NotificationTemplateTable from '@/tables/content/NotificationTemplateTable.vue'
 import NotificationTemplateDrawer from '@/modals/content/NotificationTemplateDrawer.vue'
-import type { NotificationTemplate } from '@/types/models'
+import type { NotificationTemplate } from '@/contracts/content'
 
 // Mock data for demonstration
 const mockTemplates: NotificationTemplate[] = [

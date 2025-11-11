@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import BindingForm from '@/forms/margin/BindingForm.vue'
-import type { MarginTemplate } from '@/types/models'
+import type { MarginTemplate } from '@/contracts/config'
 
 interface Props {
   open: boolean

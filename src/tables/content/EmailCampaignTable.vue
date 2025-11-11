@@ -121,7 +121,7 @@ import {
 } from '@ant-design/icons-vue'
 import ServerTable from '@/shared/ServerTable.vue'
 import { formatDate } from '@/utils/date'
-import type { EmailCampaign } from '@/types/models'
+import type { EmailCampaign } from '@/contracts/content'
 
 interface Props {
   dataSource: EmailCampaign[]

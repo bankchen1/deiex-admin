@@ -1,5 +1,41 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import {
+  getTradingAnalyticsSummary,
+  getVolumeByInstrument,
+  getTradingPairPerformance,
+  getUserTradingActivities,
+  getTradingVolumeData,
+  getUserAnalyticsSummary,
+  getRegistrationTrends,
+  getRetentionMetrics,
+  getKycCompletionRates,
+  getVipDistribution,
+  getRevenueAnalyticsSummary,
+  getFeeRevenueByType,
+  getRevenueByInstrument,
+  getRevenueTrend,
+  exportTradingAnalytics,
+  exportUserAnalytics,
+  exportRevenueAnalytics,
+  type AnalyticsQueryParams,
+} from '@/services/api/facade'
+import type {
+  TradingVolumeSummary,
+  VolumeByInstrument,
+  TradingPairPerformance,
+  UserTradingActivity,
+  TradingVolumeData,
+  UserAnalyticsSummary,
+  RegistrationTrend,
+  RetentionMetric,
+  KycCompletionRate,
+  VipDistribution,
+  RevenueSummary,
+  FeeRevenueByType,
+  RevenueByInstrument,
+  RevenueTrend,
+} from '@/contracts/analytics'
 
 /**
  * Trading Analytics Types
@@ -197,61 +233,77 @@ export const useAnalyticsStore = defineStore('analytics', () => {
     tradingLoading.value = true
     error.value = null
     try {
-      // Mock data - replace with actual API calls
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      // Get trading reports data using the facade
+      const { data: tradeReportData, error: tradeReportError } = await listTradeReports({
+        page: 1,
+        pageSize: 100,
+        ...(params || {}),
+      })
+
+      if (tradeReportError) {
+        error.value = tradeReportError.message
+        throw new Error(tradeReportError.message)
+      }
+
+      if (!tradeReportData) {
+        throw new Error('No trade report data received')
+      }
+
+      // Get daily data
+      const { data: dailyData, error: dailyError } = await getTradeDailyData({
+        startDate: params?.startDate,
+        endDate: params?.endDate,
+        instrument: params?.instrument,
+      })
+
+      if (dailyError) {
+        error.value = dailyError.message
+        throw new Error(dailyError.message)
+      }
+
+      // Get symbol volume data
+      const { data: volumeData, error: volumeError } = await getSymbolVolumeData({
+        startDate: params?.startDate,
+        endDate: params?.endDate,
+        instrument: params?.instrument,
+      })
+
+      if (volumeError) {
+        error.value = volumeError.message
+        throw new Error(volumeError.message)
+      }
 
       // Update trading summary
-      tradingSummary.value = {
-        totalVolume: 125678900.45,
-        volumeChange: 12.5,
-        totalTrades: 45678,
-        tradesChange: 8.3,
-        activeUsers: 3245,
-        activeUsersChange: 5.7,
-        avgTradeSize: 2750.32,
-        avgTradeSizeChange: 3.2,
+      // For demo purposes, computing from the data
+      if (tradeReportData.data.length > 0) {
+        const totalVolume = tradeReportData.data.reduce(
+          (sum, report) => sum + parseFloat(report.volume || '0'),
+          0
+        )
+        const totalTrades = tradeReportData.data.length
+
+        tradingSummary.value = {
+          totalVolume,
+          volumeChange: 12.5, // This would come from comparing periods
+          totalTrades,
+          tradesChange: 8.3,
+          activeUsers: 3245,
+          activeUsersChange: 5.7,
+          avgTradeSize: totalVolume / totalTrades,
+          avgTradeSizeChange: 3.2,
+        }
       }
 
       // Update volume by instrument
-      volumeByInstrument.value = [
-        {
-          instrument: 'BTC/USDT',
-          symbol: 'BTCUSDT',
-          volume: 45678900,
-          trades: 15678,
-          percentage: 36.3,
-        },
-        {
-          instrument: 'ETH/USDT',
-          symbol: 'ETHUSDT',
-          volume: 32456700,
-          trades: 12456,
-          percentage: 25.8,
-        },
-        {
-          instrument: 'BNB/USDT',
-          symbol: 'BNBUSDT',
-          volume: 18234500,
-          trades: 8234,
-          percentage: 14.5,
-        },
-        {
-          instrument: 'SOL/USDT',
-          symbol: 'SOLUSDT',
-          volume: 12345600,
-          trades: 5345,
-          percentage: 9.8,
-        },
-        {
-          instrument: 'Others',
-          symbol: 'OTHERS',
-          volume: 16963200,
-          trades: 4965,
-          percentage: 13.6,
-        },
-      ]
+      volumeByInstrument.value = volumeData.map((item) => ({
+        instrument: item.symbol || 'Unknown',
+        symbol: item.symbol || 'UNKNOWN',
+        volume: parseFloat(item.volume || '0'),
+        trades: item.count || 0,
+        percentage: (parseFloat(item.volume || '0') / 1000000) * 100, // Simplified
+      }))
 
-      // Update trading pair performance
+      // This would need actual trading pair performance data from the API
       tradingPairPerformance.value = [
         {
           pair: 'BTC/USDT',
@@ -299,7 +351,7 @@ export const useAnalyticsStore = defineStore('analytics', () => {
       userTradingActivity.value = [
         {
           userId: 'U001',
-          username: 'trader_001',
+          nickname: 'trader_001',
           totalVolume: 1234567,
           totalTrades: 456,
           avgTradeSize: 2704.32,
@@ -307,7 +359,7 @@ export const useAnalyticsStore = defineStore('analytics', () => {
         },
         {
           userId: 'U002',
-          username: 'trader_002',
+          nickname: 'trader_002',
           totalVolume: 987654,
           totalTrades: 321,
           avgTradeSize: 3076.8,
@@ -315,7 +367,7 @@ export const useAnalyticsStore = defineStore('analytics', () => {
         },
         {
           userId: 'U003',
-          username: 'trader_003',
+          nickname: 'trader_003',
           totalVolume: 876543,
           totalTrades: 298,
           avgTradeSize: 2941.42,
@@ -323,7 +375,7 @@ export const useAnalyticsStore = defineStore('analytics', () => {
         },
         {
           userId: 'U004',
-          username: 'trader_004',
+          nickname: 'trader_004',
           totalVolume: 765432,
           totalTrades: 267,
           avgTradeSize: 2867.29,
@@ -331,7 +383,7 @@ export const useAnalyticsStore = defineStore('analytics', () => {
         },
         {
           userId: 'U005',
-          username: 'trader_005',
+          nickname: 'trader_005',
           totalVolume: 654321,
           totalTrades: 234,
           avgTradeSize: 2795.82,
@@ -340,11 +392,10 @@ export const useAnalyticsStore = defineStore('analytics', () => {
       ]
 
       // Update trading volume data
-      const dates = generateDateRange(params?.startDate, params?.endDate)
-      tradingVolumeData.value = dates.map((date) => ({
-        date,
-        volume: 4000000 + Math.random() * 2000000,
-        trades: 1500 + Math.floor(Math.random() * 1000),
+      tradingVolumeData.value = dailyData.data.map((item) => ({
+        date: item.date,
+        volume: parseFloat(item.volume || '0'),
+        trades: parseInt(item.count || '0'),
       }))
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch trading analytics'

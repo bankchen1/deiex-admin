@@ -293,7 +293,7 @@ import { useRiskStore } from '@/stores/risk'
 import ServerTable from '@/shared/ServerTable.vue'
 import BlacklistForm from '@/forms/risk/BlacklistForm.vue'
 import BulkImportModal from '@/modals/risk/BulkImportModal.vue'
-import type { BlacklistEntry } from '@/types/models'
+import type { BlacklistEntry } from '@/contracts/risk'
 import type { TableColumn } from '@/types/components'
 
 const riskStore = useRiskStore()

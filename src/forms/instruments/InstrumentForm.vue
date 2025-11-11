@@ -15,7 +15,7 @@
 import { ref, computed, watch } from 'vue'
 import SchemaForm from '@/shared/SchemaForm.vue'
 import type { FormSchema } from '@/types/components'
-import type { Instrument } from '@/types/models'
+import type { Instrument } from '@/contracts/config'
 import type { InstrumentCreatePayload, InstrumentUpdatePayload } from '@/types/api'
 
 interface Props {

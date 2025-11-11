@@ -75,17 +75,29 @@ export const useFeesStore = defineStore('fees', () => {
   )
 
   // Trading Fee Actions
-  async function fetchPublishedTradingFees(params?: FeeQueryParams) {
+  async function fetchPublishedTradingFees(params?: TradingFeeQueryParams) {
     loading.value = true
     error.value = null
     try {
-      const response = await feesApi.getPublishedTradingFees(params)
-      publishedTradingFees.value = response.data.data
-      publishedTradingFeesTotal.value = response.data.total
-      if (response.data.data.length > 0 && response.data.data[0]) {
-        currentVersion.value = response.data.data[0].version
+      const { data, error: err } = await listTradingFeeTemplates({ ...params, status: 'published' })
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
       }
-      return response
+
+      if (!data) {
+        publishedTradingFees.value = []
+        publishedTradingFeesTotal.value = 0
+        return
+      }
+
+      publishedTradingFees.value = data.data
+      publishedTradingFeesTotal.value = data.total
+      if (data.data.length > 0 && data.data[0]) {
+        currentVersion.value = data.data[0].version
+      }
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch published trading fees'
       message.error(error.value)
@@ -95,14 +107,28 @@ export const useFeesStore = defineStore('fees', () => {
     }
   }
 
-  async function fetchDraftTradingFees(params?: FeeQueryParams) {
+  async function fetchDraftTradingFees(params?: TradingFeeQueryParams) {
     loading.value = true
     error.value = null
     try {
-      const response = await feesApi.getDraftTradingFees(params)
-      draftTradingFees.value = response.data.data
-      draftTradingFeesTotal.value = response.data.total
-      return response
+      // Assuming the facade should be extended to support draft status filter
+      // For now, we'll call the main function and filter the response if needed
+      const { data, error: err } = await listTradingFeeTemplates({ ...params, status: 'draft' })
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        draftTradingFees.value = []
+        draftTradingFeesTotal.value = 0
+        return
+      }
+
+      draftTradingFees.value = data.data
+      draftTradingFeesTotal.value = data.total
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch draft trading fees'
       message.error(error.value)
@@ -116,9 +142,19 @@ export const useFeesStore = defineStore('fees', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await feesApi.getTradingFeeById(id, isDraft)
-      currentTradingFee.value = response.data
-      return response
+      const { data, error: err } = await getTradingFeeTemplateById(id) // Note: isDraft not supported in current facade interface
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('Trading fee not found')
+      }
+
+      currentTradingFee.value = data
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch trading fee'
       message.error(error.value)
@@ -132,11 +168,21 @@ export const useFeesStore = defineStore('fees', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await feesApi.createDraftTradingFee(payload)
-      draftTradingFees.value.unshift(response.data)
+      const { data, error: err } = await createTradingFeeTemplateDraft(payload)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('Failed to create draft trading fee')
+      }
+
+      draftTradingFees.value.unshift(data)
       draftTradingFeesTotal.value += 1
       message.success('Draft trading fee created successfully')
-      return response
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to create draft trading fee'
       message.error(error.value)
@@ -150,16 +196,26 @@ export const useFeesStore = defineStore('fees', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await feesApi.updateDraftTradingFee(id, payload)
+      const { data, error: err } = await updateTradingFeeTemplateDraft(id, payload)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('Failed to update draft trading fee')
+      }
+
       const index = draftTradingFees.value.findIndex((item) => item.id === id)
       if (index !== -1) {
-        draftTradingFees.value[index] = response.data
+        draftTradingFees.value[index] = data
       }
       if (currentTradingFee.value?.id === id) {
-        currentTradingFee.value = response.data
+        currentTradingFee.value = data
       }
       message.success('Draft trading fee updated successfully')
-      return response
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to update draft trading fee'
       message.error(error.value)
@@ -173,7 +229,17 @@ export const useFeesStore = defineStore('fees', () => {
     loading.value = true
     error.value = null
     try {
-      await feesApi.deleteDraftTradingFee(id)
+      const { data, error: err } = await deleteTradingFeeTemplateDraft(id)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('Failed to delete draft trading fee')
+      }
+
       draftTradingFees.value = draftTradingFees.value.filter((item) => item.id !== id)
       draftTradingFeesTotal.value -= 1
       if (currentTradingFee.value?.id === id) {
@@ -190,14 +256,29 @@ export const useFeesStore = defineStore('fees', () => {
   }
 
   // Withdrawal Fee Actions
-  async function fetchPublishedWithdrawalFees(params?: FeeQueryParams) {
+  async function fetchPublishedWithdrawalFees(params?: WithdrawalFeeQueryParams) {
     loading.value = true
     error.value = null
     try {
-      const response = await feesApi.getPublishedWithdrawalFees(params)
-      publishedWithdrawalFees.value = response.data.data
-      publishedWithdrawalFeesTotal.value = response.data.total
-      return response
+      const { data, error: err } = await listWithdrawalFeeTemplates({
+        ...params,
+        status: 'published',
+      })
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        publishedWithdrawalFees.value = []
+        publishedWithdrawalFeesTotal.value = 0
+        return
+      }
+
+      publishedWithdrawalFees.value = data.data
+      publishedWithdrawalFeesTotal.value = data.total
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch published withdrawal fees'
       message.error(error.value)
@@ -306,8 +387,18 @@ export const useFeesStore = defineStore('fees', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await feesApi.publish(payload)
-      currentVersion.value = response.data.version
+      const { data, error: err } = await publishFees(payload)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('Failed to publish fee configuration')
+      }
+
+      currentVersion.value = data.version
       // Clear drafts and refresh published
       draftTradingFees.value = []
       draftTradingFeesTotal.value = 0
@@ -317,7 +408,7 @@ export const useFeesStore = defineStore('fees', () => {
       await fetchPublishedWithdrawalFees()
       await fetchVersions()
       message.success('Fee configuration published successfully')
-      return response
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to publish fee configuration'
       message.error(error.value)
@@ -331,9 +422,20 @@ export const useFeesStore = defineStore('fees', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await feesApi.getVersions()
-      versions.value = response.data
-      return response
+      const { data, error: err } = await getFeeVersions()
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        versions.value = []
+        return
+      }
+
+      versions.value = data
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch versions'
       message.error(error.value)
@@ -422,13 +524,21 @@ export const useFeesStore = defineStore('fees', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await feesApi.import(payload)
+      const { data, error: err } = await importFees(payload)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('Failed to import fee configuration')
+      }
+
       await fetchDraftTradingFees()
       await fetchDraftWithdrawalFees()
-      message.success(
-        `Import completed: ${response.data.success} succeeded, ${response.data.failed} failed`
-      )
-      return response
+      message.success(`Import completed: ${data.success} succeeded, ${data.failed} failed`)
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to import fee configuration'
       message.error(error.value)

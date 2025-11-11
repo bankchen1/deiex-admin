@@ -155,7 +155,7 @@
 import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { FormInstance } from 'ant-design-vue'
-import type { StrategyTemplate } from '@/types/models'
+import type { StrategyTemplate } from '@/contracts/strategies'
 
 const { t } = useI18n()
 

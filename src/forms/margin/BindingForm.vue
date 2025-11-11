@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import type { MarginTemplate } from '@/types/models'
+import type { MarginTemplate } from '@/contracts/config'
 import type { FormInstance } from 'ant-design-vue'
 import { useInstrumentsStore } from '@/stores/instruments'
 

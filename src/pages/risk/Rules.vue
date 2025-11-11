@@ -200,7 +200,7 @@ import RiskRuleForm from '@/forms/risk/RiskRuleForm.vue'
 import RuleSimulator from '@/widgets/simulate/RuleSimulator.vue'
 import VersionBar from '@/shared/VersionBar.vue'
 import DiffViewer from '@/shared/DiffViewer.vue'
-import type { RiskRule } from '@/types/models'
+import type { RiskRule } from '@/contracts/risk'
 import type { UploadProps } from 'ant-design-vue'
 
 const riskStore = useRiskStore()

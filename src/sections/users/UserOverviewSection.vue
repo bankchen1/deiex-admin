@@ -112,7 +112,7 @@ import { ref } from 'vue'
 import { Empty } from 'ant-design-vue'
 import { EnvironmentOutlined, TagsOutlined } from '@ant-design/icons-vue'
 import RBACGuard from '@/shared/RBACGuard.vue'
-import type { User } from '@/types/models'
+import type { User } from '@/contracts/users'
 import { formatDate } from '@/utils/date'
 
 interface Props {

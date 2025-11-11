@@ -99,7 +99,7 @@ import { ClockCircleOutlined, CheckCircleOutlined, PushpinOutlined } from '@ant-
 import ServerTable from '@/shared/ServerTable.vue'
 import RBACGuard from '@/shared/RBACGuard.vue'
 import { formatDateTime } from '@/utils/date'
-import type { Announcement } from '@/types/models'
+import type { Announcement } from '@/contracts/calendar'
 import type { TableParams } from '@/types/components'
 
 interface Props {

@@ -5,8 +5,14 @@
 import type { FacadeResponse, PaginationParams } from '../_types'
 import { isMockMode, createSuccessResponse, createErrorResponse } from '../_types'
 import { mockService } from '@/services/mock'
-import { safeGet } from '../_client'
-import type { Order, FuturesOrder, Position, Liquidation } from '@/contracts/orders'
+import { safeGet, safePost } from '../_client'
+import type {
+  Order,
+  FuturesOrder,
+  Position,
+  Liquidation,
+  CopyTradingRelation,
+} from '@/contracts/orders'
 
 /**
  * 订单查询参数
@@ -305,6 +311,197 @@ export const exportFuturesOrders = async (
   try {
     if (isMockMode()) {
       const response = await safeGet<Blob>('/admin/orders/futures/export', {
+        params,
+        responseType: 'blob',
+      })
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+// Copy Trading Related Functions
+
+/**
+ * 获取跟随交易关系列表
+ */
+export const listCopyTradingRelations = async (
+  params: {
+    page?: number
+    pageSize?: number
+    masterId?: string
+    followerId?: string
+    status?: string
+  } = {}
+): Promise<
+  FacadeResponse<{ data: CopyTradingRelation[]; total: number; page: number; pageSize: number }>
+> => {
+  try {
+    if (isMockMode()) {
+      const response = await safeGet<{
+        data: CopyTradingRelation[]
+        total: number
+        page: number
+        pageSize: number
+      }>('/admin/orders/copy-trading', { params })
+      return createSuccessResponse(response.data, {
+        pagination: {
+          page: response.data.page,
+          pageSize: response.data.pageSize,
+          total: response.data.total,
+        },
+      })
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 根据ID获取跟随交易关系
+ */
+export const getCopyTradingRelationById = async (
+  id: string
+): Promise<FacadeResponse<CopyTradingRelation>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safeGet<CopyTradingRelation>(`/admin/orders/copy-trading/${id}`)
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 更新跟随交易关系
+ */
+export const updateCopyTradingRelation = async (
+  id: string,
+  payload: Partial<CopyTradingRelation>
+): Promise<FacadeResponse<CopyTradingRelation>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safePost<CopyTradingRelation>(
+        `/admin/orders/copy-trading/${id}`,
+        payload
+      )
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 暂停跟随交易关系
+ */
+export const pauseCopyTradingRelation = async (
+  id: string
+): Promise<FacadeResponse<CopyTradingRelation>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safePost<CopyTradingRelation>(`/admin/orders/copy-trading/${id}/pause`)
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 恢复跟随交易关系
+ */
+export const resumeCopyTradingRelation = async (
+  id: string
+): Promise<FacadeResponse<CopyTradingRelation>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safePost<CopyTradingRelation>(
+        `/admin/orders/copy-trading/${id}/resume`
+      )
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 偢复跟随交易关系
+ */
+export const stopCopyTradingRelation = async (
+  id: string
+): Promise<FacadeResponse<CopyTradingRelation>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safePost<CopyTradingRelation>(`/admin/orders/copy-trading/${id}/stop`)
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 导出跟随交易列表
+ */
+export const exportCopyTradingRelations = async (
+  params: {
+    page?: number
+    pageSize?: number
+    masterId?: string
+    followerId?: string
+    status?: string
+  } = {}
+): Promise<FacadeResponse<Blob>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safeGet<Blob>('/admin/orders/copy-trading/export', {
+        params,
+        responseType: 'blob',
+      })
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 导出清算记录
+ */
+export const exportLiquidations = async (
+  params: LiquidationQueryParams = {}
+): Promise<FacadeResponse<Blob>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safeGet<Blob>('/admin/orders/liquidations/export', {
         params,
         responseType: 'blob',
       })

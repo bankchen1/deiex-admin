@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import type { RetryTask } from '@/types/models'
+import type { RetryTask } from '@/contracts/assets'
 import { formatDateTime } from '@/utils/date'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'

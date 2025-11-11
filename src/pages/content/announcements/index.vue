@@ -122,7 +122,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons-vue'
-import type { Announcement } from '@/types/models'
+import type { Announcement } from '@/contracts/content'
 
 // Mock data structure
 interface Announcement {

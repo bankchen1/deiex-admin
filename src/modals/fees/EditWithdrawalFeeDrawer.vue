@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import WithdrawFeeForm from '@/forms/fees/WithdrawFeeForm.vue'
-import type { WithdrawalFeeTemplate } from '@/types/models'
+import type { WithdrawalFeeTemplate } from '@/contracts/fees'
 
 interface Props {
   open: boolean

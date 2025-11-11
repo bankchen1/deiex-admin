@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import TemplateForm from '@/forms/margin/TemplateForm.vue'
-import type { MarginTemplate } from '@/types/models'
+import type { MarginTemplate } from '@/contracts/config'
 
 interface Props {
   open: boolean

@@ -36,7 +36,7 @@
 import { computed } from 'vue'
 import TimeSeries from '@/widgets/charts/TimeSeries.vue'
 import { formatCurrency as formatCurrencyUtil } from '@/utils/format'
-import type { DashboardCharts } from '@/services/api/dashboard'
+import type { DashboardCharts } from '@/contracts/dashboard'
 
 interface Props {
   charts: DashboardCharts | null

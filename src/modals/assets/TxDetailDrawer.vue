@@ -253,7 +253,7 @@ import { ref, watch, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import { useDepositsStore } from '@/stores/deposits'
 import { useWithdrawalsStore } from '@/stores/withdrawals'
-import type { Deposit, Withdrawal } from '@/types/models'
+import type { Deposit, Withdrawal } from '@/contracts/assets'
 import { formatDateTime } from '@/utils/date'
 
 interface Props {

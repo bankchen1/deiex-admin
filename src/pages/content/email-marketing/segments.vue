@@ -88,7 +88,7 @@ import { ref, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue'
 import EmailSegmentTable from '@/tables/content/EmailSegmentTable.vue'
-import type { EmailSegment } from '@/types/models'
+import type { EmailSegment } from '@/contracts/content'
 
 // Mock data for demonstration
 const mockSegments: EmailSegment[] = [

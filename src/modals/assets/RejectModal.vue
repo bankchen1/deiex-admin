@@ -143,7 +143,7 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
 import { useWithdrawalsStore } from '@/stores/withdrawals'
-import type { Withdrawal } from '@/types/models'
+import type { Withdrawal } from '@/contracts/assets'
 import { message } from 'ant-design-vue'
 
 interface Props {

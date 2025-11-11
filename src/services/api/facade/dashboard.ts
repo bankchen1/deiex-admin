@@ -5,7 +5,8 @@
 import type { FacadeResponse } from '../_types'
 import { isMockMode, createSuccessResponse, createErrorResponse } from '../_types'
 import { mockService } from '@/services/mock'
-import { safeGet } from '../_client'
+import { safeGet, safePost } from '../_client'
+import type { Alert, AlertDetail, DashboardQueryParams } from '@/contracts/dashboard'
 
 /**
  * Dashboard统计数据
@@ -80,6 +81,65 @@ export const getDashboardCharts = async (
   try {
     if (isMockMode()) {
       const response = await safeGet<DashboardCharts>('/admin/dashboard/charts', { params })
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 获取Dashboard警报列表
+ */
+export const getDashboardAlerts = async (params?: {
+  status?: string
+  type?: string
+  limit?: number
+}): Promise<FacadeResponse<Alert[]>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safeGet<Alert[]>('/admin/dashboard/alerts', { params })
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 根据ID获取Dashboard警报详情
+ */
+export const getDashboardAlertById = async (id: string): Promise<FacadeResponse<AlertDetail>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safeGet<AlertDetail>(`/admin/dashboard/alerts/${id}`)
+      return createSuccessResponse(response.data)
+    } else {
+      // Real模式
+      throw new Error('Real mode not implemented yet')
+    }
+  } catch (error) {
+    return createErrorResponse(error)
+  }
+}
+
+/**
+ * 更新警报状态
+ */
+export const updateAlertStatus = async (
+  id: string,
+  status: string,
+  notes?: string
+): Promise<FacadeResponse<Alert>> => {
+  try {
+    if (isMockMode()) {
+      const response = await safePost<Alert>(`/admin/dashboard/alerts/${id}`, { status, notes })
       return createSuccessResponse(response.data)
     } else {
       // Real模式

@@ -147,7 +147,7 @@ import { ref, computed, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import MultiLanguageInput from '@/shared/MultiLanguageInput.vue'
 import ImageUploader from '@/shared/ImageUploader.vue'
-import type { Article } from '@/types/models'
+import type { Article } from '@/contracts/content'
 
 interface Props {
   open?: boolean

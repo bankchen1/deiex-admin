@@ -155,7 +155,7 @@ import {
   StopOutlined,
   DeleteOutlined,
 } from '@ant-design/icons-vue'
-import type { StrategyInstance } from '@/types/models'
+import type { StrategyInstance } from '@/contracts/strategies'
 
 const { t } = useI18n()
 

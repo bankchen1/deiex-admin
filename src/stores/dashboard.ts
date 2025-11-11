@@ -8,7 +8,13 @@ import {
   updateAlertStatus,
   type DateRangeParams,
 } from '@/services/api/facade'
-import type { DashboardStats, DashboardCharts, Alert, AlertDetail } from '@/contracts/dashboard'
+import type {
+  DashboardStats,
+  DashboardCharts,
+  Alert,
+  AlertDetail,
+  DashboardQueryParams,
+} from '@/contracts/dashboard'
 
 export const useDashboardStore = defineStore('dashboard', () => {
   // State
@@ -29,9 +35,13 @@ export const useDashboardStore = defineStore('dashboard', () => {
     statsLoading.value = true
     error.value = null
     try {
-      const response = await dashboardApi.getStats(params)
-      stats.value = response.data
-      return response
+      const response = await getDashboardStats(params)
+      if (response.success) {
+        stats.value = response.data
+        return response
+      } else {
+        throw new Error(response.message || 'Failed to fetch dashboard stats')
+      }
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch dashboard stats'
       throw e
@@ -44,9 +54,13 @@ export const useDashboardStore = defineStore('dashboard', () => {
     chartsLoading.value = true
     error.value = null
     try {
-      const response = await dashboardApi.getCharts(params)
-      charts.value = response.data
-      return response
+      const response = await getDashboardCharts(params)
+      if (response.success) {
+        charts.value = response.data
+        return response
+      } else {
+        throw new Error(response.message || 'Failed to fetch dashboard charts')
+      }
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch dashboard charts'
       throw e
@@ -59,9 +73,13 @@ export const useDashboardStore = defineStore('dashboard', () => {
     alertsLoading.value = true
     error.value = null
     try {
-      const response = await dashboardApi.getAlerts(params)
-      alerts.value = response.data
-      return response
+      const response = await getDashboardAlerts(params)
+      if (response.success) {
+        alerts.value = response.data
+        return response
+      } else {
+        throw new Error(response.message || 'Failed to fetch alerts')
+      }
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch alerts'
       throw e
@@ -74,9 +92,13 @@ export const useDashboardStore = defineStore('dashboard', () => {
     alertDetailLoading.value = true
     error.value = null
     try {
-      const response = await dashboardApi.getAlertById(id)
-      currentAlert.value = response.data
-      return response
+      const response = await getDashboardAlertById(id)
+      if (response.success) {
+        currentAlert.value = response.data
+        return response
+      } else {
+        throw new Error(response.message || 'Failed to fetch alert detail')
+      }
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch alert detail'
       throw e
@@ -88,17 +110,21 @@ export const useDashboardStore = defineStore('dashboard', () => {
   async function updateAlertStatus(id: string, status: string, notes?: string) {
     error.value = null
     try {
-      const response = await dashboardApi.updateAlertStatus(id, status, notes)
-      // Update the alert in the list
-      const index = alerts.value.findIndex((a) => a.id === id)
-      if (index !== -1) {
-        alerts.value[index] = response.data
+      const response = await updateAlertStatus(id, status, notes)
+      if (response.success) {
+        // Update the alert in the list
+        const index = alerts.value.findIndex((a) => a.id === id)
+        if (index !== -1) {
+          alerts.value[index] = response.data
+        }
+        // Update current alert if it's the same
+        if (currentAlert.value?.id === id) {
+          currentAlert.value = { ...currentAlert.value, ...response.data }
+        }
+        return response
+      } else {
+        throw new Error(response.message || 'Failed to update alert status')
       }
-      // Update current alert if it's the same
-      if (currentAlert.value?.id === id) {
-        currentAlert.value = { ...currentAlert.value, ...response.data }
-      }
-      return response
     } catch (e: any) {
       error.value = e.message || 'Failed to update alert status'
       throw e

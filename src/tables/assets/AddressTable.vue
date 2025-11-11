@@ -56,7 +56,7 @@
 
 <script setup lang="ts">
 import { message } from 'ant-design-vue'
-import type { WalletAddress } from '@/types/models'
+import type { WalletAddress } from '@/contracts/assets'
 import { formatDateTime } from '@/utils/date'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'

@@ -69,7 +69,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import ServerTable from '@/shared/ServerTable.vue'
-import type { Notification } from '@/types/models'
+import type { Notification } from '@/contracts/content'
 
 interface Props {
   dataSource: Notification[]

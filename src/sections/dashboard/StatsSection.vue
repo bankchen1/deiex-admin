@@ -85,7 +85,7 @@ import {
 } from '@ant-design/icons-vue'
 import StatCard from '@/widgets/cards/StatCard.vue'
 import { formatCurrency } from '@/utils/format'
-import type { DashboardStats } from '@/services/api/dashboard'
+import type { DashboardStats } from '@/contracts/dashboard'
 
 interface Props {
   stats: DashboardStats | null

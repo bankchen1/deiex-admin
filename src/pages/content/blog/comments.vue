@@ -110,7 +110,7 @@ import { ref, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { ReloadOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons-vue'
 import CommentTable from '@/tables/content/CommentTable.vue'
-import type { Comment } from '@/types/models'
+import type { Comment } from '@/contracts/content'
 
 // Mock data for demonstration
 const mockComments: Comment[] = [
