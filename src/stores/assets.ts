@@ -78,7 +78,7 @@ export const useAssetsStore = defineStore('assets', () => {
       if (!data) {
         deposits.value = []
         depositsTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       deposits.value = data.data
@@ -173,7 +173,7 @@ export const useAssetsStore = defineStore('assets', () => {
       if (!data) {
         withdrawals.value = []
         withdrawalsTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       withdrawals.value = data.data
@@ -303,7 +303,7 @@ export const useAssetsStore = defineStore('assets', () => {
       if (!data) {
         walletAddresses.value = []
         walletAddressesTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       walletAddresses.value = data.data

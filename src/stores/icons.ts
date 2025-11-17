@@ -57,10 +57,14 @@ export const useIconsStore = defineStore('icons', () => {
     assetsLoading.value = true
     assetsError.value = null
     try {
-      const response = await iconsApi.getAssets(params)
-      assets.value = response.data.items
-      assetsTotal.value = response.data.total
-      return response
+      const { data, error } = await iconsApi.getAssets(params)
+      if (error) {
+        assetsError.value = error.message
+        throw new Error(error.message)
+      }
+      assets.value = data.items
+      assetsTotal.value = data.total
+      return { data, error: null }
     } catch (e: any) {
       assetsError.value = e.message || 'Failed to fetch icon assets'
       throw e
@@ -73,9 +77,13 @@ export const useIconsStore = defineStore('icons', () => {
     assetsLoading.value = true
     assetsError.value = null
     try {
-      const response = await iconsApi.getAssetById(id)
-      currentAsset.value = response.data
-      return response
+      const { data, error } = await iconsApi.getAssetById(id)
+      if (error) {
+        assetsError.value = error.message
+        throw new Error(error.message)
+      }
+      currentAsset.value = data
+      return { data, error: null }
     } catch (e: any) {
       assetsError.value = e.message || 'Failed to fetch icon asset'
       throw e
@@ -118,10 +126,14 @@ export const useIconsStore = defineStore('icons', () => {
     assetsLoading.value = true
     assetsError.value = null
     try {
-      const response = await iconsApi.updateAsset(id, payload)
+      const { data, error } = await iconsApi.updateAsset(id, payload)
+      if (error) {
+        assetsError.value = error.message
+        throw new Error(error.message)
+      }
       const index = assets.value.findIndex((item) => item.id === id)
       if (index !== -1) {
-        assets.value[index] = response.data
+        assets.value[index] = data
       }
       if (currentAsset.value?.id === id) {
         currentAsset.value = response.data
@@ -188,8 +200,9 @@ export const useIconsStore = defineStore('icons', () => {
 
   async function validateAsset(file: File): Promise<ValidationResult> {
     try {
-      const response = await iconsApi.validateAsset(file)
-      return response.data
+      const { data, error } = await iconsApi.validateAsset(file)
+      if (error) throw new Error(error.message)
+      return data
     } catch (e: any) {
       throw e
     }
@@ -200,10 +213,14 @@ export const useIconsStore = defineStore('icons', () => {
     mappingsLoading.value = true
     mappingsError.value = null
     try {
-      const response = await iconsApi.getMappings(params)
-      mappings.value = response.data.items
-      mappingsTotal.value = response.data.total
-      return response
+      const { data, error } = await iconsApi.getMappings(params)
+      if (error) {
+        mappingsError.value = error.message
+        throw new Error(error.message)
+      }
+      mappings.value = data.items
+      mappingsTotal.value = data.total
+      return { data, error: null }
     } catch (e: any) {
       mappingsError.value = e.message || 'Failed to fetch icon mappings'
       throw e
@@ -247,10 +264,14 @@ export const useIconsStore = defineStore('icons', () => {
     mappingsLoading.value = true
     mappingsError.value = null
     try {
-      const response = await iconsApi.updateMapping(id, payload)
+      const { data, error } = await iconsApi.updateMapping(id, payload)
+      if (error) {
+        mappingsError.value = error.message
+        throw new Error(error.message)
+      }
       const index = mappings.value.findIndex((item) => item.id === id)
       if (index !== -1) {
-        mappings.value[index] = response.data
+        mappings.value[index] = data
       }
       if (currentMapping.value?.id === id) {
         currentMapping.value = response.data

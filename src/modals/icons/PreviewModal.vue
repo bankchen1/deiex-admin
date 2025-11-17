@@ -167,8 +167,9 @@ async function loadIcon() {
 
   loading.value = true
   try {
-    const response = await iconsStore.fetchAssetById(props.iconId)
-    icon.value = response.data
+    const { data, error } = await iconsStore.fetchAssetById(props.iconId)
+    if (error) throw new Error(error.message)
+    icon.value = data
   } catch (error: any) {
     message.error('Failed to load icon details')
     handleClose()

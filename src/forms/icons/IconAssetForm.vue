@@ -251,7 +251,7 @@ async function handleSubmit() {
         return
       }
 
-      const response = await iconsStore.createAsset({
+      const { data, error } = await iconsStore.createAsset({
         name: formState.name,
         type: formState.type,
         lightFile: formState.lightFile,
@@ -259,19 +259,21 @@ async function handleSubmit() {
         tags: formState.tags,
       })
 
+      if (error) throw new Error(error.message)
       message.success('Icon created successfully')
-      emit('success', response.data)
+      emit('success', data)
     } else {
       // Edit mode - only update metadata
       if (!props.initialData) return
 
-      const response = await iconsStore.updateAsset(props.initialData.id, {
+      const { data, error } = await iconsStore.updateAsset(props.initialData.id, {
         name: formState.name,
         tags: formState.tags,
       })
 
+      if (error) throw new Error(error.message)
       message.success('Icon updated successfully')
-      emit('success', response.data)
+      emit('success', data)
     }
   } catch (error: any) {
     message.error(error.message || 'Operation failed')

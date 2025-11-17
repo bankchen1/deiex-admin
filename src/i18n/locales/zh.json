@@ -42,8 +42,14 @@
     "users": "用户管理",
     "assets": "资产管理",
     "orders": "订单管理",
+    "market": "市场数据",
+    "strategies": "策略管理",
+    "analytics": "数据分析",
     "config": "配置中心",
     "risk": "风险管理",
+    "compliance": "合规管理",
+    "monitoring": "交易监控",
+    "content": "内容管理",
     "ops": "运维管理",
     "reports": "报表分析",
     "settings": "系统设置"
@@ -104,6 +110,7 @@
   },
   "assets": {
     "title": "资产管理",
+    "overview": "概览",
     "deposits": "充值",
     "withdrawals": "提现",
     "wallets": "钱包",
@@ -141,6 +148,30 @@
     "buy": "买入",
     "sell": "卖出"
   },
+  "market": {
+    "title": "市场数据",
+    "data": "市场数据",
+    "charts": "市场图表",
+    "symbols": "交易对",
+    "indices": "市场指数",
+    "news": "市场新闻",
+    "analysis": "市场分析"
+  },
+  "strategies": {
+    "title": "策略管理",
+    "templates": "策略模板",
+    "instances": "策略实例",
+    "backtest": "策略回测",
+    "performance": "策略表现",
+    "monitoring": "策略监控"
+  },
+  "analytics": {
+    "title": "数据分析",
+    "trading": "交易分析",
+    "users": "用户分析",
+    "revenue": "收入分析",
+    "userBehavior": "用户行为"
+  },
   "config": {
     "title": "配置中心",
     "instruments": "交易对",
@@ -168,6 +199,21 @@
     "priority": "优先级",
     "enabled": "启用",
     "disabled": "禁用"
+  },
+  "compliance": {
+    "title": "合规管理",
+    "audit": "审计追踪"
+  },
+  "monitoring": {
+    "title": "交易监控",
+    "transactions": "交易监控"
+  },
+  "content": {
+    "title": "内容管理",
+    "blog": "博客管理",
+    "notifications": "通知管理",
+    "announcements": "公告管理",
+    "emailMarketing": "邮件营销"
   },
   "ops": {
     "title": "运维管理",

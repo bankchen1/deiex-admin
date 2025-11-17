@@ -214,19 +214,29 @@ const rowSelection = computed(() => ({
 }))
 
 async function fetchData(params: any) {
-  const queryParams: CopyTradingQueryParams = {
-    ...props.filters,
-    page: params.page,
-    pageSize: params.pageSize,
-    sortField: params.sortField,
-    sortOrder: params.sortOrder,
-    ...params.filters,
-  }
+  try {
+    const queryParams: CopyTradingQueryParams = {
+      ...props.filters,
+      page: params.page,
+      pageSize: params.pageSize,
+      sortField: params.sortField,
+      sortOrder: params.sortOrder,
+      ...params.filters,
+    }
 
-  const response = await ordersStore.fetchCopyTradingRelations(queryParams)
-  return {
-    data: response.data,
-    total: response.total,
+    const response = await ordersStore.fetchCopyTradingRelations(queryParams)
+
+    if (!response) {
+      return { data: [], total: 0 }
+    }
+
+    return {
+      data: response.data || [],
+      total: response.total || 0,
+    }
+  } catch (error) {
+    console.error('Failed to fetch copy trading relations:', error)
+    return { data: [], total: 0 }
   }
 }
 

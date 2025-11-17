@@ -115,7 +115,7 @@ export const useStrategiesStore = defineStore('strategies', () => {
       if (!data) {
         strategyTemplates.value = []
         strategyTemplatesTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       strategyTemplates.value = data.data
@@ -274,7 +274,7 @@ export const useStrategiesStore = defineStore('strategies', () => {
       if (!data) {
         strategyInstances.value = []
         strategyInstancesTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       strategyInstances.value = data.data
@@ -503,7 +503,7 @@ export const useStrategiesStore = defineStore('strategies', () => {
       if (!data) {
         backtestResults.value = []
         backtestResultsTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       backtestResults.value = data.data
@@ -623,7 +623,7 @@ export const useStrategiesStore = defineStore('strategies', () => {
       if (!data) {
         strategyPerformance.value = []
         strategyPerformanceTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       strategyPerformance.value = data.data
@@ -683,7 +683,7 @@ export const useStrategiesStore = defineStore('strategies', () => {
       if (!data) {
         strategyMonitoring.value = []
         strategyMonitoringTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       strategyMonitoring.value = data.data

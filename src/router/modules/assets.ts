@@ -4,13 +4,23 @@ export const assetsRoutes: RouteRecordRaw[] = [
   {
     path: 'assets',
     name: 'Assets',
-    redirect: '/admin/assets/deposits',
+    redirect: '/admin/assets/overview',
     meta: {
       title: 'Assets',
       icon: 'WalletOutlined',
       permissions: ['assets.view'],
     },
     children: [
+      {
+        path: 'overview',
+        name: 'AssetsOverview',
+        component: () => import('@/pages/assets/Overview.vue'),
+        meta: {
+          title: 'Overview',
+          permissions: ['assets.view'],
+          keepAlive: true,
+        },
+      },
       {
         path: 'deposits',
         name: 'Deposits',

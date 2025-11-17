@@ -10,7 +10,9 @@
       <div v-if="alert" class="alert-detail">
         <!-- Header -->
         <div class="alert-header">
-          <a-tag :color="getTypeColor(alert.type)">{{ alert.type.toUpperCase() }}</a-tag>
+          <a-tag :color="getTypeColor(alert.type)">{{
+            alert.type?.toUpperCase() || 'UNKNOWN'
+          }}</a-tag>
           <a-badge :status="getPriorityStatus(alert.priority)" :text="alert.priority" />
           <a-tag :color="getStatusColor(alert.status)">{{ alert.status }}</a-tag>
         </div>

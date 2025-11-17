@@ -39,7 +39,7 @@ export const useKycStore = defineStore('kyc', () => {
     loading.value = true
     error.value = null
     try {
-      const { data, error: err } = await listApplications({
+      const { data, error: err } = await listKycApplications({
         page: currentPage.value,
         pageSize: pageSize.value,
         ...params,
@@ -53,7 +53,7 @@ export const useKycStore = defineStore('kyc', () => {
       if (!data) {
         list.value = []
         total.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       list.value = data.data

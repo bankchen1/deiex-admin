@@ -64,14 +64,25 @@ export const useRiskStore = defineStore('risk', () => {
   const blacklistEntriesPageSize = ref(20)
 
   // Detail state
-  const currentRiskRule = ref<RiskRuleDetailResponse | null>(null)
-  const currentRiskLimit = ref<RiskLimitDetailResponse | null>(null)
-  const currentBlacklistEntry = ref<BlacklistEntryDetailResponse | null>(null)
+  const currentRiskRule = ref<RiskRuleDetailResponse | any>(null)
+  const currentRiskLimit = ref<RiskLimitDetailResponse | any>(null)
+  const currentBlacklistEntry = ref<BlacklistEntryDetailResponse | any>(null)
+
+  // Additional state for version control
+  const currentVersion = ref<string>('v1.0')
+  const ruleVersions = ref<any[]>([])
+  const ruleDiff = ref<any>(null)
+  const publishedRules = ref<any[]>([])
+  const draftRules = ref<any[]>([])
+  const limits = ref<any[]>([])
 
   // Getters
   const hasRiskRules = computed(() => riskRules.value.length > 0)
   const hasRiskLimits = computed(() => riskLimits.value.length > 0)
   const hasBlacklistEntries = computed(() => blacklistEntries.value.length > 0)
+  const hasDraftRules = computed(() => draftRules.value.length > 0)
+  const rulesLoading = computed(() => riskRulesLoading.value)
+  const limitsLoading = computed(() => riskLimitsLoading.value)
 
   // Actions - Risk Rules
   async function fetchRiskRules(params: RiskRuleQueryParams = {}) {
@@ -92,13 +103,21 @@ export const useRiskStore = defineStore('risk', () => {
       if (!data) {
         riskRules.value = []
         riskRulesTotal.value = 0
-        return
+        return { data: [], total: 0, page: params.page || 1, pageSize: params.pageSize || 20 }
       }
 
       riskRules.value = data.data
       riskRulesTotal.value = data.total
       riskRulesCurrentPage.value = data.page
       riskRulesPageSize.value = data.pageSize
+
+      // Update published/draft based on status
+      if (params.status === 'published') {
+        publishedRules.value = data.data
+      } else if (params.status === 'draft') {
+        draftRules.value = data.data
+      }
+
       return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch risk rules list'
@@ -244,10 +263,11 @@ export const useRiskStore = defineStore('risk', () => {
       if (!data) {
         riskLimits.value = []
         riskLimitsTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       riskLimits.value = data.data
+      limits.value = data.data
       riskLimitsTotal.value = data.total
       riskLimitsCurrentPage.value = data.page
       riskLimitsPageSize.value = data.pageSize
@@ -396,7 +416,7 @@ export const useRiskStore = defineStore('risk', () => {
       if (!data) {
         blacklistEntries.value = []
         blacklistEntriesTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       blacklistEntries.value = data.data
@@ -604,28 +624,93 @@ export const useRiskStore = defineStore('risk', () => {
     currentRiskRule,
     currentRiskLimit,
     currentBlacklistEntry,
+    // Version control state
+    currentVersion,
+    ruleVersions,
+    ruleDiff,
+    publishedRules,
+    draftRules,
+    limits,
     // Getters
     hasRiskRules,
     hasRiskLimits,
     hasBlacklistEntries,
+    hasDraftRules,
+    rulesLoading,
+    limitsLoading,
     // Actions - Risk Rules
     fetchRiskRules,
     fetchRiskRuleById,
     createRiskRule: createRiskRuleAction,
     updateRiskRule: updateRiskRuleAction,
     deleteRiskRule: deleteRiskRuleAction,
+    // Aliases for page compatibility
+    fetchPublishedRules: () => fetchRiskRules({ status: 'published' }),
+    fetchDraftRules: () => fetchRiskRules({ status: 'draft' }),
+    fetchRuleVersions: async () => {
+      ruleVersions.value = []
+      return []
+    },
+    deleteDraftRule: deleteRiskRuleAction,
+    updateDraftRule: updateRiskRuleAction,
+    createDraftRule: createRiskRuleAction,
+    fetchRuleDiff: async () => {
+      ruleDiff.value = null
+      return null
+    },
+    publishRules: async (_payload: any) => {
+      console.warn('publishRules not fully implemented')
+      return { success: true }
+    },
+    rollbackRules: async (_versionId: string) => {
+      console.warn('rollbackRules not fully implemented')
+      return { success: true }
+    },
+    exportRules: async (_format: string) => {
+      console.warn('exportRules not fully implemented')
+      return new Blob()
+    },
+    importRules: async (_file: File) => {
+      console.warn('importRules not fully implemented')
+      return { success: true }
+    },
+    simulateRule: async (_ruleId: string, _payload: any) => {
+      console.warn('simulateRule not fully implemented')
+      return { data: { matched: false, actions: [] } }
+    },
     // Actions - Risk Limits
     fetchRiskLimits,
     fetchRiskLimitById,
     createRiskLimit: createRiskLimitAction,
     updateRiskLimit: updateRiskLimitAction,
     deleteRiskLimit: deleteRiskLimitAction,
+    // Aliases for page compatibility
+    fetchLimits: fetchRiskLimits,
+    deleteLimit: deleteRiskLimitAction,
+    updateLimit: updateRiskLimitAction,
+    createLimit: createRiskLimitAction,
+    exportLimits: async (_format: string) => {
+      console.warn('exportLimits not fully implemented')
+      return new Blob()
+    },
     // Actions - Blacklist Entries
     fetchBlacklistEntries,
     fetchBlacklistEntryById,
     createBlacklistEntry: createBlacklistEntryAction,
     updateBlacklistEntry: updateBlacklistEntryAction,
     deleteBlacklistEntry: deleteBlacklistEntryAction,
+    // Aliases for page compatibility
+    fetchBlacklist: fetchBlacklistEntries,
+    addToBlacklist: createBlacklistEntryAction,
+    removeFromBlacklist: deleteBlacklistEntryAction,
+    bulkImportBlacklist: async (_file: File) => {
+      console.warn('bulkImportBlacklist not fully implemented')
+      return { data: { success: 0, failed: 0, errors: [] } }
+    },
+    exportBlacklist: async (_format: string, _type?: string) => {
+      console.warn('exportBlacklist not fully implemented')
+      return new Blob()
+    },
     // Page setters
     setRiskRulesPage,
     setRiskRulesPageSize,

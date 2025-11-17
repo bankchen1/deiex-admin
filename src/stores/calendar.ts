@@ -97,7 +97,7 @@ export const useCalendarStore = defineStore('calendar', () => {
       if (!data) {
         publishedFunding.value = []
         publishedFundingTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       publishedFunding.value = data.data
@@ -219,10 +219,14 @@ export const useCalendarStore = defineStore('calendar', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await calendarApi.getPublishedMaintenance(params)
-      publishedMaintenance.value = response.data.data
-      publishedMaintenanceTotal.value = response.data.total
-      return response
+      const { data, error: err } = await listMaintenanceWindows(params)
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      publishedMaintenance.value = data?.data || []
+      publishedMaintenanceTotal.value = data?.total || 0
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch published maintenance windows'
       message.error(error.value)
@@ -328,10 +332,14 @@ export const useCalendarStore = defineStore('calendar', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await calendarApi.getPublishedAnnouncements(params)
-      publishedAnnouncements.value = response.data.data
-      publishedAnnouncementsTotal.value = response.data.total
-      return response
+      const { data, error: err } = await listAnnouncements(params)
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      publishedAnnouncements.value = data?.data || []
+      publishedAnnouncementsTotal.value = data?.total || 0
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch published announcements'
       message.error(error.value)

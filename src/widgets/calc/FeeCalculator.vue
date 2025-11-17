@@ -212,10 +212,19 @@ async function handleCalculate() {
             amount: withdrawalAmount.value?.toString() || '0',
           }
 
-    const response = await feesStore.calculateFee(params)
-    result.value = response.data
-  } catch (error) {
-    console.error('Failed to calculate fee:', error)
+    const { data, error: err } = await feesStore.calculateFee(params)
+
+    if (err) {
+      error.value = err.message
+      result.value = null
+      return
+    }
+
+    result.value = data
+  } catch (e: any) {
+    console.error('Failed to calculate fee:', e)
+    error.value = e.message || 'Failed to calculate fee'
+    result.value = null
   } finally {
     loading.value = false
   }

@@ -45,7 +45,7 @@ export const useWithdrawalsStore = defineStore('withdrawals', () => {
       if (!data) {
         withdrawals.value = []
         total.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       withdrawals.value = data.data

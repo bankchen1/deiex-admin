@@ -35,7 +35,7 @@ export const useWalletsStore = defineStore('wallets', () => {
 
       if (!data) {
         addresses.value = []
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       addresses.value = data.data

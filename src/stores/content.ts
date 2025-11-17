@@ -145,7 +145,7 @@ export const useContentStore = defineStore('content', () => {
       if (!data) {
         articles.value = []
         articlesTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       articles.value = data.data
@@ -368,7 +368,7 @@ export const useContentStore = defineStore('content', () => {
       if (!data) {
         categories.value = []
         categoriesTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       categories.value = data.data
@@ -521,7 +521,7 @@ export const useContentStore = defineStore('content', () => {
       if (!data) {
         comments.value = []
         commentsTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       comments.value = data.data
@@ -645,7 +645,7 @@ export const useContentStore = defineStore('content', () => {
       if (!data) {
         notifications.value = []
         notificationsTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       notifications.value = data.data
@@ -832,7 +832,7 @@ export const useContentStore = defineStore('content', () => {
       if (!data) {
         emailCampaigns.value = []
         emailCampaignsTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       emailCampaigns.value = data.data
@@ -1021,7 +1021,7 @@ export const useContentStore = defineStore('content', () => {
       if (!data) {
         emailTemplates.value = []
         emailTemplatesTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       emailTemplates.value = data.data
@@ -1176,7 +1176,7 @@ export const useContentStore = defineStore('content', () => {
       if (!data) {
         emailSegments.value = []
         emailSegmentsTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       emailSegments.value = data.data

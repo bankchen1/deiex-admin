@@ -12,9 +12,15 @@ import {
   exportSpotOrders,
   exportFuturesOrders,
   exportLiquidations as exportLiquidationsFromApi,
+  listCopyTradingRelations,
+  getCopyTradingRelationById,
+  updateCopyTradingRelation,
+  pauseCopyTradingRelation,
+  resumeCopyTradingRelation,
+  stopCopyTradingRelation,
+  exportCopyTradingRelations,
   type OrderQueryParams,
   type PositionQueryParams,
-  type LiquidationQueryParams,
 } from '@/services/api/facade'
 import type {
   Order,
@@ -43,6 +49,9 @@ type CopyTradingQueryParams = {
 }
 
 export const useOrdersStore = defineStore('orders', () => {
+  // State - Common
+  const error = ref<string | null>(null)
+
   // State - Spot Orders
   const spotOrders = ref<Order[]>([])
   const spotOrdersTotal = ref(0)
@@ -88,7 +97,7 @@ export const useOrdersStore = defineStore('orders', () => {
       if (!data) {
         spotOrders.value = []
         spotOrdersTotal.value = 0
-        return
+        return { data: [], total: 0, page: params.page || 1, pageSize: params.pageSize || 20 }
       }
 
       spotOrders.value = data.data
@@ -168,7 +177,7 @@ export const useOrdersStore = defineStore('orders', () => {
       if (!data) {
         futuresOrders.value = []
         futuresOrdersTotal.value = 0
-        return
+        return { data: [], total: 0, page: params.page || 1, pageSize: params.pageSize || 20 }
       }
 
       futuresOrders.value = data.data
@@ -248,7 +257,7 @@ export const useOrdersStore = defineStore('orders', () => {
       if (!data) {
         positions.value = []
         positionsTotal.value = 0
-        return
+        return { data: [], total: 0, page: params.page || 1, pageSize: params.pageSize || 20 }
       }
 
       positions.value = data.data
@@ -307,7 +316,7 @@ export const useOrdersStore = defineStore('orders', () => {
       if (!data) {
         liquidations.value = []
         liquidationsTotal.value = 0
-        return
+        return { data: [], total: 0, page: params.page || 1, pageSize: params.pageSize || 20 }
       }
 
       liquidations.value = data.data
@@ -381,7 +390,7 @@ export const useOrdersStore = defineStore('orders', () => {
       if (!data) {
         copyTradingRelations.value = []
         copyTradingTotal.value = 0
-        return
+        return { data: [], total: 0, page: params.page || 1, pageSize: params.pageSize || 20 }
       }
 
       copyTradingRelations.value = data.data
@@ -397,10 +406,24 @@ export const useOrdersStore = defineStore('orders', () => {
 
   async function fetchCopyTradingById(id: string) {
     copyTradingLoading.value = true
+    error.value = null
     try {
-      const response = await ordersApi.getCopyTradingById(id)
-      currentCopyTrading.value = response.data
-      return response
+      const { data, error: err } = await getCopyTradingRelationById(id)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!data) {
+        throw new Error('Copy trading relation not found')
+      }
+
+      currentCopyTrading.value = data
+      return data
+    } catch (e: any) {
+      error.value = e.message || 'Failed to fetch copy trading relation'
+      throw e
     } finally {
       copyTradingLoading.value = false
     }
@@ -522,13 +545,29 @@ export const useOrdersStore = defineStore('orders', () => {
   }
 
   async function exportCopyTrading(params: CopyTradingQueryParams) {
-    const blob = await ordersApi.exportCopyTrading(params)
-    const url = window.URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `copy-trading-${Date.now()}.csv`
-    link.click()
-    window.URL.revokeObjectURL(url)
+    error.value = null
+    try {
+      const { data: blob, error: err } = await exportCopyTradingRelations(params)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (!blob) {
+        throw new Error('Failed to export copy trading relations')
+      }
+
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `copy-trading-${Date.now()}.csv`
+      link.click()
+      window.URL.revokeObjectURL(url)
+    } catch (e: any) {
+      error.value = e.message || 'Failed to export copy trading relations'
+      throw e
+    }
   }
 
   function reset() {
@@ -550,6 +589,8 @@ export const useOrdersStore = defineStore('orders', () => {
   }
 
   return {
+    // State - Common
+    error,
     // State - Spot Orders
     spotOrders,
     spotOrdersTotal,
@@ -578,15 +619,15 @@ export const useOrdersStore = defineStore('orders', () => {
     // Actions - Spot Orders
     fetchSpotOrders,
     fetchSpotOrderById,
-    exportSpotOrders,
+    exportSpotOrders: exportSpotOrdersAction,
     // Actions - Futures Orders
     fetchFuturesOrders,
     fetchFuturesOrderById,
-    exportFuturesOrders,
+    exportFuturesOrders: exportFuturesOrdersAction,
     // Actions - Positions
     fetchPositions,
     fetchPositionById,
-    exportPositions,
+    exportPositions: exportPositionsAction,
     // Actions - Liquidations
     fetchLiquidations,
     fetchLiquidationById,

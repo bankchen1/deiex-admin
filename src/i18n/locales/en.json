@@ -42,8 +42,14 @@
     "users": "Users",
     "assets": "Assets",
     "orders": "Orders",
+    "market": "Market",
+    "strategies": "Strategies",
+    "analytics": "Analytics",
     "config": "Configuration",
     "risk": "Risk",
+    "compliance": "Compliance",
+    "monitoring": "Monitoring",
+    "content": "Content",
     "ops": "Operations",
     "reports": "Reports",
     "settings": "Settings"
@@ -104,6 +110,7 @@
   },
   "assets": {
     "title": "Asset Management",
+    "overview": "Overview",
     "deposits": "Deposits",
     "withdrawals": "Withdrawals",
     "wallets": "Wallets",
@@ -141,6 +148,30 @@
     "buy": "Buy",
     "sell": "Sell"
   },
+  "market": {
+    "title": "Market",
+    "data": "Market Data",
+    "charts": "Market Charts",
+    "symbols": "Trading Symbols",
+    "indices": "Market Indices",
+    "news": "Market News",
+    "analysis": "Market Analysis"
+  },
+  "strategies": {
+    "title": "Strategies",
+    "templates": "Strategy Templates",
+    "instances": "Strategy Instances",
+    "backtest": "Strategy Backtest",
+    "performance": "Strategy Performance",
+    "monitoring": "Strategy Monitoring"
+  },
+  "analytics": {
+    "title": "Analytics",
+    "trading": "Trading Analytics",
+    "users": "User Analytics",
+    "revenue": "Revenue Analytics",
+    "userBehavior": "User Behavior"
+  },
   "config": {
     "title": "Configuration",
     "instruments": "Instruments",
@@ -168,6 +199,21 @@
     "priority": "Priority",
     "enabled": "Enabled",
     "disabled": "Disabled"
+  },
+  "compliance": {
+    "title": "Compliance",
+    "audit": "Audit Trail"
+  },
+  "monitoring": {
+    "title": "Monitoring",
+    "transactions": "Transaction Monitoring"
+  },
+  "content": {
+    "title": "Content",
+    "blog": "Blog",
+    "notifications": "Notifications",
+    "announcements": "Announcements",
+    "emailMarketing": "Email Marketing"
   },
   "ops": {
     "title": "Operations",

@@ -164,14 +164,22 @@ async function handleCalculate() {
 
   calculating.value = true
   try {
-    const response = await marginStore.calculateMargin({
+    const { data, error: err } = await marginStore.calculateMargin({
       templateId: form.value.templateId,
       notionalValue: form.value.notionalValue.toString(),
       leverage: form.value.leverage,
     })
-    result.value = response.data
-  } catch {
-    // Error already handled by store
+
+    if (err) {
+      console.error('Failed to calculate margin:', err.message)
+      result.value = null
+      return
+    }
+
+    result.value = data
+  } catch (e: any) {
+    console.error('Failed to calculate margin:', e)
+    result.value = null
   } finally {
     calculating.value = false
   }

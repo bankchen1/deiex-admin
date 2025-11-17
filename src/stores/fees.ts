@@ -37,6 +37,11 @@ import type {
   FeeCalculationResult,
   ValidateConsistencyResult,
 } from '@/contracts/fees'
+import type { WithdrawalFeeUpdatePayload } from '@/types'
+import type { WithdrawalFeeCreatePayload } from '@/types'
+import type { FeeQueryParams } from '@/types'
+import type { TradingFeeUpdatePayload } from '@/types'
+import type { TradingFeeCreatePayload } from '@/types'
 
 export const useFeesStore = defineStore('fees', () => {
   // State
@@ -89,7 +94,7 @@ export const useFeesStore = defineStore('fees', () => {
       if (!data) {
         publishedTradingFees.value = []
         publishedTradingFeesTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       publishedTradingFees.value = data.data
@@ -123,7 +128,7 @@ export const useFeesStore = defineStore('fees', () => {
       if (!data) {
         draftTradingFees.value = []
         draftTradingFeesTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       draftTradingFees.value = data.data
@@ -273,7 +278,7 @@ export const useFeesStore = defineStore('fees', () => {
       if (!data) {
         publishedWithdrawalFees.value = []
         publishedWithdrawalFeesTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       publishedWithdrawalFees.value = data.data
@@ -292,10 +297,14 @@ export const useFeesStore = defineStore('fees', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await feesApi.getDraftWithdrawalFees(params)
-      draftWithdrawalFees.value = response.data.data
-      draftWithdrawalFeesTotal.value = response.data.total
-      return response
+      const { data, error: err } = await feesApi.getDraftWithdrawalFees(params)
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      draftWithdrawalFees.value = data.data
+      draftWithdrawalFeesTotal.value = data.total
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch draft withdrawal fees'
       message.error(error.value)
@@ -309,9 +318,13 @@ export const useFeesStore = defineStore('fees', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await feesApi.getWithdrawalFeeById(id, isDraft)
-      currentWithdrawalFee.value = response.data
-      return response
+      const { data, error: err } = await feesApi.getWithdrawalFeeById(id, isDraft)
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      currentWithdrawalFee.value = data
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch withdrawal fee'
       message.error(error.value)
@@ -325,11 +338,15 @@ export const useFeesStore = defineStore('fees', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await feesApi.createDraftWithdrawalFee(payload)
-      draftWithdrawalFees.value.unshift(response.data)
+      const { data, error: err } = await feesApi.createDraftWithdrawalFee(payload)
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      draftWithdrawalFees.value.unshift(data)
       draftWithdrawalFeesTotal.value += 1
       message.success('Draft withdrawal fee created successfully')
-      return response
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to create draft withdrawal fee'
       message.error(error.value)
@@ -343,16 +360,20 @@ export const useFeesStore = defineStore('fees', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await feesApi.updateDraftWithdrawalFee(id, payload)
+      const { data, error: err } = await feesApi.updateDraftWithdrawalFee(id, payload)
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
       const index = draftWithdrawalFees.value.findIndex((item) => item.id === id)
       if (index !== -1) {
-        draftWithdrawalFees.value[index] = response.data
+        draftWithdrawalFees.value[index] = data
       }
       if (currentWithdrawalFee.value?.id === id) {
-        currentWithdrawalFee.value = response.data
+        currentWithdrawalFee.value = data
       }
       message.success('Draft withdrawal fee updated successfully')
-      return response
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to update draft withdrawal fee'
       message.error(error.value)
@@ -431,7 +452,7 @@ export const useFeesStore = defineStore('fees', () => {
 
       if (!data) {
         versions.value = []
-        return
+        return []
       }
 
       versions.value = data
@@ -464,13 +485,17 @@ export const useFeesStore = defineStore('fees', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await feesApi.rollback(versionId, notes)
-      currentVersion.value = response.data.version
+      const { data, error: err } = await feesApi.rollback(versionId, notes)
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      currentVersion.value = data.version
       await fetchPublishedTradingFees()
       await fetchPublishedWithdrawalFees()
       await fetchVersions()
       message.success('Rolled back to previous version successfully')
-      return response
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to rollback'
       message.error(error.value)
@@ -484,9 +509,13 @@ export const useFeesStore = defineStore('fees', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await feesApi.getDiff()
-      diffData.value = response.data
-      return response
+      const { data, error: err } = await feesApi.getDiff()
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      diffData.value = data
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch diff'
       message.error(error.value)
@@ -584,12 +613,14 @@ export const useFeesStore = defineStore('fees', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await feesApi.validateConsistency()
-      consistencyReport.value = response.data
-      if (!response.data.valid) {
-        message.warning(
-          `Found ${response.data.inconsistencies.length} inconsistencies with frontend fees`
-        )
+      const { data, error: err } = await feesApi.validateConsistency()
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+      consistencyReport.value = data
+      if (!data.valid) {
+        message.warning(`Found ${data.inconsistencies.length} inconsistencies with frontend fees`)
       } else {
         message.success('All fees are consistent with frontend')
       }

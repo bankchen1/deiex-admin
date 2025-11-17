@@ -213,10 +213,12 @@ async function fetchUserData() {
   loading.value = true
   try {
     // Fetch user details using store instead of direct API call
-    const response = await usersStore.fetchUserDetail(props.userId)
-    user.value = response.user
-    loginRecords.value = response.loginRecords || []
-    devices.value = response.devices || []
+    const { data, error } = await usersStore.fetchUserDetail(props.userId)
+    if (error) throw new Error(error.message)
+
+    user.value = data.user
+    loginRecords.value = data.loginRecords || []
+    devices.value = data.devices || []
   } catch (error) {
     console.error('Failed to fetch user data:', error)
   } finally {

@@ -165,13 +165,15 @@ async function handleValidate() {
   validationResult.value = null
 
   try {
-    const response = await feesStore.validateImport({
+    const { data, error } = await feesStore.validateImport({
       data: fileContent.value,
       format: fileFormat.value,
       type: feeType.value,
     })
-    validationResult.value = response.data
-    if (response.data.valid) {
+
+    if (error) throw new Error(error.message)
+    validationResult.value = data
+    if (data.valid) {
       message.success('Validation passed')
     } else {
       message.error('Validation failed')

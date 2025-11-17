@@ -26,6 +26,7 @@ import type { Position } from '@/contracts/orders'
 import { useOrdersStore } from '@/stores/orders'
 import { formatDate } from '@/utils/date'
 import { formatNumber } from '@/utils/format'
+import type { PositionQueryParams } from '@/services/api/facade'
 
 interface Props {
   filters?: PositionQueryParams
@@ -241,19 +242,29 @@ const rowSelection = computed(() => ({
 }))
 
 async function fetchData(params: any) {
-  const queryParams: PositionQueryParams = {
-    ...props.filters,
-    page: params.page,
-    pageSize: params.pageSize,
-    sortField: params.sortField,
-    sortOrder: params.sortOrder,
-    ...params.filters,
-  }
+  try {
+    const queryParams: PositionQueryParams = {
+      ...props.filters,
+      page: params.page,
+      pageSize: params.pageSize,
+      sortField: params.sortField,
+      sortOrder: params.sortOrder,
+      ...params.filters,
+    }
 
-  const response = await ordersStore.fetchPositions(queryParams)
-  return {
-    data: response.data,
-    total: response.total,
+    const response = await ordersStore.fetchPositions(queryParams)
+
+    if (!response) {
+      return { data: [], total: 0 }
+    }
+
+    return {
+      data: response.data || [],
+      total: response.total || 0,
+    }
+  } catch (error) {
+    console.error('Failed to fetch positions:', error)
+    return { data: [], total: 0 }
   }
 }
 

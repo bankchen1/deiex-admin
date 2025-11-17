@@ -284,10 +284,12 @@ async function validateData() {
           : undefined,
     }
 
-    const result = await instrumentsStore.validateImport(payload)
+    const { data, error } = await instrumentsStore.validateImport(payload)
+    if (error) throw new Error(error.message)
+
     validationResult.value = {
-      valid: result.data.valid,
-      errors: result.data.errors || [],
+      valid: data.valid,
+      errors: data.errors || [],
       count: previewData.value.length,
     }
   } catch (error: any) {

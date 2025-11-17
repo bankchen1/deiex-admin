@@ -6,24 +6,18 @@ import {
   createInstrument as createInstrumentFacade,
   updateInstrument as updateInstrumentFacade,
   publishInstrument as publishInstrumentFacade,
-  importInstruments as importInstrumentsFacade,
-  exportInstruments as exportInstrumentsFacade,
-  getInstrumentVersions,
-  getInstrumentVersion,
-  rollbackInstrumentVersion,
-  getInstrumentDiff,
-  validateImport,
   calculateImpact,
   type InstrumentQueryParams,
-  type CreateInstrumentPayload,
-  type UpdateInstrumentPayload,
-  type PublishPayload,
-  type ImportPayload,
-  type ExportParams,
-  type VersionQueryParams,
 } from '@/services/api/facade'
 import type { Instrument, Version } from '@/contracts/instruments'
 import { message } from 'ant-design-vue'
+import type {
+  ImportPayload,
+  ExportParams,
+  PublishPayload,
+  InstrumentUpdatePayload,
+  InstrumentCreatePayload,
+} from '@/types'
 
 export const useInstrumentsStore = defineStore('instruments', () => {
   // State
@@ -59,7 +53,7 @@ export const useInstrumentsStore = defineStore('instruments', () => {
       if (!data) {
         published.value = []
         publishedTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       published.value = data.data

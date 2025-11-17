@@ -9,8 +9,14 @@ import { kycRoutes } from './modules/kyc'
 import { usersRoutes } from './modules/users'
 import { assetsRoutes } from './modules/assets'
 import { ordersRoutes } from './modules/orders'
+import { marketRoutes } from './modules/market'
+import { strategyRoutes } from './modules/strategies'
+import { analyticsRoutes } from './modules/analytics'
 import { configRoutes } from './modules/config'
 import { riskRoutes } from './modules/risk'
+import { complianceRoutes } from './modules/compliance'
+import { monitoringRoutes } from './modules/monitoring'
+import { contentRoutes } from './modules/content'
 import { opsRoutes } from './modules/ops'
 import { reportsRoutes } from './modules/reports'
 import { settingsRoutes } from './modules/settings'
@@ -38,8 +44,14 @@ const routes: RouteRecordRaw[] = [
       ...usersRoutes,
       ...assetsRoutes,
       ...ordersRoutes,
+      ...marketRoutes,
+      ...strategyRoutes,
+      ...analyticsRoutes,
       ...configRoutes,
       ...riskRoutes,
+      ...complianceRoutes,
+      ...monitoringRoutes,
+      ...contentRoutes,
       ...opsRoutes,
       ...reportsRoutes,
       ...settingsRoutes,

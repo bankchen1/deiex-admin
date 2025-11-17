@@ -149,12 +149,14 @@ async function fetchImpactAndDiff() {
   loading.value = true
   try {
     // Fetch impact estimation
-    const impactResponse = await instrumentsStore.fetchImpactEstimation()
-    impactData.value = impactResponse.data
+    const { data: impactData, error: impactError } = await instrumentsStore.fetchImpactEstimation()
+    if (impactError) throw new Error(impactError.message)
+    impactData.value = impactData
 
     // Fetch diff
-    const diffResponse = await instrumentsStore.fetchDiff()
-    diffData.value = diffResponse.data
+    const { data: diffData, error: diffError } = await instrumentsStore.fetchDiff()
+    if (diffError) throw new Error(diffError.message)
+    diffData.value = diffData
   } catch (error) {
     console.error('Failed to fetch impact and diff:', error)
   } finally {

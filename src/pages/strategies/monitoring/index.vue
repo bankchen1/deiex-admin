@@ -267,17 +267,6 @@ const realTimeMetrics = ref({
   pendingOrders: 0,
   riskAlerts: 0,
 })
-
-const filters = ref({
-  strategyId: undefined as string | undefined,
-  symbol: undefined as string | undefined,
-  status: undefined as string | undefined,
-})
-
-const dateRange = ref<[dayjs.Dayjs, dayjs.Dayjs] | undefined>(undefined)
-
-const loading = ref(false)
-const total = ref(2)
 const currentPage = ref(1)
 const pageSize = ref(20)
 

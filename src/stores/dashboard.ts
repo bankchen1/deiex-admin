@@ -5,8 +5,7 @@ import {
   getDashboardCharts,
   getDashboardAlerts,
   getDashboardAlertById,
-  updateAlertStatus,
-  type DateRangeParams,
+  updateAlertStatus as updateAlertStatusFacade,
 } from '@/services/api/facade'
 import type {
   DashboardStats,
@@ -35,13 +34,15 @@ export const useDashboardStore = defineStore('dashboard', () => {
     statsLoading.value = true
     error.value = null
     try {
-      const response = await getDashboardStats(params)
-      if (response.success) {
-        stats.value = response.data
-        return response
-      } else {
-        throw new Error(response.message || 'Failed to fetch dashboard stats')
+      const { data, error: err } = await getDashboardStats(params)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
       }
+
+      stats.value = data || null
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch dashboard stats'
       throw e
@@ -54,13 +55,15 @@ export const useDashboardStore = defineStore('dashboard', () => {
     chartsLoading.value = true
     error.value = null
     try {
-      const response = await getDashboardCharts(params)
-      if (response.success) {
-        charts.value = response.data
-        return response
-      } else {
-        throw new Error(response.message || 'Failed to fetch dashboard charts')
+      const { data, error: err } = await getDashboardCharts(params)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
       }
+
+      charts.value = data || null
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch dashboard charts'
       throw e
@@ -73,13 +76,15 @@ export const useDashboardStore = defineStore('dashboard', () => {
     alertsLoading.value = true
     error.value = null
     try {
-      const response = await getDashboardAlerts(params)
-      if (response.success) {
-        alerts.value = response.data
-        return response
-      } else {
-        throw new Error(response.message || 'Failed to fetch alerts')
+      const { data, error: err } = await getDashboardAlerts(params)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
       }
+
+      alerts.value = data || []
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch alerts'
       throw e
@@ -92,13 +97,15 @@ export const useDashboardStore = defineStore('dashboard', () => {
     alertDetailLoading.value = true
     error.value = null
     try {
-      const response = await getDashboardAlertById(id)
-      if (response.success) {
-        currentAlert.value = response.data
-        return response
-      } else {
-        throw new Error(response.message || 'Failed to fetch alert detail')
+      const { data, error: err } = await getDashboardAlertById(id)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
       }
+
+      currentAlert.value = data || null
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to fetch alert detail'
       throw e
@@ -107,24 +114,28 @@ export const useDashboardStore = defineStore('dashboard', () => {
     }
   }
 
-  async function updateAlertStatus(id: string, status: string, notes?: string) {
+  async function updateAlert(id: string, status: string, notes?: string) {
     error.value = null
     try {
-      const response = await updateAlertStatus(id, status, notes)
-      if (response.success) {
+      const { data, error: err } = await updateAlertStatusFacade(id, status, notes)
+
+      if (err) {
+        error.value = err.message
+        throw new Error(err.message)
+      }
+
+      if (data) {
         // Update the alert in the list
         const index = alerts.value.findIndex((a) => a.id === id)
         if (index !== -1) {
-          alerts.value[index] = response.data
+          alerts.value[index] = data
         }
         // Update current alert if it's the same
         if (currentAlert.value?.id === id) {
-          currentAlert.value = { ...currentAlert.value, ...response.data }
+          currentAlert.value = { ...currentAlert.value, ...data }
         }
-        return response
-      } else {
-        throw new Error(response.message || 'Failed to update alert status')
       }
+      return data
     } catch (e: any) {
       error.value = e.message || 'Failed to update alert status'
       throw e
@@ -167,7 +178,7 @@ export const useDashboardStore = defineStore('dashboard', () => {
     fetchCharts,
     fetchAlerts,
     fetchAlertById,
-    updateAlertStatus,
+    updateAlert,
     refreshDashboard,
     reset,
   }

@@ -204,19 +204,29 @@ const rowSelection = computed(() => ({
 }))
 
 async function fetchData(params: any) {
-  const queryParams: OrderQueryParams = {
-    ...props.filters,
-    page: params.page,
-    pageSize: params.pageSize,
-    sortField: params.sortField,
-    sortOrder: params.sortOrder,
-    ...params.filters,
-  }
+  try {
+    const queryParams: OrderQueryParams = {
+      ...props.filters,
+      page: params.page,
+      pageSize: params.pageSize,
+      sortField: params.sortField,
+      sortOrder: params.sortOrder,
+      ...params.filters,
+    }
 
-  const response = await ordersStore.fetchSpotOrders(queryParams)
-  return {
-    data: response.data,
-    total: response.total,
+    const response = await ordersStore.fetchSpotOrders(queryParams)
+
+    if (!response) {
+      return { data: [], total: 0 }
+    }
+
+    return {
+      data: response.data || [],
+      total: response.total || 0,
+    }
+  } catch (error) {
+    console.error('Failed to fetch spot orders:', error)
+    return { data: [], total: 0 }
   }
 }
 

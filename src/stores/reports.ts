@@ -84,7 +84,7 @@ export const useReportsStore = defineStore('reports', () => {
       if (!data) {
         tradeReports.value = []
         tradeReportsTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       tradeReports.value = data.data
@@ -116,7 +116,7 @@ export const useReportsStore = defineStore('reports', () => {
 
       if (!data) {
         tradeDailyData.value = []
-        return
+        return []
       }
 
       tradeDailyData.value = data
@@ -145,7 +145,7 @@ export const useReportsStore = defineStore('reports', () => {
 
       if (!data) {
         symbolVolumeData.value = []
-        return
+        return []
       }
 
       symbolVolumeData.value = data
@@ -178,7 +178,7 @@ export const useReportsStore = defineStore('reports', () => {
       if (!data) {
         financeReports.value = []
         financeReportsTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       financeReports.value = data.data
@@ -210,7 +210,7 @@ export const useReportsStore = defineStore('reports', () => {
 
       if (!data) {
         financeDailyData.value = []
-        return
+        return []
       }
 
       financeDailyData.value = data
@@ -239,7 +239,7 @@ export const useReportsStore = defineStore('reports', () => {
 
       if (!data) {
         feeIncomeData.value = []
-        return
+        return []
       }
 
       feeIncomeData.value = data
@@ -272,7 +272,7 @@ export const useReportsStore = defineStore('reports', () => {
       if (!data) {
         retentionReports.value = []
         retentionReportsTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       retentionReports.value = data.data
@@ -304,7 +304,7 @@ export const useReportsStore = defineStore('reports', () => {
 
       if (!data) {
         retentionData.value = []
-        return
+        return []
       }
 
       retentionData.value = data
@@ -333,7 +333,7 @@ export const useReportsStore = defineStore('reports', () => {
 
       if (!data) {
         funnelData.value = []
-        return
+        return []
       }
 
       funnelData.value = data

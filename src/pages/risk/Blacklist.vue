@@ -466,9 +466,11 @@ function handleBulkImport() {
 
 async function handleImportFile(file: File) {
   try {
-    const result = await riskStore.bulkImportBlacklist(file)
+    const { data, error } = await riskStore.bulkImportBlacklist(file)
+    if (error) throw new Error(error.message)
+
     if (bulkImportModalRef.value) {
-      bulkImportModalRef.value.setImportResult(result.data)
+      bulkImportModalRef.value.setImportResult(data)
     }
     await loadData()
   } catch (error) {

@@ -391,9 +391,11 @@ async function handleImportConfirm() {
 
 async function handleSimulateTest(testData: any) {
   try {
-    const result = await riskStore.simulateRule(simulateRuleId.value, testData)
+    const { data, error } = await riskStore.simulateRule(simulateRuleId.value, testData)
+    if (error) throw new Error(error.message)
+
     if (simulatorRef.value) {
-      simulatorRef.value.setResult(result.data)
+      simulatorRef.value.setResult(data)
     }
   } catch (error) {
     console.error('Failed to simulate rule:', error)
@@ -402,9 +404,11 @@ async function handleSimulateTest(testData: any) {
 
 async function handleSimulateRule(testData: any) {
   try {
-    const result = await riskStore.simulateRule(simulateRuleId.value, testData)
+    const { data, error } = await riskStore.simulateRule(simulateRuleId.value, testData)
+    if (error) throw new Error(error.message)
+
     if (simulateModalRef.value) {
-      simulateModalRef.value.setResult(result.data)
+      simulateModalRef.value.setResult(data)
     }
   } catch (error) {
     console.error('Failed to simulate rule:', error)

@@ -123,8 +123,9 @@ async function handleIconChange(iconId: string) {
 
 async function loadIconDetails(iconId: string) {
   try {
-    const response = await iconsStore.fetchAssetById(iconId)
-    selectedIcon.value = response.data
+    const { data, error } = await iconsStore.fetchAssetById(iconId)
+    if (error) throw new Error(error.message)
+    selectedIcon.value = data
   } catch (error: any) {
     message.error('Failed to load icon details')
   }
@@ -141,22 +142,24 @@ async function handleSubmit() {
 
   try {
     if (props.mode === 'create') {
-      const response = await iconsStore.createMapping({
+      const { data, error } = await iconsStore.createMapping({
         symbol: formState.symbol,
         iconId: formState.iconId,
       })
 
+      if (error) throw new Error(error.message)
       message.success('Mapping created successfully')
-      emit('success', response.data)
+      emit('success', data)
     } else {
       if (!props.initialData) return
 
-      const response = await iconsStore.updateMapping(props.initialData.id, {
+      const { data, error } = await iconsStore.updateMapping(props.initialData.id, {
         iconId: formState.iconId,
       })
 
+      if (error) throw new Error(error.message)
       message.success('Mapping updated successfully')
-      emit('success', response.data)
+      emit('success', data)
     }
   } catch (error: any) {
     message.error(error.message || 'Operation failed')

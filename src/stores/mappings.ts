@@ -76,7 +76,7 @@ export const useMappingsStore = defineStore('mappings', () => {
       if (!data) {
         navMappings.value = []
         navMappingsTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       navMappings.value = data.data
@@ -112,7 +112,7 @@ export const useMappingsStore = defineStore('mappings', () => {
       if (!data) {
         redirects.value = []
         redirectsTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       redirects.value = data.data
@@ -144,7 +144,7 @@ export const useMappingsStore = defineStore('mappings', () => {
       if (!data) {
         pageApiRelations.value = []
         pageApiRelationsTotal.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       pageApiRelations.value = data.data

@@ -266,13 +266,22 @@ async function fetchData(params: TableParams) {
     }
 
     const response = await iconsStore.fetchAssets(queryParams)
-    dataSource.value = response.data.items
-    pagination.total = response.data.total
+
+    if (!response || !response.data) {
+      dataSource.value = []
+      pagination.total = 0
+      return response
+    }
+
+    dataSource.value = response.data.items || []
+    pagination.total = response.data.total || 0
 
     return response
   } catch (error: any) {
+    console.error('Failed to fetch icon assets:', error)
     message.error(error.message || 'Failed to fetch icon assets')
-    throw error
+    dataSource.value = []
+    pagination.total = 0
   } finally {
     loading.value = false
   }

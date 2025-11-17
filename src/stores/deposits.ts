@@ -38,7 +38,7 @@ export const useDepositsStore = defineStore('deposits', () => {
       if (!data) {
         deposits.value = []
         total.value = 0
-        return
+        return { data: [], total: 0, page: 1, pageSize: 20 }
       }
 
       deposits.value = data.data

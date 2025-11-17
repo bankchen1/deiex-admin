@@ -407,10 +407,10 @@ async function handleBatchReviewSubmit() {
   }
 
   try {
-    const result = await kycStore.batchReview(payload)
-    message.success(
-      `Batch review completed: ${result.data.success} succeeded, ${result.data.failed} failed`
-    )
+    const { data, error } = await kycStore.batchReview(payload)
+    if (error) throw new Error(error.message)
+
+    message.success(`Batch review completed: ${data.success} succeeded, ${data.failed} failed`)
     batchReviewModalOpen.value = false
     selectedRowKeys.value = []
     await fetchData()
