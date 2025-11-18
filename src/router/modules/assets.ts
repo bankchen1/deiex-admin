@@ -44,7 +44,7 @@ export const assetsRoutes: RouteRecordRaw[] = [
       {
         path: 'wallets',
         name: 'Wallets',
-        component: () => import('@/pages/assets/Wallets.vue'),
+        component: () => import('@/views/assets/WalletsView.vue'),
         meta: {
           title: 'Wallets',
           permissions: ['assets.wallets.view'],

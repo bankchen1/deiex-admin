@@ -22,14 +22,18 @@
     "arch:fullcheck": "node scripts/check-architecture-compliance-comprehensive.mjs"
   },
   "dependencies": {
+    "@tanstack/vue-query": "^5.62.8",
     "ant-design-vue": "^4.2.6",
     "axios": "^1.13.1",
     "dayjs": "^1.11.18",
     "echarts": "^6.0.0",
+    "openapi3-ts": "^4.5.0",
     "pinia": "^3.0.3",
     "vue": "^3.5.22",
     "vue-i18n": "^9.14.5",
-    "vue-router": "^4.6.3"
+    "vue-router": "^4.6.3",
+    "zod": "^4.1.12",
+    "zod-openapi": "^5.4.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.38.0",

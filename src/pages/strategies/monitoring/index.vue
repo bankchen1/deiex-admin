@@ -261,16 +261,6 @@ const currentPage = ref(1)
 const pageSize = ref(20)
 
 const realTimeMetrics = ref({
-  activeStrategies: 0,
-  totalPnl: 0,
-  openPositions: 0,
-  pendingOrders: 0,
-  riskAlerts: 0,
-})
-const currentPage = ref(1)
-const pageSize = ref(20)
-
-const realTimeMetrics = ref({
   activeStrategies: 2,
   totalPnl: 1175,
   openPositions: 3,

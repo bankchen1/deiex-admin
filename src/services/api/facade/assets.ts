@@ -6,7 +6,7 @@ import type { FacadeResponse, PaginationParams } from '../_types'
 import { isMockMode, createSuccessResponse, createErrorResponse } from '../_types'
 import { mockService } from '@/services/mock'
 import { safeGet, safePost, safePut, safePatch, safeDelete } from '../_client'
-import type { Deposit, Withdrawal } from '@/contracts/assets'
+import type { Deposit, Withdrawal, WalletAddress, ChainHealth, RetryTask } from '@/contracts/assets'
 
 /**
  * 存款查询参数
@@ -37,15 +37,10 @@ export interface WithdrawalQueryParams extends PaginationParams {
  */
 export const listDeposits = async (
   params: DepositQueryParams = {}
-): Promise<FacadeResponse<{ data: Deposit[]; total: number; page: number; pageSize: number }>> => {
+): Promise<FacadeResponse<DepositListResponse>> => {
   try {
     if (isMockMode()) {
-      const response = await safeGet<{
-        data: Deposit[]
-        total: number
-        page: number
-        pageSize: number
-      }>('/admin/assets/deposits', { params })
+      const response = await safeGet<DepositListResponse>('/admin/assets/deposits', { params })
       return createSuccessResponse(response.data, {
         pagination: {
           page: response.data.page,
@@ -77,17 +72,12 @@ export const listDeposits = async (
  */
 export const listWithdrawals = async (
   params: WithdrawalQueryParams = {}
-): Promise<
-  FacadeResponse<{ data: Withdrawal[]; total: number; page: number; pageSize: number }>
-> => {
+): Promise<FacadeResponse<WithdrawalListResponse>> => {
   try {
     if (isMockMode()) {
-      const response = await safeGet<{
-        data: Withdrawal[]
-        total: number
-        page: number
-        pageSize: number
-      }>('/admin/assets/withdrawals', { params })
+      const response = await safeGet<WithdrawalListResponse>('/admin/assets/withdrawals', {
+        params,
+      })
       return createSuccessResponse(response.data, {
         pagination: {
           page: response.data.page,
@@ -247,17 +237,12 @@ export interface UpdateWalletAddressPayload {
  */
 export const listWalletAddresses = async (
   params: WalletAddressQueryParams = {}
-): Promise<
-  FacadeResponse<{ data: WalletAddress[]; total: number; page: number; pageSize: number }>
-> => {
+): Promise<FacadeResponse<WalletAddressListResponse>> => {
   try {
     if (isMockMode()) {
-      const response = await safeGet<{
-        data: WalletAddress[]
-        total: number
-        page: number
-        pageSize: number
-      }>('/admin/assets/wallet-addresses', { params })
+      const response = await safeGet<WalletAddressListResponse>('/admin/assets/wallet-addresses', {
+        params,
+      })
       return createSuccessResponse(response.data, {
         pagination: {
           page: response.data.page,

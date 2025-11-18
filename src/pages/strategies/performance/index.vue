@@ -213,17 +213,6 @@ const performanceData = ref<StrategyPerformance[]>([])
 const strategyInstances = computed(() => strategiesStore.strategyInstances)
 
 const filters = ref({
-  strategyId: undefined as string | undefined,
-  symbol: undefined as string | undefined,
-  interval: '1d',
-})
-
-const dateRange = ref<[dayjs.Dayjs, dayjs.Dayjs] | undefined>([
-  dayjs().subtract(29, 'day'),
-  dayjs(),
-])
-
-const filters = ref({
   strategyId: '101',
   symbol: undefined as string | undefined,
   interval: '1d',

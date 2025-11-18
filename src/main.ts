@@ -6,6 +6,7 @@ import i18n from './i18n'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/reset.css'
 import { logMockModeStatus } from './middleware/mock'
+import VueQueryPlugin, { vueQueryPluginOptions } from './plugins/vue-query'
 
 // Log mock mode status
 logMockModeStatus()
@@ -16,5 +17,6 @@ app.use(router)
 app.use(pinia)
 app.use(i18n)
 app.use(Antd)
+app.use(VueQueryPlugin, vueQueryPluginOptions)
 
 app.mount('#app')
